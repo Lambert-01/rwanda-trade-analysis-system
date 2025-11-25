@@ -1075,6 +1075,83 @@ router.post('/ai-custom-analysis', async (req, res) => {
 });
 
 /**
+ * @route   GET /api/analytics/regional
+ * @desc    Get comprehensive regional analysis data
+ * @access  Public
+ */
+router.get('/regional', (req, res) => {
+  try {
+    console.log('🌍 Fetching regional analysis data...');
+
+    const regionalData = {};
+
+    // Load EAC analysis data
+    if (dataFileExists('eac_analysis.json')) {
+      const eacData = loadJsonData('eac_analysis.json');
+      regionalData.eac_trade = eacData.eac_trade || [];
+      regionalData.eac_stats = eacData.eac_stats || {};
+    } else {
+      regionalData.eac_trade = [];
+      regionalData.eac_stats = {};
+    }
+
+    // Load continental distribution data
+    if (dataFileExists('continental_distribution.json')) {
+      const continentalData = loadJsonData('continental_distribution.json');
+      regionalData.continental_distribution = continentalData.continental_distribution || [];
+      regionalData.total_trade_value = continentalData.total_trade_value || 0;
+    } else {
+      regionalData.continental_distribution = [];
+      regionalData.total_trade_value = 0;
+    }
+
+    // Load regional trends data
+    if (dataFileExists('regional_trends.json')) {
+      const trendsData = loadJsonData('regional_trends.json');
+      regionalData.regional_trends = trendsData.regional_trends || [];
+    } else {
+      regionalData.regional_trends = [];
+    }
+
+    // Load regional export distribution data
+    if (dataFileExists('regional_export_distribution.json')) {
+      const exportData = loadJsonData('regional_export_distribution.json');
+      regionalData.regional_exports = exportData.regional_exports || [];
+    } else {
+      regionalData.regional_exports = [];
+    }
+
+    // Load regional insights
+    if (dataFileExists('regional_insights.json')) {
+      const insightsData = loadJsonData('regional_insights.json');
+      regionalData.regional_insights = insightsData.insights || [];
+    } else {
+      regionalData.regional_insights = [];
+    }
+
+    // Add metadata
+    regionalData.generated_at = new Date().toISOString();
+    regionalData.data_sources = [
+      'eac_analysis.json',
+      'continental_distribution.json',
+      'regional_trends.json',
+      'regional_export_distribution.json',
+      'regional_insights.json'
+    ];
+
+    console.log('✅ Regional analysis data compiled successfully');
+    res.json(regionalData);
+
+  } catch (error) {
+    console.error('❌ Error fetching regional analysis data:', error);
+    res.status(500).json({
+      error: error.message,
+      message: 'Failed to load regional analysis data'
+    });
+  }
+});
+
+/**
  * @route   GET /api/analytics/ai-status
  * @desc    Get OpenAI service status
  * @access  Public
@@ -1088,123 +1165,5 @@ router.get('/ai-status', (req, res) => {
   });
 });
 
-/**
- * @route   GET /api/analytics/regional
- * @desc    Get regional analysis data
- * @access  Public
- */
-router.get('/regional', async (req, res) => {
-    try {
-        console.log('🌍 Fetching regional analysis data...');
-
-        // Get export destinations by region
-        const exportsData = loadJsonData('exports_data.json');
-        const regionalExports = {};
-
-        exportsData.forEach(item => {
-            const country = item.destination_country || 'Unknown';
-            const region = getCountryRegion(country);
-            const value = parseFloat(item.export_value) || 0;
-
-            if (!regionalExports[region]) {
-                regionalExports[region] = {
-                    region,
-                    export_value: 0,
-                    countries: []
-                };
-            }
-            regionalExports[region].export_value += value;
-            if (!regionalExports[region].countries.includes(country)) {
-                regionalExports[region].countries.push(country);
-            }
-        });
-
-        // Get import sources by region
-        const importsData = loadJsonData('imports_data.json');
-        const regionalImports = {};
-
-        importsData.forEach(item => {
-            const country = item.source_country || 'Unknown';
-            const region = getCountryRegion(country);
-            const value = parseFloat(item.import_value) || 0;
-
-            if (!regionalImports[region]) {
-                regionalImports[region] = {
-                    region,
-                    import_value: 0,
-                    countries: []
-                };
-            }
-            regionalImports[region].import_value += value;
-            if (!regionalImports[region].countries.includes(country)) {
-                regionalImports[region].countries.push(country);
-            }
-        });
-
-        const result = {
-            eac_trade: [
-                { country: 'Rwanda', trade_volume: 12.5 },
-                { country: 'Kenya', trade_volume: 45.2 },
-                { country: 'Tanzania', trade_volume: 38.7 },
-                { country: 'Uganda', trade_volume: 28.1 },
-                { country: 'Burundi', trade_volume: 8.9 }
-            ],
-            continental_distribution: [
-                { continent: 'Asia', share: 76 },
-                { continent: 'Africa', share: 15 },
-                { continent: 'Europe', share: 6 },
-                { continent: 'Americas', share: 1 },
-                { continent: 'Oceania', share: 2 }
-            ],
-            regional_trends: [
-                { period: 'Q1 2024', asia_share: 68, africa_share: 18, europe_share: 8 },
-                { period: 'Q2 2024', asia_share: 72, africa_share: 16, europe_share: 7 },
-                { period: 'Q3 2024', asia_share: 74, africa_share: 15, europe_share: 6 },
-                { period: 'Q4 2024', asia_share: 76, africa_share: 15, europe_share: 6 }
-            ],
-            regional_exports: [
-                { region: 'Asia', export_value: 6.82 },
-                { region: 'Africa', export_value: 1.37 },
-                { region: 'Europe', export_value: 0.57 },
-                { region: 'Americas', export_value: 0.12 }
-            ]
-        };
-
-        res.json(result);
-    } catch (error) {
-        console.error('Error fetching regional analysis:', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-function getCountryRegion(country) {
-    const regions = {
-        'China': 'Asia',
-        'India': 'Asia',
-        'Japan': 'Asia',
-        'United Arab Emirates': 'Asia',
-        'Hong Kong': 'Asia',
-        'Singapore': 'Asia',
-        'Pakistan': 'Asia',
-        'Tanzania': 'Africa',
-        'Kenya': 'Africa',
-        'Uganda': 'Africa',
-        'Burundi': 'Africa',
-        'Democratic Republic of Congo': 'Africa',
-        'South Africa': 'Africa',
-        'Ethiopia': 'Africa',
-        'United Kingdom': 'Europe',
-        'Netherlands': 'Europe',
-        'Luxembourg': 'Europe',
-        'Germany': 'Europe',
-        'France': 'Europe',
-        'Belgium': 'Europe',
-        'United States': 'Americas',
-        'Canada': 'Americas',
-        'Australia': 'Oceania'
-    };
-
-    return regions[country] || 'Other';
-}
 
 module.exports = router;

@@ -1,0 +1,20 @@
+{
+  "generated_at": "2025-11-23T23:10:28.435010",
+  "regional_exports": [
+    {
+      "region": "Africa",
+      "export_value": 193.0,
+      "percentage": 75.5
+    },
+    {
+      "region": "Other",
+      "export_value": 34.14,
+      "percentage": 13.4
+    },
+    {
+      "region": "Europe",
+      "export_value": 28.5,
+      "percentage": 11.1
+    }
+  ]
+}

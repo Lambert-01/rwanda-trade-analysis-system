@@ -60,27 +60,61 @@ router.post('/message', async (req, res) => {
                     messages: [
                         {
                             role: "system",
-                            content: `You are Kilo Code, a fully integrated AI assistant for the Rwanda trade analysis systemsystem. You have complete awareness of:
+                            content: `You are the Rwanda Trade Intelligence Assistant, an advanced analytical system built for the NISR Hackathon 2025.
 
-                            SYSTEM STATUS:
-                            - Health: ${systemContext.system_health}%
-                            - Active Events: ${systemContext.total_events_logged}
-                            - AI Insights Generated: ${systemContext.total_insights_generated}
-                            - Recent Activities: ${systemContext.recent_events?.slice(0, 3).map(e => e.type).join(', ') || 'None'}
+Your role is to provide high-quality, evidence-based, policy-relevant insights using three sources:
+1. Processed data (JSON files) stored in the platform
+2. Raw NISR dataset (Excel → JSON)
+3. Official NISR PDF report provided in vector/embedded form
 
-                            TRADE DATA CONTEXT:
-                            - Total Exports: $${tradeContext.total_exports?.toFixed(2)}M
-                            - Total Imports: $${tradeContext.total_imports?.toFixed(2)}M
-                            - Trade Balance: $${tradeContext.trade_balance?.toFixed(2)}M
-                            - Top Destinations: ${tradeContext.top_destinations?.slice(0, 3).map(d => d.country).join(', ') || 'N/A'}
+SYSTEM STATUS:
+- Health: ${systemContext.system_health}%
+- Active Events: ${systemContext.total_events_logged}
+- AI Insights Generated: ${systemContext.total_insights_generated}
+- Recent Activities: ${systemContext.recent_events?.slice(0, 3).map(e => e.type).join(', ') || 'None'}
 
-                            MESSAGE ANALYSIS:
-                            - Intent: ${messageAnalysis.intent}
-                            - Entities: ${messageAnalysis.entities?.join(', ') || 'None detected'}
-                            - Urgency: ${messageAnalysis.urgency}
-                            - Context: ${messageAnalysis.context}
+TRADE DATA CONTEXT:
+- Total Exports: $${tradeContext.total_exports?.toFixed(2)}M
+- Total Imports: $${tradeContext.total_imports?.toFixed(2)}M
+- Trade Balance: $${tradeContext.trade_balance?.toFixed(2)}M
+- Top Destinations: ${tradeContext.top_destinations?.slice(0, 3).map(d => d.country).join(', ') || 'N/A'}
 
-                            Provide comprehensive, context-aware responses that leverage full system knowledge. Be proactive in offering relevant insights and suggestions.`
+MESSAGE ANALYSIS:
+- Intent: ${messageAnalysis.intent}
+- Entities: ${messageAnalysis.entities?.join(', ') || 'None detected'}
+- Urgency: ${messageAnalysis.urgency}
+- Context: ${messageAnalysis.context}
+
+CRITICAL INSTRUCTION: When answering any question, you MUST provide structured output with these sections:
+
+**Executive Summary**
+[2-3 sentences summarizing key findings]
+
+**Key Insights**
+• [3-7 bullet points with evidence-based insights]
+• [Include percentages, totals, comparisons]
+• [Cite specific data sources]
+
+**Data Highlights**
+• [Specific numbers, trends, comparisons]
+• [Growth rates, market shares, changes over time]
+
+**Contextual Interpretation**
+• [Analysis from PDF reports and official sources]
+• [Why trends are happening, broader implications]
+
+**AI Reasoning**
+• [Trends analysis, cause identification]
+• [Implications for Rwanda's trade environment]
+
+**Policy Recommendations**
+• [If relevant: actionable recommendations]
+• [Strategic suggestions based on data]
+
+**Optional: Suggested Visualizations**
+• [Chart types, dashboard views to explore]
+
+Always combine data + PDF insights. Use numbers from processed JSON, explanations from PDF. Blend into coherent answers. Never guess - always cite available data. Be professional, analytical, evidence-driven, concise but impactful. Useful for policy makers, businesses, researchers.`
                         },
                         {
                             role: "user",
@@ -355,26 +389,73 @@ router.post('/configure', (req, res) => {
  */
 async function getTradeContext() {
     try {
-        // This would typically fetch from your database
-        // For now, returning sample data structure
+        const fs = require('fs').promises;
+        const path = require('path');
+
+        // Read from processed data files
+        const dataDir = path.join(__dirname, '../../data/processed');
+
+        let analysisReport = {};
+        let commoditySummary = {};
+        let comprehensiveAnalysis = {};
+
+        try {
+            const analysisData = await fs.readFile(path.join(dataDir, 'analysis_report.json'), 'utf8');
+            analysisReport = JSON.parse(analysisData);
+        } catch (e) {
+            console.warn('Could not read analysis_report.json:', e.message);
+        }
+
+        try {
+            const commodityData = await fs.readFile(path.join(dataDir, 'commodity_summary.json'), 'utf8');
+            commoditySummary = JSON.parse(commodityData);
+        } catch (e) {
+            console.warn('Could not read commodity_summary.json:', e.message);
+        }
+
+        try {
+            const comprehensiveData = await fs.readFile(path.join(dataDir, 'comprehensive_analysis.json'), 'utf8');
+            comprehensiveAnalysis = JSON.parse(comprehensiveData);
+        } catch (e) {
+            console.warn('Could not read comprehensive_analysis.json:', e.message);
+        }
+
+        // Extract key metrics
+        const total_exports = analysisReport.summary?.total_exports || 0;
+        const total_imports = analysisReport.summary?.total_imports || 0;
+        const trade_balance = analysisReport.summary?.current_balance || 0;
+
+        const top_destinations = analysisReport.top_destinations?.slice(0, 5).map(d => ({
+            country: d.destination_country,
+            value: d.export_value
+        })) || [];
+
+        const top_products = commoditySummary.top_exports_commodities?.slice(0, 5).map(c => ({
+            commodity: c.description,
+            value: c.value
+        })) || [];
+
         return {
-            total_exports: 8940,
-            total_imports: 20260,
-            trade_balance: -11320,
-            top_destinations: [
-                { country: 'United Arab Emirates', value: 5810 },
-                { country: 'Democratic Republic of Congo', value: 890 },
-                { country: 'Switzerland', value: 340 }
-            ],
-            top_products: [
-                { commodity: 'Other commodities', value: 428 },
-                { commodity: 'Food and live animals', value: 101 },
-                { commodity: 'Crude materials', value: 59 }
-            ]
+            total_exports,
+            total_imports,
+            trade_balance,
+            top_destinations,
+            top_products,
+            quarters_analyzed: analysisReport.summary?.quarters_analyzed || 0,
+            export_growth_rate: analysisReport.summary?.export_growth_rate || 0,
+            top_destination: analysisReport.summary?.top_destination || 'N/A',
+            trade_balance_type: analysisReport.trade_balance_analysis?.balance_type || 'unknown',
+            deficit_percentage: analysisReport.trade_balance_analysis?.deficit_percentage || 0
         };
     } catch (error) {
         console.error('Error getting trade context:', error);
-        return {};
+        return {
+            total_exports: 0,
+            total_imports: 0,
+            trade_balance: 0,
+            top_destinations: [],
+            top_products: []
+        };
     }
 }
 

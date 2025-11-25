@@ -27,6 +27,52 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/index.css">
+
+    <style>
+        /* Charts Grid Styles */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .chart-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+
+        .chart-container.tall {
+            height: 500px;
+            min-height: 400px;
+        }
+
+        .chart-status {
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background: rgba(0,0,0,0.05);
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Modern Sidebar Navigation -->
@@ -123,6 +169,10 @@
 
         <div class="header-right">
             <div class="header-actions">
+                <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <i class="fas fa-moon sun-icon"></i>
+                    <i class="fas fa-sun moon-icon"></i>
+                </button>
                 <button class="btn btn-refresh" onclick="loadRealTradeData()" title="Refresh Data">
                     <i class="fas fa-sync-alt"></i>
                 </button>
@@ -152,62 +202,182 @@
             <!-- Modern Hero Section -->
             <div class="hero-section">
                 <div class="container-fluid">
-                    <div class="row align-items-center">
+                    <div class="row align-items-center min-vh-75">
                         <div class="col-lg-8">
                             <div class="hero-content">
-                                <h1 class="hero-title">
-                                    <span class="flag">🇷🇼</span>
-                                    Rwanda Trade Intelligence
-                                </h1>
-                                <p class="hero-subtitle">
-                                    Advanced AI-powered analytics platform for Rwanda's trade ecosystem
-                                </p>
-                                <div class="hero-stats-grid">
-                                    <div class="hero-stat-card">
-                                        <div class="stat-icon">
-                                            <i class="fas fa-dollar-sign"></i>
-                                        </div>
-                                        <div class="stat-info">
-                                            <span class="stat-number" id="total-trade-value">$11.32B</span>
-                                            <span class="stat-label">Total Trade Volume</span>
-                                        </div>
+                                <!-- Structured Hero Content -->
+                                <div class="hero-header" data-aos="fade-up">
+                                    <div class="hero-main-title">
+                                        <span class="hero-flag">🇷🇼</span>
+                                        <h1 class="hero-title">Transform Rwanda's Trade Future</h1>
                                     </div>
-                                    <div class="hero-stat-card">
-                                        <div class="stat-icon growth">
+                                    <p class="hero-subtitle">
+                                        <i class="fas fa-rocket text-primary"></i>
+                                        Advanced AI-driven insights for strategic trade decisions
+                                    </p>
+                                </div>
+
+                                <!-- Core Capabilities -->
+                                <div class="hero-capabilities" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="capability-item">
+                                        <div class="capability-icon ai">
+                                            <i class="fas fa-brain"></i>
+                                        </div>
+                                        <span class="capability-text">AI Analytics</span>
+                                    </div>
+                                    <div class="capability-item">
+                                        <div class="capability-icon realtime">
+                                            <i class="fas fa-bolt"></i>
+                                        </div>
+                                        <span class="capability-text">Real-Time</span>
+                                    </div>
+                                    <div class="capability-item">
+                                        <div class="capability-icon regional">
+                                            <i class="fas fa-globe-africa"></i>
+                                        </div>
+                                        <span class="capability-text">Regional</span>
+                                    </div>
+                                    <div class="capability-item">
+                                        <div class="capability-icon predictive">
                                             <i class="fas fa-chart-line"></i>
                                         </div>
-                                        <div class="stat-info">
-                                            <span class="stat-number growth-positive" id="export-growth">+157.9%</span>
-                                            <span class="stat-label">Export Growth</span>
+                                        <span class="capability-text">Predictive</span>
+                                    </div>
+                                </div>
+
+                                <!-- Key Features Grid -->
+                                <div class="hero-features-compact" data-aos="fade-up" data-aos-delay="300">
+                                    <div class="feature-row">
+                                        <div class="feature-badge">
+                                            <i class="fas fa-robot text-info"></i>
+                                            <span>Qwen3 235B AI</span>
+                                        </div>
+                                        <div class="feature-badge">
+                                            <i class="fas fa-database text-success"></i>
+                                            <span>NISR Data</span>
+                                        </div>
+                                        <div class="feature-badge">
+                                            <i class="fas fa-chart-bar text-warning"></i>
+                                            <span>Live Charts</span>
                                         </div>
                                     </div>
-                                    <div class="hero-stat-card">
-                                        <div class="stat-icon">
-                                            <i class="fas fa-globe"></i>
+                                    <div class="feature-row">
+                                        <div class="feature-badge">
+                                            <i class="fas fa-bell text-danger"></i>
+                                            <span>Smart Alerts</span>
                                         </div>
-                                        <div class="stat-info">
-                                            <span class="stat-number" id="active-partners">134</span>
-                                            <span class="stat-label">Trading Partners</span>
+                                        <div class="feature-badge">
+                                            <i class="fas fa-comments text-primary"></i>
+                                            <span>AI Chat</span>
+                                        </div>
+                                        <div class="feature-badge">
+                                            <i class="fas fa-map text-secondary"></i>
+                                            <span>EAC Focus</span>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="hero-actions" data-aos="fade-up" data-aos-delay="700">
+                                    <button class="btn btn-primary btn-lg me-3" onclick="loadRealTradeData()">
+                                        <i class="fas fa-sync-alt me-2"></i>Load Real Data
+                                    </button>
+                                    <button class="btn btn-outline-primary btn-lg me-3" onclick="toggleChatbox()">
+                                        <i class="fas fa-robot me-2"></i>AI Assistant
+                                    </button>
+                                    <a href="#dashboard" class="btn btn-success btn-lg">
+                                        <i class="fas fa-chart-bar me-2"></i>Explore Analytics
+                                    </a>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-lg-4">
                             <div class="hero-visual">
-                                <div class="ai-assistant-card">
-                                    <div class="ai-avatar">
-                                        <i class="fas fa-robot"></i>
-                                    </div>
-                                    <div class="ai-info">
-                                        <h4>AI Assistant</h4>
-                                        <p>Ready to help with your analysis</p>
-                                        <button class="btn btn-primary btn-sm" onclick="toggleChatbox()">
-                                            <i class="fas fa-comments"></i>
-                                            Ask AI
-                                        </button>
-                                    </div>
-                                </div>
+                               <!-- Organized Information Grid -->
+                               <div class="info-grid" data-aos="fade-left" data-aos-delay="300">
+                                   <!-- Team Section -->
+                                   <div class="info-card team-section">
+                                       <div class="card-header">
+                                           <div class="card-icon">
+                                               <i class="fas fa-users-cog"></i>
+                                           </div>
+                                           <div class="card-title">
+                                               <h5>Team Codabytes</h5>
+                                               <span class="card-subtitle"><i class="fas fa-graduation-cap"></i> Undergraduates</span>
+                                           </div>
+                                       </div>
+                                       <div class="card-content">
+                                           <div class="team-members-compact">
+                                               <div class="member-compact">
+                                                   <div class="member-icon">
+                                                       <i class="fas fa-user-graduate"></i>
+                                                   </div>
+                                                   <div class="member-info">
+                                                       <span class="member-name">Lambert NDACYAYISABA</span>
+                                                       <span class="member-role">Applied Mathematician</span>
+                                                       <span class="member-skill">Data Scientist & Engineer</span>
+                                                   </div>
+                                               </div>
+                                               <div class="member-compact">
+                                                   <div class="member-icon">
+                                                       <i class="fas fa-user-tie"></i>
+                                                   </div>
+                                                   <div class="member-info">
+                                                       <span class="member-name">Derrick RUTAGANIRA</span>
+                                                       <span class="member-role">Software Engineer</span>
+                                                       <span class="member-skill">Full Stack Developer</span>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+                                   <!-- Data Ecosystem Section -->
+                                   <div class="info-card data-section">
+                                       <div class="card-header">
+                                           <div class="card-icon">
+                                               <i class="fas fa-server"></i>
+                                           </div>
+                                           <div class="card-title">
+                                               <h5>Data Ecosystem</h5>
+                                               <span class="card-subtitle"><i class="fas fa-database"></i> Real-time Processing</span>
+                                           </div>
+                                       </div>
+                                       <div class="card-content">
+                                           <div class="data-sources-compact">
+                                               <div class="data-item">
+                                                   <div class="data-icon">
+                                                       <i class="fas fa-file-excel"></i>
+                                                   </div>
+                                                   <div class="data-info">
+                                                       <span class="data-name">NISR Excel Reports</span>
+                                                       <span class="data-meta">2022-Q1 → 2025-Q1</span>
+                                                   </div>
+                                               </div>
+                                               <div class="data-item">
+                                                   <div class="data-icon">
+                                                       <i class="fas fa-table"></i>
+                                                   </div>
+                                                   <div class="data-info">
+                                                       <span class="data-name">13+ Data Sheets</span>
+                                                       <span class="data-meta">Annex Tables</span>
+                                                   </div>
+                                               </div>
+                                               <div class="data-item">
+                                                   <div class="data-icon">
+                                                       <i class="fas fa-cogs"></i>
+                                                   </div>
+                                                   <div class="data-info">
+                                                       <span class="data-name">AI Processing</span>
+                                                       <span class="data-meta">Real-time Analytics</span>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+                               </div>
                             </div>
                         </div>
                     </div>
@@ -325,7 +495,7 @@
                             <div class="chart-header">
                                 <div class="chart-title-section">
                                     <h3 class="chart-title">
-                                        <i class="fas fa-chart-line me-2"></i>Trade Performance Trends
+                                        <i class="fas fa-chart-bar me-2"></i>Trade Performance Trends
                                     </h3>
                                     <p class="chart-subtitle">Export and Import volume analysis over time</p>
                                 </div>
@@ -339,8 +509,9 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="chart-container">
-                                <canvas id="trade-performance-chart" height="320"></canvas>
+                            <div class="chart-container" style="position: relative; height: 400px; width: 100%;">
+                                <canvas id="trade-performance-chart" style="width: 100%; height: 100%;"></canvas>
+                                <div id="chart-status" class="chart-status" style="position: absolute; top: 10px; right: 10px; font-size: 12px; background: rgba(255,255,255,0.9); padding: 5px 10px; border-radius: 4px; z-index: 10;">Loading chart...</div>
                             </div>
                             <div class="chart-footer">
                                 <div class="chart-insights">
@@ -639,53 +810,6 @@
                     </div>
                 </div>
 
-                <!-- Export vs Import Comparison Section -->
-                <div class="row g-4 mb-5">
-                    <div class="col-lg-12">
-                        <div class="chart-card modern-card" data-aos="fade-up" data-aos-delay="800">
-                            <div class="chart-header">
-                                <div class="chart-title-section">
-                                    <h3 class="chart-title">
-                                        <i class="fas fa-balance-scale me-2"></i>Export vs Import Comparison
-                                    </h3>
-                                    <p class="chart-subtitle">Compare export and import trends across different dimensions</p>
-                                </div>
-                                <div class="comparison-controls">
-                                    <div class="comparison-form" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                                        <div>
-                                            <label for="comparison-period" style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.25rem; color: var(--text-secondary);">Select Period</label>
-                                            <select class="form-select" id="comparison-period" style="width: auto; min-width: 120px;">
-                                                <option value="q4_2024" selected>Q4 2024</option>
-                                                <option value="q3_2024">Q3 2024</option>
-                                                <option value="q2_2024">Q2 2024</option>
-                                                <option value="q1_2024">Q1 2024</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label for="comparison-type" style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.25rem; color: var(--text-secondary);">Select Comparison Type</label>
-                                            <select class="form-select" id="comparison-type" style="width: auto; min-width: 150px;">
-                                                <option value="countries" selected>By Countries</option>
-                                                <option value="commodities">By Commodities</option>
-                                                <option value="regions">By Regions</option>
-                                            </select>
-                                        </div>
-                                        <div style="margin-left: auto;">
-                                            <button class="btn btn-primary" onclick="generateComparison()" style="margin-top: 1.5rem;">
-                                                <i class="fas fa-chart-bar me-1"></i>Generate Comparison
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="comparison-results" id="comparison-results" style="min-height: 400px; display: block !important; visibility: visible !important; opacity: 1 !important;">
-                                <div class="comparison-placeholder" id="comparison-placeholder">
-                                    <i class="fas fa-balance-scale fa-3x mb-3" style="color: var(--rwanda-blue);"></i>
-                                    <p>Select comparison parameters and click "Generate Comparison" to see detailed export vs import analysis.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
     </main>
@@ -941,6 +1065,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <!-- Load Chart.js directly without document.write to avoid blocking warning -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" onerror="handleLibraryError('leaflet')"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js" onerror="handleLibraryError('markercluster')"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" onerror="handleLibraryError('aos')"></script>
@@ -957,18 +1082,30 @@
         }
 
         // Chart.js availability check
-        if (typeof Chart === 'undefined') {
-            console.error('Chart.js library failed to load. Charts will not be available.');
-            // Create a mock Chart object to prevent errors
-            window.Chart = function() {
-                console.warn('Chart.js not available - charts disabled');
-                return {
-                    destroy: function() {},
-                    update: function() {},
-                    toBase64Image: function() { return ''; }
+        function checkChartJSAvailability() {
+            if (typeof Chart === 'undefined') {
+                console.error('❌ Chart.js library failed to load. Charts will not be available.');
+                // Update status indicator
+                const statusEl = document.getElementById('chart-status');
+                if (statusEl) statusEl.textContent = '❌ Chart.js not loaded - charts disabled';
+                // Create a mock Chart object to prevent errors
+                window.Chart = function() {
+                    console.warn('Chart.js not available - charts disabled');
+                    return {
+                        destroy: function() {},
+                        update: function() {},
+                        toBase64Image: function() { return ''; }
+                    };
                 };
-            };
+                return false;
+            } else {
+                console.log('✅ Chart.js is loaded and available');
+                return true;
+            }
         }
+
+        // Check Chart.js after a short delay to ensure it's loaded
+        setTimeout(checkChartJSAvailability, 1000);
     </script>
 
     <!-- Custom JavaScript -->
@@ -1037,11 +1174,26 @@
                         }
                     }
 
-                    // Render charts with real data
-                    setTimeout(async () => {
-                        console.log('🎨 Rendering charts with real data...');
-                        await renderChartsWithRealData();
-                    }, 1000);
+                    // Wait for Chart.js to be available before rendering charts
+                    function waitForChartJSAndRender() {
+                        if (typeof Chart !== 'undefined') {
+                            console.log('✅ Chart.js confirmed available, starting chart rendering...');
+                            renderChartsWithRealData().then(() => {
+                                console.log('✅ Charts rendering completed');
+                            }).catch(error => {
+                                console.error('❌ Error in renderChartsWithRealData:', error);
+                                const statusEl = document.getElementById('chart-status');
+                                if (statusEl) statusEl.textContent = '❌ Charts rendering failed';
+                            });
+                        } else {
+                            console.log('⏳ Waiting for Chart.js to load...');
+                            // Check again in 500ms
+                            setTimeout(waitForChartJSAndRender, 500);
+                        }
+                    }
+
+                    // Start chart rendering after a delay to ensure Chart.js is loaded
+                    setTimeout(waitForChartJSAndRender, 1500);
 
                     // Auto-generate comparison after data loads
                     setTimeout(() => {
@@ -1502,13 +1654,19 @@
 
         // Render charts with real data from processed files
         async function renderChartsWithRealData() {
-            console.log('🔄 Rendering charts with real data...');
+            console.log('🔄 STARTING: renderChartsWithRealData function called');
+
+            // Update status indicator
+            const statusEl = document.getElementById('chart-status');
+            if (statusEl) statusEl.textContent = '🔄 Starting chart rendering...';
 
             // Ensure Chart.js is loaded
             if (typeof Chart === 'undefined') {
                 console.error('❌ Chart.js not loaded');
+                if (statusEl) statusEl.textContent = '❌ Chart.js not loaded';
                 return;
             }
+            console.log('✅ Chart.js is available');
 
             try {
                 // Load data from processed JSON files
@@ -1605,45 +1763,82 @@
 
         // Render Trade Performance Chart
         async function renderTradePerformanceChart(data) {
+            console.log('🎨 Starting renderTradePerformanceChart...');
+
+            // Update status indicator
+            const statusEl = document.getElementById('chart-status');
+            if (statusEl) statusEl.textContent = 'Initializing chart...';
+
             const canvas = document.getElementById('trade-performance-chart');
-            if (!canvas) return;
-            
+            console.log('🎨 Canvas found:', canvas ? canvas.id : 'null');
+            if (!canvas) {
+                console.error('❌ Canvas not found for trade performance chart');
+                if (statusEl) statusEl.textContent = '❌ Canvas not found';
+                return;
+            }
+
+            if (statusEl) statusEl.textContent = 'Loading data...';
+
+            // Ensure canvas has proper dimensions
+            canvas.width = canvas.parentElement.offsetWidth || 800;
+            canvas.height = canvas.parentElement.offsetHeight || 400;
+            console.log('🎨 Canvas dimensions:', canvas.width, 'x', canvas.height);
+
             // Destroy existing chart if it exists
             if (indexChartRegistry['trade-performance-chart']) {
+                console.log('🎨 Destroying existing chart');
                 indexChartRegistry['trade-performance-chart'].destroy();
                 delete indexChartRegistry['trade-performance-chart'];
             }
 
             const ctx = canvas.getContext('2d');
+            console.log('🎨 Canvas context:', ctx ? 'available' : 'null');
+
+            // Check if Chart.js is available
+            if (typeof Chart === 'undefined') {
+                console.error('❌ Chart.js library not loaded');
+                if (statusEl) statusEl.textContent = '❌ Chart.js not loaded';
+                return;
+            }
+            console.log('✅ Chart.js is available');
 
             // Process data for chart from actual loaded data
             let labels = [];
             let exportValues = [];
             let importValues = [];
 
-            // Try to use real data from export_performance_over_time.json
+            // Try to use real data from comprehensive_analysis.json
             try {
-                const perfResponse = await fetch('/data/processed/export_performance_over_time.json');
-                const perfData = await perfResponse.json();
-                
-                if (perfData && perfData.performance_data) {
-                    labels = perfData.performance_data.map(d => d.quarter);
-                    exportValues = perfData.performance_data.map(d => d.total_value);
-                }
-            } catch (error) {
-                console.warn('Using default export data for chart');
-            }
+                console.log('📊 Fetching comprehensive analysis data...');
+                const compResponse = await fetch('/data/processed/comprehensive_analysis.json');
+                const compData = await compResponse.json();
+                console.log('📊 Comprehensive data loaded:', compData ? 'success' : 'null');
 
-            // Try to load import data
-            try {
-                const importResponse = await fetch('/data/processed/import_import_performance_over_time.json');
-                const importData = await importResponse.json();
-                
-                if (importData && importData.performance_data) {
-                    importValues = importData.performance_data.map(d => d.total_value);
+                if (compData && compData.quarterly_aggregation) {
+                    // Sort data by quarter to ensure chronological order
+                    const exports = compData.quarterly_aggregation.exports.sort((a, b) => a.quarter.localeCompare(b.quarter));
+                    const imports = compData.quarterly_aggregation.imports.sort((a, b) => a.quarter.localeCompare(b.quarter));
+
+                    labels = exports.map(d => d.quarter);
+                    exportValues = exports.map(d => parseFloat(d.export_value));
+                    importValues = imports.map(d => parseFloat(d.import_value));
+
+                    console.log('📊 Data extracted successfully:');
+                    console.log('Labels:', labels);
+                    console.log('Export values:', exportValues);
+                    console.log('Import values:', importValues);
+                } else {
+                    console.warn('📊 No quarterly_aggregation in data');
+                    console.log('Available keys:', Object.keys(compData || {}));
                 }
             } catch (error) {
-                console.warn('Using default import data for chart');
+                console.error('❌ Error loading comprehensive data:', error);
+                console.warn('Using default data for chart');
+
+                // Fallback data
+                labels = ['2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'];
+                exportValues = [368, 454, 350, 353, 401, 509, 627, 626, 458];
+                importValues = [904, 965, 1002, 949, 890, 1079, 1158, 1091, 870];
             }
 
             // Fallback data if loading failed
@@ -1653,41 +1848,106 @@
                 importValues = [1143.12, 1256.89, 1389.45, 1512.34, 1410.52, 1568.97, 1751.57, 1629.39, 1456.78];
             }
 
+            // Validate data before creating chart
+            if (!labels.length || !exportValues.length || !importValues.length) {
+                console.error('❌ Invalid data for chart creation');
+                if (statusEl) statusEl.textContent = '❌ No valid data for chart';
+                return;
+            }
+
+            console.log('📊 Creating Chart.js chart with data:', {
+                labels: labels,
+                exportValues: exportValues,
+                importValues: importValues
+            });
+
             const chart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Exports',
+                        label: 'Exports (USD Million)',
                         data: exportValues,
                         borderColor: '#00A1F1',
                         backgroundColor: 'rgba(0, 161, 241, 0.1)',
                         fill: true,
-                        tension: 0.3
+                        tension: 0.4,
+                        pointBackgroundColor: '#00A1F1',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
                     }, {
-                        label: 'Imports',
+                        label: 'Imports (USD Million)',
                         data: importValues,
                         borderColor: '#FCDD09',
                         backgroundColor: 'rgba(252, 221, 9, 0.1)',
                         fill: true,
-                        tension: 0.3
+                        tension: 0.4,
+                        pointBackgroundColor: '#FCDD09',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
                     plugins: {
-                        legend: { display: true, position: 'top' }
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': $' + context.parsed.y.toFixed(1) + 'M';
+                                }
+                            }
+                        }
                     },
                     scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Quarter'
+                            }
+                        },
                         y: {
-                            ticks: { callback: function(value) { return '$' + (value / 1000).toFixed(1) + 'B'; } }
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Value (USD Million)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + (value / 1000).toFixed(1) + 'B';
+                                }
+                            }
                         }
                     }
                 }
             });
 
+            console.log('✅ Chart created successfully:', chart ? 'yes' : 'no');
             indexChartRegistry['trade-performance-chart'] = chart;
+
+            // Update status indicator
+            if (statusEl) {
+                statusEl.textContent = chart ? '✅ Chart loaded successfully' : '❌ Chart creation failed';
+                statusEl.style.color = chart ? '#28a745' : '#dc3545';
+            }
         }
 
         // Render Trade Balance Chart
@@ -2108,6 +2368,135 @@
             }
         }
 
+        // Create immediate chart function
+        function createImmediateChart() {
+            console.log('🚀 Creating immediate chart...');
+
+            const canvas = document.getElementById('trade-performance-chart');
+            if (!canvas) {
+                console.error('❌ Immediate chart: Canvas not found');
+                return;
+            }
+
+            if (typeof Chart === 'undefined') {
+                console.error('❌ Immediate chart: Chart.js not available');
+                return;
+            }
+
+            try {
+                const ctx = canvas.getContext('2d');
+
+                // Create a basic chart with Rwanda trade data
+                const immediateChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'],
+                        datasets: [{
+                            label: 'Exports (USD Million)',
+                            data: [368, 454, 350, 353, 401, 509, 627, 626, 458],
+                            borderColor: '#00A1F1',
+                            backgroundColor: 'rgba(0, 161, 241, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#00A1F1',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        }, {
+                            label: 'Imports (USD Million)',
+                            data: [904, 965, 1002, 949, 890, 1079, 1158, 1091, 870],
+                            borderColor: '#FCDD09',
+                            backgroundColor: 'rgba(252, 221, 9, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#FCDD09',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.8)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': $' + context.parsed.y.toFixed(1) + 'M';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Quarter'
+                                }
+                            },
+                            y: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Value (USD Million)'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + (value / 1000).toFixed(1) + 'B';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                console.log('✅ Immediate chart created successfully');
+                indexChartRegistry['trade-performance-chart'] = immediateChart;
+
+                // Update status
+                const statusEl = document.getElementById('chart-status');
+                if (statusEl) {
+                    statusEl.textContent = '✅ Chart loaded successfully';
+                    statusEl.style.color = '#28a745';
+                }
+
+                // After 3 seconds, try to load real data and update the chart
+                setTimeout(async () => {
+                    console.log('🔄 Attempting to load real data...');
+                    try {
+                        await renderTradePerformanceChart(getDefaultChartData());
+                        console.log('✅ Real data loaded and chart updated');
+                    } catch (error) {
+                        console.log('⚠️ Real data loading failed, keeping immediate chart');
+                    }
+                }, 3000);
+
+            } catch (error) {
+                console.error('❌ Immediate chart creation failed:', error);
+                const statusEl = document.getElementById('chart-status');
+                if (statusEl) {
+                    statusEl.textContent = '❌ Chart creation failed';
+                    statusEl.style.color = '#dc3545';
+                }
+            }
+        }
+
         // Make functions globally available
         window.toggleChatbox = toggleChatbox;
         window.minimizeChatbox = minimizeChatbox;
@@ -2122,6 +2511,48 @@
         window.toggleNotifications = toggleNotifications;
         window.attachFile = attachFile;
         window.voiceInput = voiceInput;
+        window.createImmediateChart = createImmediateChart;
+
+        // Load real data from database on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 Loading real trade data from database...');
+
+            // Update last updated timestamp
+            const lastUpdatedEl = document.getElementById('last-updated');
+            if (lastUpdatedEl) {
+                lastUpdatedEl.textContent = new Date().toLocaleTimeString();
+            }
+
+            // Test chart status indicator immediately
+            const statusEl = document.getElementById('chart-status');
+            if (statusEl) {
+                statusEl.textContent = 'Page loaded, initializing...';
+                console.log('✅ Status indicator found and updated');
+            } else {
+                console.error('❌ Status indicator not found');
+            }
+
+            // Quick test chart creation
+            setTimeout(() => {
+                console.log('🧪 Creating immediate test chart...');
+                createImmediateChart();
+            }, 500);
+
+            // Load real data from API
+            try {
+                const success = await loadRealTradeData();
+                if (success) {
+                    console.log('✅ Real data loaded successfully');
+                    showToast('Data loaded from database', 'success', 2000);
+                } else {
+                    console.warn('⚠️ Using fallback data');
+                    showToast('Using cached data', 'info', 2000);
+                }
+            } catch (error) {
+                console.error('❌ Error loading real data:', error);
+                showToast('Error loading data', 'error', 3000);
+            }
+        });
     </script>
 
 </body>

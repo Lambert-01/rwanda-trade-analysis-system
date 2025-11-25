@@ -322,10 +322,12 @@ class AIPredictionsEngine {
 
     renderAnalysisCharts() {
         console.log('📊 Rendering AI analysis charts...');
-        
-        this.renderForecastComparisonChart();
-        this.renderConfidenceIntervalChart();
-        this.renderTrendProjectionChart();
+
+        this.renderTradeOverviewChart();
+        this.renderExportImportComparison();
+        this.renderCommodityAnalysisChart();
+        this.renderRegionalDistributionChart();
+        this.renderForecastVisualization();
     }
 
     renderForecastComparisonChart() {
@@ -558,18 +560,365 @@ class AIPredictionsEngine {
         });
     }
 
+    renderTradeOverviewChart() {
+        const canvas = document.getElementById('trade-overview-chart');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        // Sample data - in real implementation, this would come from processed data
+        const quarters = ['2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'];
+        const exports = [402.14, 484.74, 388.11, 399.11, 431.61, 537.64, 667.00, 677.45, 480.82];
+        const imports = [1476.51, 1571.09, 1581.81, 1486.93, 1410.52, 1568.97, 1751.57, 1629.39, 1379.05];
+        const balance = exports.map((exp, i) => exp - imports[i]);
+
+        if (this.charts.tradeOverview) {
+            this.charts.tradeOverview.destroy();
+        }
+
+        this.charts.tradeOverview = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: quarters,
+                datasets: [{
+                    label: 'Exports',
+                    data: exports,
+                    backgroundColor: 'rgba(40, 167, 69, 0.8)',
+                    borderColor: '#28a745',
+                    borderWidth: 1
+                }, {
+                    label: 'Imports',
+                    data: imports,
+                    backgroundColor: 'rgba(0, 123, 255, 0.8)',
+                    borderColor: '#007bff',
+                    borderWidth: 1
+                }, {
+                    label: 'Trade Balance',
+                    data: balance,
+                    backgroundColor: balance.map(b => b >= 0 ? 'rgba(255, 193, 7, 0.8)' : 'rgba(220, 53, 69, 0.8)'),
+                    borderColor: balance.map(b => b >= 0 ? '#ffc107' : '#dc3545'),
+                    borderWidth: 1,
+                    type: 'line',
+                    yAxisID: 'balance'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Rwanda Trade Overview (2023-2025)',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Trade Value (US$ Million)'
+                        }
+                    },
+                    balance: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Trade Balance (US$ Million)'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    renderExportImportComparison() {
+        const canvas = document.getElementById('export-import-comparison');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        // Data from commodity_summary.json
+        const data = {
+            exports: {
+                'Food & Live Animals': 17.17,
+                'Crude Materials': 12.51,
+                'Manufactured Goods': 6.71,
+                'Other Commodities': 57.47,
+                'Minerals & Fuels': 0.18,
+                'Chemicals': 1.33,
+                'Machinery': 0.53,
+                'Miscellaneous': 1.19,
+                'Oils & Fats': 2.67,
+                'Beverages & Tobacco': 0.25
+            },
+            imports: {
+                'Food & Live Animals': 14.76,
+                'Crude Materials': 2.04,
+                'Manufactured Goods': 13.86,
+                'Other Commodities': 13.65,
+                'Minerals & Fuels': 12.91,
+                'Chemicals': 9.40,
+                'Machinery': 22.15,
+                'Miscellaneous': 5.33,
+                'Oils & Fats': 3.77,
+                'Beverages & Tobacco': 2.12
+            }
+        };
+
+        if (this.charts.exportImportComparison) {
+            this.charts.exportImportComparison.destroy();
+        }
+
+        this.charts.exportImportComparison = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(data.exports),
+                datasets: [{
+                    label: 'Exports by Category',
+                    data: Object.values(data.exports),
+                    backgroundColor: [
+                        '#28a745', '#007bff', '#ffc107', '#dc3545',
+                        '#6f42c1', '#e83e8c', '#fd7e14', '#20c997',
+                        '#17a2b8', '#6c757d'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Export Commodity Composition',
+                        font: { size: 16, weight: 'bold' }
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 12,
+                            font: { size: 10 }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    renderCommodityAnalysisChart() {
+        const canvas = document.getElementById('commodity-analysis-chart');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        // Top 5 export and import commodities
+        const exportCommodities = ['Other Commodities', 'Food & Animals', 'Crude Materials', 'Manufactured Goods', 'Oils & Fats'];
+        const exportValues = [438.15, 103.12, 58.76, 34.87, 23.40];
+        const importCommodities = ['Machinery', 'Other Commodities', 'Food & Animals', 'Manufactured Goods', 'Minerals & Fuels'];
+        const importValues = [238.86, 396.16, 234.57, 215.13, 190.53];
+
+        if (this.charts.commodityAnalysis) {
+            this.charts.commodityAnalysis.destroy();
+        }
+
+        this.charts.commodityAnalysis = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: exportCommodities,
+                datasets: [{
+                    label: 'Top Export Commodities (US$ Million)',
+                    data: exportValues,
+                    backgroundColor: 'rgba(40, 167, 69, 0.8)',
+                    borderColor: '#28a745',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Top Export Commodities Q1 2025',
+                        font: { size: 14, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Value (US$ Million)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    renderRegionalDistributionChart() {
+        const canvas = document.getElementById('regional-distribution-chart');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        // Regional distribution data
+        const regions = ['Africa', 'Europe', 'Asia', 'Americas', 'Oceania'];
+        const exportShares = [75.5, 11.15, 67.52, 0.65, 0.09];
+        const importShares = [34.65, 11.66, 51.10, 2.12, 0.47];
+
+        if (this.charts.regionalDistribution) {
+            this.charts.regionalDistribution.destroy();
+        }
+
+        this.charts.regionalDistribution = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: regions,
+                datasets: [{
+                    label: 'Export Regional Distribution (%)',
+                    data: exportShares,
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    borderWidth: 2,
+                    pointRadius: 4
+                }, {
+                    label: 'Import Regional Distribution (%)',
+                    data: importShares,
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                    borderWidth: 2,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Regional Trade Distribution',
+                        font: { size: 14, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: (value) => value + '%'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    renderForecastVisualization() {
+        const canvas = document.getElementById('forecast-visualization');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        // Forecast data
+        const periods = ['2025Q2', '2025Q3', '2025Q4', '2026Q1'];
+        const exportForecast = [2.41, 2.41, 2.41, 2.41];
+        const importForecast = [27.22, 27.22, 27.22, 27.22];
+        const balanceForecast = [-24.81, -24.81, -24.81, -24.81];
+
+        if (this.charts.forecastVisualization) {
+            this.charts.forecastVisualization.destroy();
+        }
+
+        this.charts.forecastVisualization = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: periods,
+                datasets: [{
+                    label: 'Export Forecast',
+                    data: exportForecast,
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointRadius: 6
+                }, {
+                    label: 'Import Forecast',
+                    data: importForecast,
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointRadius: 6
+                }, {
+                    label: 'Balance Forecast',
+                    data: balanceForecast,
+                    borderColor: '#dc3545',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'AI Trade Forecast (2025-2026)',
+                        font: { size: 14, weight: 'bold' }
+                    },
+                    legend: {
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                return `${context.dataset.label}: ${context.parsed.y.toFixed(2)}M`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: (value) => `$${value}M`
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     addWelcomeMessage() {
         const messagesContainer = document.getElementById('chat-messages');
         if (!messagesContainer) return;
 
         const welcomeMsg = this.createAIMessage(
-            `Hello! I'm your AI Trade Analysis Assistant powered by ${this.aiStatus.model}. 🤖\n\n` +
-            `I have access to Rwanda's comprehensive trade data including:\n` +
-            `• Time series analysis (2023Q1 - 2025Q1)\n` +
-            `• Statistical forecasting (4 quarters ahead)\n` +
-            `• Risk assessment and volatility analysis\n` +
-            `• Strategic recommendations\n\n` +
-            `Ask me anything about Rwanda's trade performance, forecasts, or strategic insights!`
+            `🇷🇼 **Rwanda Trade Intelligence Assistant** 🤖\n\n` +
+            `Hello! I am an advanced analytical system built for the NISR Hackathon 2025.\n\n` +
+            `**My Capabilities:**\n` +
+            `• **Evidence-Based Analysis**: Using processed JSON data and raw NISR Excel datasets\n` +
+            `• **Structured Intelligence**: Providing Executive Summaries, Key Insights, and Policy Recommendations\n` +
+            `• **Comprehensive Coverage**: Exports, Imports, Commodities, Regional Trade, Forecasts\n` +
+            `• **Policy-Relevant Insights**: Actionable recommendations for decision-makers\n\n` +
+            `**Available Data Sources:**\n` +
+            `• Processed trade data (analysis_report.json, commodity_summary.json, etc.)\n` +
+            `• Raw NISR Excel datasets (2025Q1 Trade Report)\n` +
+            `• Official NISR PDF reports and contextual information\n\n` +
+            `Ask me any question about Rwanda's trade environment and receive structured, evidence-based analysis!`
         );
 
         messagesContainer.appendChild(welcomeMsg);
@@ -720,16 +1069,119 @@ class AIPredictionsEngine {
     }
 
     formatAIResponse(text) {
-        // Convert newlines to <br>
-        text = this.escapeHtml(text).replace(/\n/g, '<br>');
-        
-        // Bold text between ** **
+        // First escape HTML
+        text = this.escapeHtml(text);
+
+        // Check if this is a structured AI response
+        if (this.isStructuredResponse(text)) {
+            return this.formatStructuredResponse(text);
+        }
+
+        // Regular formatting for unstructured responses
+        text = text.replace(/\n/g, '<br>');
         text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-        
-        // Bullet points
         text = text.replace(/^•\s/gm, '<br>• ');
-        
+
         return text;
+    }
+
+    isStructuredResponse(text) {
+        // Check for structured response indicators
+        const indicators = [
+            'Executive Summary',
+            'Key Insights',
+            'Data Highlights',
+            'Contextual Interpretation',
+            'AI Reasoning',
+            'Policy Recommendations'
+        ];
+
+        return indicators.some(indicator => text.includes(indicator));
+    }
+
+    formatStructuredResponse(text) {
+        let formatted = '<div class="structured-response">';
+
+        // Split by sections
+        const sections = text.split(/(?=Executive Summary|Key Insights|Data Highlights|Contextual Interpretation|AI Reasoning|Policy Recommendations|Suggested Visualizations)/);
+
+        sections.forEach(section => {
+            if (section.trim()) {
+                const lines = section.split('\n');
+                const header = lines[0].trim();
+
+                if (header) {
+                    // Format section header
+                    let icon = 'fas fa-info-circle';
+                    let colorClass = 'info';
+
+                    if (header.includes('Executive Summary')) {
+                        icon = 'fas fa-file-alt';
+                        colorClass = 'primary';
+                    } else if (header.includes('Key Insights')) {
+                        icon = 'fas fa-lightbulb';
+                        colorClass = 'success';
+                    } else if (header.includes('Data Highlights')) {
+                        icon = 'fas fa-chart-bar';
+                        colorClass = 'info';
+                    } else if (header.includes('Contextual Interpretation')) {
+                        icon = 'fas fa-book';
+                        colorClass = 'secondary';
+                    } else if (header.includes('AI Reasoning')) {
+                        icon = 'fas fa-brain';
+                        colorClass = 'warning';
+                    } else if (header.includes('Policy Recommendations')) {
+                        icon = 'fas fa-gavel';
+                        colorClass = 'danger';
+                    } else if (header.includes('Suggested Visualizations')) {
+                        icon = 'fas fa-chart-pie';
+                        colorClass = 'info';
+                    }
+
+                    formatted += `<div class="response-section ${colorClass}">`;
+                    formatted += `<div class="section-header">`;
+                    formatted += `<i class="${icon} me-2"></i>${header}`;
+                    formatted += `</div>`;
+                    formatted += `<div class="section-content">`;
+
+                    // Format content
+                    const content = lines.slice(1).join('\n');
+                    const formattedContent = this.formatSectionContent(content);
+                    formatted += formattedContent;
+
+                    formatted += `</div></div>`;
+                }
+            }
+        });
+
+        formatted += '</div>';
+        return formatted;
+    }
+
+    formatSectionContent(content) {
+        let formatted = content;
+
+        // Convert newlines to <br> but preserve structure
+        formatted = formatted.replace(/\n/g, '<br>');
+
+        // Format bullet points
+        formatted = formatted.replace(/(<br>)?•\s/g, '<br><span class="bullet">•</span> ');
+
+        // Bold text between ** **
+        formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+        // Format percentages and numbers
+        formatted = formatted.replace(/(\d+(?:\.\d+)?%)/g, '<span class="highlight-number">$1</span>');
+        formatted = formatted.replace(/(\$\d+(?:\.\d+)?[MB]?)/g, '<span class="highlight-currency">$1</span>');
+
+        // Format key terms
+        const keyTerms = ['exports', 'imports', 'trade balance', 'deficit', 'surplus', 'commodity', 'regional', 'forecast'];
+        keyTerms.forEach(term => {
+            const regex = new RegExp(`\\b${term}\\b`, 'gi');
+            formatted = formatted.replace(regex, `<span class="key-term">${term}</span>`);
+        });
+
+        return formatted;
     }
 
     escapeHtml(text) {
@@ -779,12 +1231,16 @@ class AIPredictionsEngine {
 
     handleQuickAction(action) {
         console.log('Quick action:', action);
-        
+
         const questions = {
-            'analyze-exports': 'Provide a detailed analysis of export performance trends and forecasts.',
-            'analyze-imports': 'Analyze import patterns, volatility, and future predictions.',
-            'risk-assessment': 'What are the key risks in Rwanda\'s trade and how can they be mitigated?',
-            'recommendations': 'Give me strategic recommendations based on the current trade analysis.'
+            'analyze-exports': 'Provide a comprehensive analysis of Rwanda\'s export performance including trends, key commodities, and growth patterns.',
+            'analyze-imports': 'Analyze Rwanda\'s import patterns, major sources, and dependency risks.',
+            'trade-balance': 'Analyze Rwanda\'s trade balance, deficit trends, and economic implications.',
+            'commodity-trends': 'Provide detailed commodity-level analysis for both exports and imports.',
+            'regional-insights': 'Analyze regional trade patterns and integration opportunities.',
+            'forecast-analysis': 'Provide AI-powered forecasts for Rwanda\'s trade performance over the next year.',
+            'risk-assessment': 'Assess key risks in Rwanda\'s trade environment and mitigation strategies.',
+            'policy-recommendations': 'Generate evidence-based policy recommendations for improving trade performance.'
         };
 
         if (questions[action]) {

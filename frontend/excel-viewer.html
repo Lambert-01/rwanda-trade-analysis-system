@@ -1,0 +1,938 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rwanda Trade Data - Excel Viewer | NISR Raw Data</title>
+
+    <!-- Meta Tags -->
+    <meta name="description" content="View raw NISR trade data from Excel sheets with interactive tables">
+    <meta name="keywords" content="Rwanda, NISR, trade data, Excel, raw data, sheets">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+
+    <!-- External Libraries CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        .excel-viewer-container {
+            padding: 2rem 0;
+        }
+
+        .sheet-nav {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .sheet-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sheet-tab {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sheet-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .sheet-tab:hover::before {
+            left: 100%;
+        }
+
+        .sheet-tab.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 161, 241, 0.3);
+        }
+
+        .sheet-tab:hover {
+            background: var(--primary-hover);
+            color: white;
+            border-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 161, 241, 0.2);
+        }
+
+        .sheet-tab.active:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 161, 241, 0.4);
+        }
+
+        .sheet-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .sheet-meta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .sheet-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .data-table-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .data-table th {
+            background: var(--bg-secondary);
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .data-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .data-table .numeric {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-weight: 500;
+        }
+
+        .data-table .percentage {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .data-table .negative {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+
+        .data-table .even-row {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .data-table .odd-row {
+            background: var(--bg-primary);
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--bg-hover);
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        .table-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .empty-cell {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .export-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .export-btn:hover {
+            background: var(--success-hover);
+        }
+
+        @media (max-width: 768px) {
+            .data-table {
+                font-size: 0.75rem;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 0.4rem 0.5rem;
+            }
+
+            .sheet-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .sheet-nav {
+                padding: 1rem;
+            }
+
+            .sheet-tabs {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 0.5rem;
+            }
+
+            .sheet-tab {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .sheet-info {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .export-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sheet-tabs {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .sheet-tab {
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Enhanced visual hierarchy */
+        .sheet-nav h3 {
+            margin: 0 0 1rem 0;
+            color: var(--text-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .sheet-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sheet-section-title i {
+            color: var(--primary-color);
+        }
+
+        /* Loading state for sheet switching */
+        .sheet-loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .data-table-container.loading {
+            position: relative;
+        }
+
+        .data-table-container.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            margin: -20px 0 0 -20px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modern Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="assets/images/NISR.png" alt="NISR Logo" class="nisr-logo">
+                <h3>Rwanda Trade analytic system</h3>
+                <span class="ai-badge">AI-Powered</span>
+            </div>
+        </div>
+
+        <div class="sidebar-menu">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link" data-page="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="exports.html" class="nav-link" data-page="exports">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Exports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="imports.html" class="nav-link" data-page="imports">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Imports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="predictions.html" class="nav-link" data-page="predictions">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Predictions</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html" class="nav-link" data-page="analytics">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Advanced Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="commodities.html" class="nav-link" data-page="commodities">
+                        <i class="fas fa-boxes"></i>
+                        <span>Commodities</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="regional.html" class="nav-link" data-page="regional">
+                        <i class="fas fa-globe-africa"></i>
+                        <span>Regional Analysis</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="excel-viewer.html" class="nav-link active" data-page="excel-viewer">
+                        <i class="fas fa-file-excel"></i>
+                        <span>Raw Excel Data</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-details">
+                    <span class="user-name">Data Analyst</span>
+                    <span class="user-role">NISR Raw Data</span>
+                </div>
+            </div>
+            <div class="sidebar-footer-compact">
+                <div class="footer-info">
+                    <span class="footer-copyright">© 2025 Rwanda Trade analytic system</span>
+                    <span class="footer-meta">Raw Data: NISR Excel | Updated: 2025-Q1</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- Top Header Bar -->
+    <header class="top-header">
+        <div class="header-left">
+            <button class="sidebar-toggle" id="sidebar-toggle" title="Toggle Navigation Menu" aria-label="Toggle Navigation Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="page-title">
+                <h1>Raw Excel Data Viewer</h1>
+                <p>NISR 2025 Q1 Trade Report - All Sheets</p>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="header-actions">
+                <button class="btn btn-refresh" onclick="refreshData()" title="Refresh Data">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <div class="time-display">
+                    <i class="fas fa-file-excel"></i>
+                    <span id="current-time">NISR Raw Data</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="excel-viewer-container">
+            <!-- Sheet Navigation -->
+            <div class="sheet-nav">
+                <div class="sheet-section-title">
+                    <i class="fas fa-file-excel"></i>
+                    <span>Excel Sheet Navigator</span>
+                </div>
+
+                <div class="sheet-tabs" id="sheet-tabs">
+                    <!-- Sheet tabs will be populated by JavaScript -->
+                </div>
+
+                <div class="sheet-info">
+                    <div class="sheet-meta">
+                        <div class="sheet-meta-item">
+                            <i class="fas fa-file-excel"></i>
+                            <span>File: 2025Q1_Trade_report_annexTables.xlsx</span>
+                        </div>
+                        <div class="sheet-meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Period: 2023Q1 - 2025Q1</span>
+                        </div>
+                        <div class="sheet-meta-item">
+                            <i class="fas fa-database"></i>
+                            <span id="current-sheet-info">Select a sheet to view data</span>
+                        </div>
+                    </div>
+                    <button class="export-btn" onclick="exportCurrentSheet()">
+                        <i class="fas fa-download"></i> Export Sheet
+                    </button>
+                </div>
+            </div>
+
+            <!-- Data Table Container -->
+            <div class="data-table-container" id="data-container">
+                <div class="text-center py-5">
+                    <i class="fas fa-file-excel fa-3x text-muted mb-3"></i>
+                    <h4>Select a Sheet to View Data</h4>
+                    <p class="text-muted">Choose from the tabs above to explore NISR trade data</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- External Libraries JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+
+    <script>
+        // Excel data embedded directly (for hackathon demo)
+        const excelData = {
+            "Graph Overall": {
+                title: "Rwanda's Formal External Trade in Goods (values in US$ million)",
+                headers: ["Flow/Period", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1"],
+                data: [
+                    ["Exports", "402.14", "484.74", "388.11", "399.11", "431.61", "537.64", "667.00", "677.45", "480.82"],
+                    ["Imports", "1,476.51", "1,571.09", "1,581.81", "1,486.93", "1,410.52", "1,568.97", "1,751.57", "1,629.39", "1,379.05"],
+                    ["Re-Exports", "156.25", "154.52", "173.00", "159.55", "173.17", "164.00", "184.56", "177.29", "135.39"],
+                    ["Total Trade", "2,034.91", "2,210.36", "2,142.92", "2,045.60", "2,015.30", "2,270.61", "2,603.13", "2,484.12", "1,995.26"],
+                    ["Trade Balance", "-918.11", "-931.83", "-1,020.70", "-928.27", "-805.74", "-867.33", "-900.01", "-774.66", "-762.84"]
+                ],
+                notes: ["Source: NISR", "*Major revisions include Domestic exports destination of Tea and Coffee"]
+            },
+            "Graph EAC": {
+                title: "Rwanda's External Trade with EAC (values in US$ million)",
+                headers: ["", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1"],
+                data: [
+                    ["Exports", "74.18", "57.15", "70.97", "59.82", "56.24", "55.92", "72.61", "86.15", "69.32"],
+                    ["Imports", "387.65", "350.99", "414.99", "381.36", "344.87", "471.62", "567.09", "612.46", "358.28"],
+                    ["Re-Exports", "150.10", "147.03", "162.90", "154.65", "165.72", "159.45", "177.98", "169.64", "129.10"],
+                    ["Total Trade", "611.93", "555.16", "648.86", "595.83", "566.83", "686.99", "817.68", "868.25", "556.70"],
+                    ["Trade Balance", "-163.36", "-146.81", "-181.12", "-166.88", "-122.91", "-256.25", "-316.50", "-356.67", "-159.85"]
+                ],
+                notes: ["Source: NISR", "*Major revisions include Domestic exports destination of Tea and Coffee", "*All series revised from 2022Q1"]
+            },
+            "EAC": {
+                title: "Trade in Goods of Rwanda with EAC",
+                subheaders: ["VALUES IN US$ Million", "SHARE IN %"],
+                headers: ["Flow", "Partner \\ Period", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1"],
+                data: [
+                    ["Exports", "Burundi", "2.27", "3.72", "5.18", "5.47", "1.16", "2.18", "3.03", "2.442", "3.74", "3.05", "6.51", "7.30", "9.14", "2.07", "3.91", "4.17", "2.83", "5.39"],
+                    ["Exports", "DRC", "44.32", "38.18", "51.12", "47.01", "51.03", "47.53", "62.17", "72.146", "54.96", "59.74", "66.81", "72.03", "78.58", "90.72", "84.99", "85.62", "83.75", "79.28"],
+                    ["Exports", "Kenya", "0.94", "1.18", "1.03", "0.82", "0.87", "1.63", "0.78", "0.501", "0.87", "1.26", "2.06", "1.46", "1.38", "1.54", "2.91", "1.07", "0.58", "1.25"],
+                    ["Exports", "Somalia", "0.06", "0.03", "0.19", "0.01", "0.07", "0.13", "0.25", "0.238", "0.10", "0.09", "0.05", "0.26", "0.01", "0.13", "0.23", "0.35", "0.28", "0.14"],
+                    ["Exports", "South Sudan", "13.39", "4.09", "3.64", "2.35", "1.35", "1.81", "1.42", "2.828", "2.68", "18.05", "7.16", "5.13", "3.93", "2.40", "3.23", "1.96", "3.28", "3.87"],
+                    ["Exports", "Tanzania", "0.84", "0.61", "0.98", "0.18", "0.87", "0.38", "0.43", "0.490", "1.11", "1.13", "1.07", "1.38", "0.29", "1.55", "0.67", "0.60", "0.57", "1.59"],
+                    ["Exports", "Uganda", "12.36", "9.34", "8.83", "3.99", "0.90", "2.27", "4.53", "7.504", "5.88", "16.67", "16.34", "12.44", "6.67", "1.59", "4.06", "6.24", "8.71", "8.48"],
+                    ["Exports", "EAC", "74.18", "57.15", "70.97", "59.82", "56.24", "55.92", "72.61", "86.15", "69.32", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00"],
+                    ["Imports", "Burundi", "0.24", "0.45", "0.87", "0.82", "0.13", "0.37", "0.18", "0.65", "0.62", "0.06", "0.13", "0.21", "0.21", "0.04", "0.08", "0.03", "0.11", "0.17"],
+                    ["Imports", "DRC", "4.30", "5.83", "8.05", "11.25", "13.96", "10.85", "20.61", "26.50", "11.87", "1.11", "1.66", "1.94", "2.95", "4.05", "2.30", "3.64", "4.33", "3.31"],
+                    ["Imports", "Kenya", "122.36", "110.69", "127.01", "70.64", "99.54", "245.08", "215.21", "211.22", "135.35", "31.56", "31.54", "30.61", "18.52", "28.86", "51.97", "37.95", "34.49", "37.78"],
+                    ["Imports", "Somalia", "0.00", "0.00", "0.00", "0.01", "0.00", "0.00", "0.01", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00"],
+                    ["Imports", "South Sudan", "0.98", "0.00", "1.01", "0.09", "0.00", "0.30", "0.02", "0.02", "0.00", "0.25", "0.00", "0.24", "0.02", "0.00", "0.06", "0.00", "0.00", "0.00"],
+                    ["Imports", "Tanzania", "207.58", "188.59", "219.86", "227.43", "171.00", "158.17", "267.62", "298.93", "151.30", "53.55", "53.73", "52.98", "59.64", "49.58", "33.54", "47.19", "48.81", "42.23"],
+                    ["Imports", "Uganda", "52.19", "45.43", "58.19", "71.12", "60.24", "56.84", "63.43", "75.13", "59.14", "13.46", "12.94", "14.02", "18.65", "17.47", "12.05", "11.19", "12.27", "16.51"],
+                    ["Imports", "EAC", "387.65", "350.99", "414.99", "381.36", "344.87", "471.62", "567.09", "612.46", "358.28", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00"],
+                    ["Re-Exports", "Burundi", "2.24", "2.19", "4.04", "3.50", "4.14", "2.31", "1.63", "1.26", "0.39", "1.49", "1.49", "2.48", "2.26", "2.50", "1.45", "0.92", "0.75", "0.31"],
+                    ["Re-Exports", "DRC", "145.46", "143.21", "157.97", "149.96", "160.12", "155.74", "174.59", "166.32", "127.14", "96.91", "97.41", "96.97", "97.76", "98.18", "97.67", "98.09", "98.04", "98.48"],
+                    ["Re-Exports", "Kenya", "0.21", "0.11", "0.18", "0.09", "0.16", "0.08", "0.16", "0.30", "0.42", "0.14", "0.07", "0.11", "0.06", "0.10", "0.05", "0.09", "0.18", "0.33"],
+                    ["Re-Exports", "Somalia", "0.05", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.04", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00"],
+                    ["Re-Exports", "South Sudan", "0.19", "0.24", "0.22", "0.27", "0.45", "0.39", "0.75", "0.62", "0.21", "0.13", "0.17", "0.13", "0.17", "0.27", "0.25", "0.42", "0.36", "0.16"],
+                    ["Re-Exports", "Tanzania", "0.06", "0.03", "0.09", "0.06", "0.03", "0.29", "0.05", "0.02", "0.12", "0.04", "0.02", "0.05", "0.04", "0.02", "0.18", "0.03", "0.01", "0.09"],
+                    ["Re-Exports", "Uganda", "1.88", "1.23", "0.41", "0.77", "0.83", "0.64", "0.80", "1.12", "0.83", "1.25", "0.84", "0.25", "0.50", "0.50", "0.40", "0.45", "0.66", "0.64"],
+                    ["Re-Exports", "EAC", "150.10", "147.03", "162.90", "154.65", "165.72", "159.45", "177.98", "169.64", "129.10", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00"]
+                ],
+                notes: ["Source: NISR", "*Major revisions include Domestic exports destination of Tea and Coffee"]
+            },
+            "Total trade with the World": {
+                title: "Rwanda's External Trade (values in US$ million)",
+                headers: ["", "Partner", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1"],
+                data: [
+                    ["Exports", "WORLD", "402.14", "484.74", "388.11", "399.11", "431.61", "537.64", "667.00", "677.45", "480.82"],
+                    ["", "EAC", "74.18", "57.15", "70.97", "59.82", "56.24", "55.92", "72.61", "86.15", "69.32"],
+                    ["Imports", "WORLD", "1,476.51", "1,571.09", "1,581.81", "1,486.93", "1,410.52", "1,568.97", "1,751.57", "1,629.39", "1,379.05"],
+                    ["", "EAC", "387.65", "350.99", "414.99", "381.36", "344.87", "471.62", "567.09", "612.46", "358.28"],
+                    ["Re-Exports", "WORLD", "156.25", "154.52", "173.00", "159.55", "173.17", "164.00", "184.56", "177.29", "135.39"],
+                    ["", "EAC", "150.10", "147.03", "162.90", "154.65", "165.72", "159.45", "177.98", "169.64", "129.10"],
+                    ["Total Trade", "WORLD", "2,034.91", "2,210.36", "2,142.92", "2,045.60", "2,015.30", "2,270.61", "2,603.13", "2,484.12", "1,995.26"],
+                    ["", "EAC", "150.10", "147.03", "162.90", "154.65", "165.72", "159.45", "177.98", "169.64", "129.10"],
+                    ["Trade Balance", "WORLD", "-918.11", "-931.83", "-1,020.70", "-928.27", "-805.74", "-867.33", "-900.01", "-774.66", "-762.84"],
+                    ["", "EAC", "-163.36", "-146.81", "-181.12", "-166.88", "-122.91", "-256.25", "-316.50", "-356.67", "-159.85"]
+                ],
+                notes: ["Source: NISR", "*Major revisions include Domestic exports destination of Tea and Coffee"]
+            },
+            "Regional blocks": {
+                title: "Trade in Goods of Rwanda with selected regional organizations (Value in US$ million)",
+                headers: ["Partner", "Flow \\ Period", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1"],
+                data: [
+                    ["CEPGL", "Export", "46.58", "41.90", "56.30", "52.47", "52.19", "49.71", "65.19", "74.59", "58.69"],
+                    ["CEPGL", "Import", "4.54", "6.28", "8.92", "12.07", "14.09", "11.22", "20.80", "27.15", "12.49"],
+                    ["CEPGL", "Re-export", "147.70", "145.40", "162.01", "153.46", "164.25", "158.05", "176.22", "167.59", "127.53"],
+                    ["CEPGL", "Total Trade", "198.83", "193.58", "227.23", "218.00", "230.54", "218.98", "262.21", "269.33", "198.72"],
+                    ["COMESA", "Export", "67.80", "58.38", "72.10", "61.82", "60.75", "60.36", "79.39", "90.10", "76.51"],
+                    ["COMESA", "Import", "237.10", "195.91", "227.12", "186.93", "201.58", "338.42", "331.19", "344.95", "230.12"],
+                    ["COMESA", "Re-export", "152.93", "148.75", "165.59", "155.61", "169.34", "160.65", "180.52", "172.71", "131.96"],
+                    ["COMESA", "Total Trade", "457.82", "403.04", "464.81", "404.36", "431.68", "559.44", "591.10", "607.76", "438.59"],
+                    ["COMMON WEALTH", "Export", "45.19", "35.47", "36.83", "29.72", "29.28", "32.46", "35.44", "38.94", "34.14"],
+                    ["COMMON WEALTH", "Import", "686.22", "730.87", "713.44", "675.99", "676.79", "804.50", "923.43", "845.50", "623.54"],
+                    ["COMMON WEALTH", "Re-export", "2.92", "2.52", "1.39", "1.73", "1.78", "1.93", "1.50", "3.41", "2.50"],
+                    ["COMMON WEALTH", "Total Trade", "734.33", "768.86", "751.67", "707.44", "707.86", "838.89", "960.37", "887.85", "660.19"],
+                    ["ECOWAS", "Export", "0.36", "0.61", "0.33", "0.49", "0.23", "0.09", "0.29", "0.32", "0.20"],
+                    ["ECOWAS", "Import", "25.90", "53.23", "8.21", "6.70", "34.53", "0.88", "81.43", "53.84", "4.22"],
+                    ["ECOWAS", "Re-export", "0.00", "0.00", "0.03", "0.00", "0.00", "0.02", "0.02", "0.10", "0.01"],
+                    ["ECOWAS", "Total Trade", "26.26", "53.84", "8.57", "7.20", "34.76", "0.98", "81.73", "54.26", "4.43"],
+                    ["SADC", "Export", "46.87", "39.92", "54.42", "48.32", "55.07", "48.96", "64.80", "74.72", "57.60"],
+                    ["SADC", "Import", "287.73", "235.36", "284.29", "333.60", "248.84", "192.71", "316.69", "393.82", "189.71"],
+                    ["SADC", "Re-export", "146.16", "143.70", "158.69", "150.09", "160.76", "156.63", "175.01", "167.26", "127.94"],
+                    ["SADC", "Total Trade", "480.75", "418.98", "497.41", "532.01", "464.67", "398.30", "556.50", "635.79", "375.25"],
+                    ["EU", "Export", "21.14", "21.68", "19.07", "28.44", "25.67", "31.74", "42.40", "42.11", "28.50"],
+                    ["EU", "Import", "127.82", "129.34", "146.35", "99.72", "95.33", "109.29", "100.50", "101.94", "93.69"],
+                    ["EU", "Re-export", "0.52", "0.65", "0.77", "0.56", "0.36", "0.46", "0.57", "0.51", "0.36"],
+                    ["EU", "Total Trade", "149.48", "151.68", "166.18", "128.73", "121.36", "141.49", "143.48", "144.56", "122.55"]
+                ],
+                notes: ["Source: NISR", "*Major revisions include Domestic exports destination of Tea and Coffee"]
+            },
+            "Trade by continents": {
+                title: "Trade in Goods of Rwanda by Continents",
+                subheaders: ["VALUES IN US$", "SHARE IN %"],
+                headers: ["Flow", "Partner \\ Period", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1"],
+                data: [
+                    ["Exports", "WORLD", "402.14", "484.74", "388.11", "399.11", "431.61", "537.64", "667.00", "677.45", "480.82", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00"],
+                    ["Exports", "AFRICA", "89.75", "72.31", "83.86", "71.64", "70.20", "69.16", "85.63", "99.01", "83.41", "22.32", "14.92", "21.61", "17.95", "16.26", "12.86", "12.84", "14.62", "17.35"],
+                    ["Exports", "AMERICA", "2.62", "2.32", "5.78", "9.28", "4.26", "5.61", "8.37", "10.18", "13.27", "0.65", "0.48", "1.49", "2.32", "0.99", "1.04", "1.25", "1.50", "2.76"],
+                    ["Exports", "ASIA", "271.54", "375.24", "265.52", "270.73", "322.59", "420.28", "512.36", "513.36", "345.31", "67.52", "77.41", "68.41", "67.83", "74.74", "78.17", "76.82", "75.78", "71.82"],
+                    ["Exports", "EUROPE", "37.87", "34.83", "32.35", "46.76", "34.56", "42.52", "59.92", "53.96", "38.71", "9.42", "7.19", "8.34", "11.72", "8.01", "7.91", "8.98", "7.97", "8.05"],
+                    ["Exports", "OCEANIA", "0.36", "0.04", "0.61", "0.71", "0.00", "0.07", "0.73", "0.92", "0.12", "0.09", "0.01", "0.16", "0.18", "0.00", "0.01", "0.11", "0.14", "0.02"],
+                    ["Imports", "WORLD", "1,476.51", "1,571.09", "1,581.81", "1,486.93", "1,410.52", "1,568.97", "1,751.57", "1,629.39", "1,379.05", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00"],
+                    ["Imports", "AFRICA", "511.63", "584.69", "532.06", "549.84", "543.02", "645.29", "861.65", "778.74", "463.56", "34.65", "37.22", "33.64", "36.98", "38.50", "41.13", "49.19", "47.79", "33.61"],
+                    ["Imports", "AMERICA", "31.28", "24.32", "36.29", "55.59", "51.98", "51.15", "45.64", "38.34", "66.65", "2.12", "1.55", "2.29", "3.74", "3.69", "3.26", "2.61", "2.35", "4.83"],
+                    ["Imports", "ASIA", "754.44", "775.81", "777.33", "714.28", "690.15", "715.60", "691.02", "671.08", "710.92", "51.10", "49.38", "49.14", "48.04", "48.93", "45.61", "39.45", "41.19", "51.55"],
+                    ["Imports", "EUROPE", "172.15", "182.21", "233.08", "163.78", "120.57", "142.53", "136.37", "132.51", "125.15", "11.66", "11.60", "14.73", "11.01", "8.55", "9.08", "7.79", "8.13", "9.08"],
+                    ["Imports", "OCEANIA", "7.01", "4.06", "3.06", "3.45", "4.81", "14.41", "16.90", "8.73", "12.77", "0.47", "0.26", "0.19", "0.23", "0.34", "0.92", "0.96", "0.54", "0.93"],
+                    ["Re-Exports", "WORLD", "156.25", "154.52", "173.00", "159.55", "173.17", "164.00", "184.56", "177.29", "135.39", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00"],
+                    ["Re-Exports", "AFRICA", "153.39", "149.06", "165.95", "155.98", "170.01", "161.60", "181.44", "173.48", "132.39", "98.17", "96.47", "95.93", "97.76", "98.18", "98.54", "98.31", "97.85", "97.79"],
+                    ["Re-Exports", "AMERICA", "0.30", "0.14", "0.10", "0.25", "0.13", "0.14", "0.13", "0.04", "0.09", "0.19", "0.09", "0.06", "0.16", "0.07", "0.08", "0.07", "0.02", "0.07"],
+                    ["Re-Exports", "ASIA", "1.69", "3.76", "5.97", "1.84", "2.27", "1.42", "2.19", "2.14", "1.86", "1.08", "2.44", "3.45", "1.15", "1.31", "0.87", "1.19", "1.21", "1.37"],
+                    ["Re-Exports", "EUROPE", "0.88", "1.56", "0.98", "1.48", "0.76", "0.85", "0.80", "1.63", "1.05", "0.56", "1.01", "0.57", "0.93", "0.44", "0.52", "0.43", "0.92", "0.78"],
+                    ["Re-Exports", "OCEANIA", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00"]
+                ],
+                notes: ["Source: NISR"]
+            },
+            "ExportCountry": {
+                title: "Top 20 destinations of exports of Rwanda in 2025, Quarter 1 (Values in US$ million)",
+                headers: ["Year and Period", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "Shares in % Q1", "% change Q1/Q4", "% change Q1/Q1"],
+                data: [
+                    ["Total Estimates", "402.14", "484.74", "388.11", "399.11", "431.61", "537.64", "667.00", "677.45", "480.82", "100.00", "-29.02%", "11.40%"],
+                    ["United Arab Emirates", "211.60", "321.57", "203.49", "215.07", "268.67", "360.62", "447.01", "442.55", "288.75", "60.05", "-34.75%", "7.47%"],
+                    ["Congo, The Democratic Republic Of", "44.32", "38.18", "51.12", "47.01", "51.03", "47.53", "62.17", "72.15", "54.96", "11.43", "-23.83%", "7.70%"],
+                    ["China", "21.49", "19.43", "23.42", "19.10", "17.75", "23.32", "22.83", "20.43", "23.45", "4.88", "14.79%", "32.12%"],
+                    ["Luxembourg", "2.11", "3.62", "2.38", "8.01", "12.07", "15.48", "13.77", "14.10", "11.98", "2.49", "-15.06%", "-0.77%"],
+                    ["United States", "2.36", "2.13", "5.49", "8.78", "4.12", "5.55", "8.16", "8.97", "10.73", "2.23", "19.65%", "160.60%"],
+                    ["United Kingdom", "11.76", "9.58", "7.74", "7.95", "7.62", "7.91", "10.91", "9.31", "9.26", "1.93", "-0.52%", "21.53%"],
+                    ["Pakistan", "9.88", "7.02", "8.18", "5.27", "7.76", "7.28", "6.22", "4.12", "8.24", "1.71", "100.09%", "6.28%"],
+                    ["Uganda", "12.36", "9.34", "8.83", "3.99", "0.90", "2.27", "4.53", "7.50", "5.88", "1.22", "-21.67%", "556.49%"],
+                    ["Hong Kong", "10.60", "13.17", "10.44", "9.85", "5.53", "4.73", "8.52", "5.89", "5.39", "1.12", "-8.52%", "-2.50%"],
+                    ["Netherlands", "8.22", "3.81", "2.92", "3.31", "2.86", "4.98", "6.77", "5.76", "4.93", "1.03", "-14.33%", "72.47%"],
+                    ["Ethiopia", "0.00", "1.58", "0.04", "0.00", "0.01", "1.24", "3.31", "3.07", "4.64", "0.97", "51.32%", "37,585.80%"],
+                    ["Kazakhstan", "2.78", "2.38", "2.67", "2.43", "3.29", "3.75", "2.61", "1.66", "4.12", "0.86", "148.43%", "25.24%"],
+                    ["Egypt", "4.87", "2.96", "3.18", "3.24", "2.93", "3.43", "2.86", "2.27", "3.94", "0.82", "73.93%", "34.49%"],
+                    ["Singapore", "1.91", "1.31", "2.50", "2.79", "1.73", "4.38", "5.47", "5.31", "3.79", "0.79", "-28.67%", "118.88%"],
+                    ["Burundi", "2.27", "3.72", "5.18", "5.47", "1.16", "2.18", "3.03", "2.44", "3.74", "0.78", "53.04%", "220.84%"],
+                    ["Belgium", "2.03", "3.91", "2.31", "2.22", "1.55", "1.57", "5.57", "5.44", "3.32", "0.69", "-38.96%", "113.97%"],
+                    ["India", "4.31", "3.63", "2.89", "3.84", "5.14", "5.82", "2.63", "6.18", "3.09", "0.64", "-49.93%", "-39.81%"],
+                    ["Thailand", "0.04", "0.36", "0.85", "0.36", "1.94", "2.45", "6.18", "3.75", "3.07", "0.64", "-18.00%", "58.06%"],
+                    ["South Sudan", "13.39", "4.09", "3.64", "2.35", "1.35", "1.81", "1.42", "2.83", "2.68", "0.56", "-5.25%", "98.91%"],
+                    ["Ireland", "1.33", "1.72", "2.36", "1.63", "3.77", "2.68", "2.68", "2.34", "2.47", "0.51", "5.66%", "-34.40%"]
+                ],
+                notes: ["Source: NISR", "*Major revisions include Domestic exports destination of Tea and Coffee"]
+            },
+            "ImportCountry": {
+                title: "Top 20 destinations of imports of Rwanda in 2025, Quarter 1 (Values in US$ million)",
+                headers: ["Year and Period", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "Shares in % Q1", "% change Q1/Q4", "% change Q1/Q1"],
+                data: [
+                    ["Total Estimates", "1,476.51", "1,571.09", "1,581.81", "1,486.93", "1,410.52", "1,568.97", "1,751.57", "1,629.39", "1,379.05", "100.00", "-15.36%", "-2.23%"],
+                    ["China", "252.73", "287.58", "309.36", "304.32", "302.07", "280.91", "299.94", "303.26", "338.53", "24.55", "11.63%", "12.07%"],
+                    ["Tanzania, United Republic Of", "207.58", "188.59", "219.86", "227.43", "171.00", "158.17", "267.62", "298.93", "151.30", "10.97", "-49.39%", "-11.52%"],
+                    ["Kenya", "122.36", "110.69", "127.01", "70.64", "99.54", "245.08", "215.21", "211.22", "135.35", "9.81", "-35.92%", "35.97%"],
+                    ["India", "173.48", "183.29", "165.86", "115.36", "144.46", "151.51", "117.02", "101.83", "115.65", "8.39", "13.57%", "-19.94%"],
+                    ["United Arab Emirates", "90.10", "72.40", "89.43", "86.50", "96.62", "95.91", "87.76", "96.64", "81.09", "5.88", "-16.09%", "-16.07%"],
+                    ["Uganda", "52.19", "45.43", "58.19", "71.12", "60.24", "56.84", "63.43", "75.13", "59.14", "4.29", "-21.29%", "-1.83%"],
+                    ["Cameroon", "0.01", "118.34", "33.71", "41.86", "86.87", "126.02", "162.24", "18.67", "58.61", "4.25", "214.01%", "-32.53%"],
+                    ["Malaysia", "22.21", "21.76", "25.42", "20.60", "21.39", "18.82", "35.81", "42.42", "45.20", "3.28", "6.56%", "111.36%"],
+                    ["United States", "19.57", "20.93", "23.03", "16.79", "21.18", "21.31", "22.43", "18.69", "37.28", "2.70", "99.41%", "75.98%"],
+                    ["Japan", "22.67", "23.00", "26.39", "25.83", "23.40", "26.38", "29.25", "28.01", "34.37", "2.49", "22.70%", "46.89%"],
+                    ["Germany", "33.40", "28.02", "36.44", "15.68", "16.30", "33.20", "19.98", "21.65", "23.01", "1.67", "6.26%", "41.12%"],
+                    ["Belgium", "22.96", "18.37", "26.99", "18.96", "16.12", "17.15", "19.50", "18.46", "18.59", "1.35", "0.70%", "15.34%"],
+                    ["South Africa", "25.22", "25.23", "35.96", "78.79", "46.94", "12.48", "14.86", "55.75", "18.25", "1.32", "-67.26%", "-61.12%"],
+                    ["Turkey", "33.08", "42.95", "70.05", "50.83", "13.11", "17.80", "16.95", "15.57", "14.91", "1.08", "-4.26%", "13.73%"],
+                    ["Egypt", "20.40", "18.26", "12.44", "16.97", "9.42", "14.27", "17.87", "19.14", "14.49", "1.05", "-24.31%", "53.85%"],
+                    ["Pakistan", "12.91", "4.14", "4.35", "17.35", "17.61", "14.18", "10.29", "8.71", "13.54", "0.98", "55.54%", "-23.12%"],
+                    ["Brazil", "3.65", "0.55", "7.37", "28.49", "18.56", "19.99", "10.71", "7.84", "13.10", "0.95", "67.01%", "-29.42%"],
+                    ["Russian Federation", "24.15", "14.62", "18.22", "18.37", "5.02", "29.90", "16.64", "13.39", "12.70", "0.92", "-5.16%", "152.91%"],
+                    ["Congo, The Democratic Republic Of", "4.30", "5.83", "8.05", "11.25", "13.96", "10.85", "20.61", "26.50", "11.87", "0.86", "-55.21%", "-14.99%"],
+                    ["France", "14.12", "23.00", "13.69", "16.09", "7.78", "9.00", "10.07", "12.00", "11.35", "0.82", "-5.40%", "45.84%"]
+                ],
+                notes: ["Source: NISR"]
+            },
+            "ReexportsCountry": {
+                title: "Top 20 destinations of re-exports of Rwanda in the year 2025, Quarter 1 (Values in US$ Million)",
+                headers: ["Year and Period", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "Shares in % Q1", "% change Q1/Q4", "% change Q1/Q1"],
+                data: [
+                    ["Total Estimates", "156.25", "154.52", "173.00", "159.55", "173.17", "164.00", "184.56", "177.29", "135.39", "100.00", "-23.63%", "-21.82%"],
+                    ["Congo, The Democratic Republic Of", "145.46", "143.21", "157.97", "149.96", "160.12", "155.74", "174.59", "166.32", "127.14", "93.91", "-23.56%", "-20.60%"],
+                    ["Ethiopia", "2.50", "1.55", "2.32", "1.24", "3.44", "1.54", "3.03", "2.79", "2.52", "1.86", "-9.49%", "-26.57%"],
+                    ["United Arab Emirates", "1.60", "2.48", "4.80", "1.31", "1.65", "1.25", "1.98", "1.97", "1.77", "1.31", "-10.35%", "7.37%"],
+                    ["Uganda", "1.88", "1.23", "0.41", "0.77", "0.83", "0.64", "0.80", "1.12", "0.83", "0.61", "-25.93%", "0.30%"],
+                    ["Zambia", "0.63", "0.43", "0.63", "0.00", "0.53", "0.35", "0.28", "0.90", "0.65", "0.48", "-27.24%", "21.96%"],
+                    ["United Kingdom", "0.00", "0.59", "0.00", "0.73", "0.00", "0.21", "0.01", "0.93", "0.45", "0.33", "-51.68%", "29,889.85%"],
+                    ["Kenya", "0.21", "0.11", "0.18", "0.09", "0.16", "0.08", "0.16", "0.30", "0.42", "0.31", "41.09%", "158.42%"],
+                    ["Burundi", "2.24", "2.19", "4.04", "3.50", "4.14", "2.31", "1.63", "1.26", "0.39", "0.29", "-68.77%", "-90.46%"],
+                    ["Turkey", "0.36", "0.34", "0.21", "0.20", "0.41", "0.20", "0.25", "0.19", "0.25", "0.19", "32.69%", "-39.09%"],
+                    ["South Sudan", "0.19", "0.24", "0.22", "0.27", "0.45", "0.39", "0.75", "0.62", "0.21", "0.15", "-66.56%", "-54.05%"],
+                    ["Greece", "0.07", "0.14", "0.33", "0.17", "0.22", "0.07", "0.11", "0.16", "0.19", "0.14", "16.74%", "-13.77%"],
+                    ["Tanzania, United Republic Of", "0.06", "0.03", "0.09", "0.06", "0.03", "0.29", "0.05", "0.02", "0.12", "0.09", "504.30%", "367.88%"],
+                    ["United States", "0.23", "0.09", "0.09", "0.19", "0.13", "0.14", "0.12", "0.04", "0.09", "0.07", "149.58%", "-30.46%"],
+                    ["France", "0.21", "0.07", "0.08", "0.10", "0.01", "0.18", "0.00", "0.02", "0.07", "0.05", "336.39%", "609.19%"],
+                    ["Ireland", "0.00", "0.02", "0.00", "0.00", "0.01", "0.03", "0.04", "0.00", "0.07", "0.05", "0.00%", "407.81%"],
+                    ["Congo", "0.15", "0.01", "0.00", "0.01", "0.11", "0.00", "0.00", "0.01", "0.06", "0.05", "349.33%", "-45.41%"],
+                    ["China", "0.01", "0.03", "0.03", "0.00", "0.01", "0.01", "0.06", "0.05", "0.05", "0.03", "-14.90%", "205.69%"],
+                    ["Qatar", "0.01", "1.19", "1.05", "0.47", "0.44", "0.03", "0.01", "0.08", "0.04", "0.03", "-57.13%", "-92.12%"],
+                    ["South Africa", "0.00", "0.03", "0.00", "0.02", "0.08", "0.25", "0.04", "0.02", "0.03", "0.03", "70.98%", "-57.80%"],
+                    ["Belgium", "0.14", "0.07", "0.21", "0.08", "0.06", "0.10", "0.16", "0.26", "0.02", "0.02", "-90.76%", "-60.90%"]
+                ],
+                notes: ["Source: NISR"]
+            },
+            "ExportsCommodity": {
+                title: "Products exported by Rwanda in 2025, Quarter 1 (Values in US$ Million)",
+                headers: ["SITC SECTION", "COMMODITY DESCRIPTION/ TOTAL ESTIMATES", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "Shares in % Q1", "% change Q1/Q4", "% change Q1/Q1"],
+                data: [
+                    ["", "SITC SECTION", "COMMODITY DESCRIPTION/ TOTAL ESTIMATES", "402.14", "484.74", "388.11", "399.11", "431.61", "537.64", "667.00", "677.45", "480.82", "100.00", "-29.02%", "11.40%"],
+                    ["0", "Food and live animals", "106.34", "74.62", "89.35", "103.81", "76.21", "73.43", "99.17", "103.12", "82.55", "17.17", "-19.95%", "8.33%"],
+                    ["1", "Beverages and tobacco", "0.21", "0.34", "0.26", "0.33", "1.99", "0.08", "0.08", "0.10", "1.19", "0.25", "1,075.97%", "-39.99%"],
+                    ["2", "Crude materials, inedible, except fuels ", "59.68", "58.59", "62.23", "51.19", "56.50", "56.38", "67.91", "58.76", "60.17", "12.51", "2.40%", "6.50%"],
+                    ["3", "Mineral fuels, lubricants and related materials", "0.74", "0.60", "1.14", "1.71", "0.27", "0.78", "0.98", "0.94", "0.85", "0.18", "-9.14%", "214.83%"],
+                    ["4", "Animals and vegetable oils, fats & waxes", "0.72", "2.41", "2.87", "1.11", "2.87", "4.56", "12.04", "23.40", "12.85", "2.67", "-45.06%", "348.33%"],
+                    ["5", "Chemicals & related products, n.e.s.", "4.40", "3.58", "3.70", "4.51", "4.17", "4.87", "4.88", "4.88", "6.39", "1.33", "31.09%", "53.27%"],
+                    ["6", "Manufactured goods classified chiefly by material", "29.52", "28.76", "28.61", "24.63", "27.19", "35.35", "30.73", "34.87", "32.25", "6.71", "-7.53%", "18.61%"],
+                    ["7", "Machinery and transport equipment", "5.36", "4.65", "3.14", "2.84", "4.06", "1.49", "7.07", "4.90", "2.54", "0.53", "-48.18%", "-37.50%"],
+                    ["8", "Miscellaneous manufactured articles", "4.86", "8.50", "8.77", "6.35", "4.98", "9.74", "9.46", "8.32", "5.70", "1.19", "-31.48%", "14.61%"],
+                    ["9", "Other commodities & transactions, n.e.s", "190.28", "302.69", "188.01", "202.62", "253.37", "350.85", "434.69", "438.15", "276.31", "57.47", "-36.94%", "9.05%"]
+                ],
+                notes: ["Source: NISR"]
+            },
+            "ImportsCommodity": {
+                title: "Products imported by Rwanda in 2025, Quarter 1 (Values in US$ Million)",
+                headers: ["SITC SECTION", "COMMODITY DESCRIPTION/ TOTAL ESTIMATES", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "Shares in % Q1", "% change Q1/Q4", "% change Q1/Q1"],
+                data: [
+                    ["", "SITC SECTION", "COMMODITY DESCRIPTION/ TOTAL ESTIMATES", "1,476.51", "1,571.09", "1,581.81", "1,486.93", "1,410.52", "1,568.97", "1,751.57", "1,629.39", "1,379.05", "100.00", "-15.36%", "-2.23%"],
+                    ["0", "Food and live animals", "264.48", "228.98", "254.36", "290.32", "202.46", "238.20", "237.17", "234.57", "203.57", "14.76", "-13.22%", "0.55%"],
+                    ["1", "Beverages and tobacco", "27.88", "25.20", "29.62", "26.73", "21.91", "24.97", "28.98", "27.49", "29.24", "2.12", "6.37%", "33.44%"],
+                    ["2", "Crude materials, inedible, except fuels ", "39.37", "32.81", "41.14", "39.20", "33.55", "31.87", "44.33", "42.68", "28.19", "2.04", "-33.95%", "-15.99%"],
+                    ["3", "Mineral fuels, lubricants and related materials", "190.83", "161.79", "157.62", "174.68", "184.27", "195.46", "202.08", "190.53", "178.01", "12.91", "-6.57%", "-3.40%"],
+                    ["4", "Animals and vegetable oils, fats & waxes", "63.51", "54.00", "52.95", "57.27", "38.87", "46.33", "53.28", "55.92", "51.99", "3.77", "-7.03%", "33.77%"],
+                    ["5", "Chemicals & related products, n.e.s.", "139.71", "136.90", "149.46", "130.47", "120.46", "137.98", "146.93", "135.39", "129.69", "9.40", "-4.21%", "7.67%"],
+                    ["6", "Manufactured goods classified chiefly by material", "198.96", "215.32", "254.21", "216.87", "162.60", "171.55", "218.56", "215.13", "191.11", "13.86", "-11.16%", "17.54%"],
+                    ["7", "Machinery and transport equipment", "256.27", "318.80", "320.33", "258.63", "278.43", "286.41", "253.86", "238.86", "305.46", "22.15", "27.88%", "9.71%"],
+                    ["8", "Miscellaneous manufactured articles", "87.09", "87.75", "107.35", "87.39", "92.03", "88.35", "87.25", "92.66", "73.48", "5.33", "-20.70%", "-20.16%"],
+                    ["9", "Other commodities & transactions, n.e.s", "208.41", "309.54", "214.76", "205.37", "275.94", "347.84", "479.12", "396.16", "188.31", "13.65", "-52.47%", "-31.76%"]
+                ],
+                notes: ["Source: NISR"]
+            },
+            "ReexportsCommodity": {
+                title: "Products re-exported by Rwanda in 2025, Quarter 1 (Values in US$ Million)",
+                headers: ["SITC SECTION", "COMMODITY DESCRIPTION/ TOTAL ESTIMATES", "2023Q1", "2023Q2", "2023Q3", "2023Q4", "2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1", "Shares in % Q1", "% change Q1/Q4", "% change Q1/Q1"],
+                data: [
+                    ["", "SITC SECTION", "COMMODITY DESCRIPTION/ TOTAL ESTIMATES", "156.25", "154.52", "173.00", "159.55", "173.17", "164.00", "184.56", "177.29", "135.39", "100.00", "-23.63%", "-21.82%"],
+                    ["0", "Food and live animals", "52.97", "54.88", "52.23", "56.11", "58.82", "50.64", "52.33", "51.32", "42.33", "31.26", "-17.53%", "-28.04%"],
+                    ["1", "Beverages and tobacco", "11.55", "8.53", "9.21", "8.47", "8.59", "9.72", "10.46", "12.51", "10.44", "7.71", "-16.56%", "21.47%"],
+                    ["2", "Crude materials, inedible, except fuels ", "4.41", "4.50", "5.19", "4.50", "3.71", "4.27", "4.95", "4.87", "3.16", "2.33", "-35.07%", "-14.80%"],
+                    ["3", "Mineral fuels, lubricants and related materials", "35.33", "32.41", "39.01", "38.74", "38.29", "41.71", "53.74", "48.01", "34.35", "25.37", "-28.45%", "-10.29%"],
+                    ["4", "Animals and vegetable oils, fats & waxes", "15.61", "13.63", "17.03", "15.76", "12.20", "14.47", "8.99", "8.39", "4.22", "3.12", "-49.63%", "-65.37%"],
+                    ["5", "Chemicals & related products, n.e.s.", "7.41", "7.39", "7.99", "7.83", "11.61", "11.31", "12.05", "11.62", "10.34", "7.63", "-11.02%", "-10.94%"],
+                    ["6", "Manufactured goods classified chiefly by material", "14.42", "17.71", "21.22", "14.35", "14.40", "15.25", "21.98", "20.40", "14.27", "10.54", "-30.06%", "-0.92%"],
+                    ["7", "Machinery and transport equipment", "8.81", "9.09", "11.86", "7.86", "15.46", "8.62", "10.25", "9.99", "8.88", "6.56", "-11.07%", "-42.55%"],
+                    ["8", "Miscellaneous manufactured articles", "5.74", "6.39", "9.26", "5.92", "10.09", "8.01", "9.80", "10.18", "7.39", "5.46", "-27.41%", "-26.72%"],
+                    ["9", "Other commodities & transactions, n.e.s", "0.01", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00%", "0.00%"]
+                ],
+                notes: ["Source: NISR"]
+            },
+            "Sheet11": {
+                title: "Survey Salaries Information",
+                headers: ["DESCRIPTION", "QUANTITY", "NUMBER OF DAYS", "UNIT VALUE/day", "TOTAL VALUE", "EXPLANATION"],
+                data: [
+                    ["Salaries for Regionals", "5", "103", "27,896", "", "1 day August, 27 for September, 27 for October, 25 for November and 24 days for December 2015."],
+                    ["Salaries for Team Leaders", "22", "103", "25,284", "", "1 day August, 27 for September, 27 for October, 25 for November and 24 days for December 2015."],
+                    ["Salaries for enumerators", "83", "103", "22,672", "", "1 day August, 27 for September, 27 for October, 25 for November and 24 days for December 2015."],
+                    ["Salaries of editors", "8", "103", "25,284", "", "1 day August, 27 for September, 27 for October, 25 for November and 24 days for December 2015."],
+                    ["TOTAL", "", "", "", "286,316,928", ""],
+                    ["", "", "", "", "411,841,840", ""]
+                ],
+                notes: []
+            }
+        };
+
+        // Current sheet tracking
+        let currentSheet = null;
+
+        // Initialize the viewer
+        function initializeExcelViewer() {
+            const sheetTabs = document.getElementById('sheet-tabs');
+
+            // Create sheet tabs
+            Object.keys(excelData).forEach(sheetName => {
+                const tab = document.createElement('button');
+                tab.className = 'sheet-tab';
+                tab.textContent = sheetName;
+                tab.onclick = () => showSheet(sheetName);
+                sheetTabs.appendChild(tab);
+            });
+
+            // Show first sheet by default
+            const firstSheet = Object.keys(excelData)[0];
+            showSheet(firstSheet);
+        }
+
+        // Show a specific sheet
+        function showSheet(sheetName) {
+            currentSheet = sheetName;
+            const sheetData = excelData[sheetName];
+            const dataContainer = document.getElementById('data-container');
+            const sheetInfo = document.getElementById('current-sheet-info');
+
+            // Add loading state
+            dataContainer.classList.add('loading');
+            document.querySelectorAll('.sheet-tab').forEach(tab => {
+                tab.classList.add('sheet-loading');
+            });
+
+            // Update active tab
+            document.querySelectorAll('.sheet-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.textContent === sheetName);
+                tab.classList.remove('sheet-loading');
+            });
+
+            // Update sheet info
+            sheetInfo.textContent = `${sheetName} (${sheetData.data.length} rows, ${sheetData.headers.length} columns)`;
+
+            // Simulate loading delay for better UX
+            setTimeout(() => {
+                // Create table
+                let tableHtml = `
+                    <div class="table-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-table"></i>
+                            <span><strong>${sheetData.data.length}</strong> rows</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-columns"></i>
+                            <span><strong>${sheetData.headers.length}</strong> columns</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span><strong>${sheetData.title || 'Data Table'}</strong></span>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    ${sheetData.headers.map(header => `<th>${header}</th>`).join('')}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${sheetData.data.map((row, rowIndex) => `
+                                    <tr class="${rowIndex % 2 === 0 ? 'even-row' : 'odd-row'}">
+                                        ${row.map(cell => {
+                                            let cellClass = '';
+                                            let cellContent = cell || '';
+
+                                            // Add classes for styling
+                                            if (typeof cell === 'string' && cell.includes('%')) {
+                                                if (cell.includes('-')) {
+                                                    cellClass = 'negative';
+                                                } else {
+                                                    cellClass = 'percentage';
+                                                }
+                                            } else if (typeof cell === 'string' && (cell.includes('$') || cell.includes(',') || !isNaN(parseFloat(cell)))) {
+                                                cellClass = 'numeric';
+                                            } else if (!cell || cell === '') {
+                                                cellClass = 'empty-cell';
+                                                cellContent = '-';
+                                            }
+
+                                            return `<td class="${cellClass}">${cellContent}</td>`;
+                                        }).join('')}
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+
+                // Add notes if any
+                if (sheetData.notes && sheetData.notes.length > 0) {
+                    tableHtml += `
+                        <div class="mt-3 p-3 bg-light rounded">
+                            <h6 class="text-muted mb-2"><i class="fas fa-info-circle"></i> Sheet Information</h6>
+                            <small class="text-muted">
+                                ${sheetData.notes.map(note => `• ${note}`).join('<br>')}
+                            </small>
+                        </div>
+                    `;
+                }
+
+                dataContainer.innerHTML = tableHtml;
+                dataContainer.classList.remove('loading');
+
+                // Show toast notification
+                showToast(`Loaded ${sheetName} sheet`, 'success', 1500);
+            }, 300); // Small delay for smooth transition
+        }
+
+        // Export current sheet
+        function exportCurrentSheet() {
+            if (!currentSheet) {
+                showToast('No sheet selected', 'warning');
+                return;
+            }
+
+            const sheetData = excelData[currentSheet];
+            let csvContent = sheetData.headers.join(',') + '\n';
+
+            sheetData.data.forEach(row => {
+                csvContent += row.map(cell => `"${cell || ''}"`).join(',') + '\n';
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `${currentSheet}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showToast(`Exported ${currentSheet} as CSV`, 'success');
+        }
+
+        // Refresh data (placeholder)
+        function refreshData() {
+            showToast('Data refreshed from NISR source', 'success');
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeExcelViewer();
+        });
+
+        // Make functions globally available
+        window.exportCurrentSheet = exportCurrentSheet;
+        window.refreshData = refreshData;
+    </script>
+
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+</body>
+</html>

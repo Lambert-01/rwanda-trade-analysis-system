@@ -16,8 +16,8 @@ services:
   # Frontend Static Site
   - type: static
     name: rwanda-trade-frontend
-    buildCommand: "npm install"
-    staticPublishPath: ./
+    buildCommand: "echo 'No build needed for static files'"
+    staticPublishPath: ./frontend
     envVars:
       - key: API_BASE_URL
         fromService:

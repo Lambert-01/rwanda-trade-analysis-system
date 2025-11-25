@@ -2,7 +2,7 @@
  *Rwanda trade analysis system - SERVICE WORKER
  * PWA capabilities for offline functionality and performance
  * ===================================================================== */
-
+ 
 // Service Worker version
 const CACHE_NAME = 'rwanda-export-explorer-v1';
 const STATIC_CACHE = 'static-v1';

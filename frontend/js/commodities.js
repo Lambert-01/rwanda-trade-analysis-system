@@ -77,49 +77,53 @@ class CommoditiesAnalyzer {
     }
 
     getQuarterlyValues(item) {
-        // Extract quarterly values from the item (columns with numeric keys)
+        // Extract quarterly values from the item (columns with quarter names like 2023Q1, 2024Q2, etc.)
         const values = [];
-        const keys = Object.keys(item).filter(key => !isNaN(parseFloat(key)) && key !== '100');
-        
-        // Sort keys to ensure correct order
-        keys.sort((a, b) => parseFloat(a) - parseFloat(b));
-        
-        keys.forEach(key => {
+        const quarterKeys = Object.keys(item).filter(key =>
+            key.match(/^\d{4}Q[1-4]$/) // Matches pattern like 2023Q1, 2024Q2, etc.
+        );
+
+        // Sort quarters chronologically
+        quarterKeys.sort((a, b) => {
+            const [aYear, aQ] = [parseInt(a.substring(0, 4)), parseInt(a.substring(5))];
+            const [bYear, bQ] = [parseInt(b.substring(0, 4)), parseInt(b.substring(5))];
+            return aYear === bYear ? aQ - bQ : aYear - bYear;
+        });
+
+        quarterKeys.forEach(key => {
             values.push(parseFloat(item[key]) || 0);
         });
-        
+
         return values;
     }
 
     getLatestValue(item) {
-        const values = this.getQuarterlyValues(item);
-        return values[values.length - 1] || 0;
+        // Use the pre-calculated latest_value from the processed data
+        return parseFloat(item['latest_value']) || 0;
     }
 
     getSharePercent(item) {
-        return parseFloat(item['100']) || 0;
+        return parseFloat(item['share_percentage']) || 0;
     }
 
     getGrowthRates(item) {
-        const keys = Object.keys(item);
-        // Find negative keys (growth rates)
-        const negativeKeys = keys.filter(k => k.startsWith('-'));
-        
+        // Use the calculated growth rates from the processed data
         return {
-            qoq: parseFloat(item[negativeKeys[0]]) * 100 || 0,  // Quarter-over-quarter
-            yoy: parseFloat(item[negativeKeys[1]]) * 100 || 0   // Year-over-year
+            qoq: parseFloat(item['qoq_growth']) || 0,  // Quarter-over-quarter
+            yoy: parseFloat(item['yoy_growth']) || 0   // Year-over-year
         };
     }
 
     renderPage() {
         console.log('🎨 Rendering enhanced commodities page...');
-        
+
         this.renderSummaryStats();
         this.renderTopPerformers();
         this.renderSITCComparison();
         this.renderAllCharts();
         this.renderDetailedBreakdown();
-        
+        this.setupFilters();
+
         console.log('✅ Commodities page rendered successfully');
     }
 
@@ -310,25 +314,43 @@ class CommoditiesAnalyzer {
 
     renderAllCharts() {
         console.log('📊 Rendering enhanced commodity charts...');
-        
+
         // Destroy existing charts
         Object.values(this.charts).forEach(chart => {
             if (chart && typeof chart.destroy === 'function') chart.destroy();
         });
         this.charts = {};
 
-        this.renderTrendChart();
-        this.renderDistributionCharts();
-        this.renderGrowthChart();
-        this.renderRadarChart();
+        // Render charts for each tab
+        this.renderExportsCharts();
+        this.renderImportsCharts();
+        this.renderComparisonCharts();
     }
 
-    renderTrendChart() {
-        const canvas = document.getElementById('trends-chart');
+    renderExportsCharts() {
+        this.renderExportsTrendChart();
+        this.renderExportsDistributionChart();
+        this.renderExportsGrowthChart();
+    }
+
+    renderImportsCharts() {
+        this.renderImportsTrendChart();
+        this.renderImportsDistributionChart();
+        this.renderImportsGrowthChart();
+    }
+
+    renderComparisonCharts() {
+        this.renderComparisonTrendChart();
+        this.renderRadarChart();
+        this.renderBalanceChart();
+    }
+
+    renderExportsTrendChart() {
+        const canvas = document.getElementById('exports-trends-chart');
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
-        
+
         // Get top 5 exports
         const top5 = [...this.data.exports]
             .sort((a, b) => this.getLatestValue(b) - this.getLatestValue(a))
@@ -346,7 +368,7 @@ class CommoditiesAnalyzer {
             pointHoverRadius: 6
         }));
 
-        this.charts.trends = new Chart(ctx, {
+        this.charts.exportsTrends = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: this.quarters,
@@ -359,15 +381,15 @@ class CommoditiesAnalyzer {
                     title: {
                         display: true,
                         text: 'Top 5 Export Commodities - Quarterly Trends',
-                        font: { size: 18, weight: 'bold' },
-                        padding: 20
+                        font: { size: 16, weight: 'bold' },
+                        padding: 15
                     },
                     legend: {
                         position: 'bottom',
-                        labels: { 
-                            boxWidth: 12, 
-                            padding: 15,
-                            font: { size: 11 }
+                        labels: {
+                            boxWidth: 12,
+                            padding: 10,
+                            font: { size: 10 }
                         }
                     },
                     tooltip: {
@@ -405,108 +427,279 @@ class CommoditiesAnalyzer {
         });
     }
 
-    renderDistributionCharts() {
-        // Export Distribution
-        const exportsCanvas = document.getElementById('exports-distribution-chart');
-        if (exportsCanvas) {
-            const ctx = exportsCanvas.getContext('2d');
-            
-            this.charts.exportsDistribution = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: this.data.exports.map(item => `SITC ${item.sitc_section}: ${item.commodity_description.substring(0, 25)}`),
-                    datasets: [{
-                        data: this.data.exports.map(item => this.getLatestValue(item)),
-                        backgroundColor: this.data.exports.map((_, i) => this.getChartColor(i)),
-                        borderWidth: 3,
-                        borderColor: '#fff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Export Commodities Distribution (2025Q1)',
-                            font: { size: 16, weight: 'bold' },
-                            padding: 15
-                        },
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                boxWidth: 12,
-                                padding: 10,
-                                font: { size: 10 }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: (context) => {
-                                    const value = context.parsed;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percent = ((value / total) * 100).toFixed(1);
-                                    return `$${value.toFixed(2)}M (${percent}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
+    renderImportsTrendChart() {
+        const canvas = document.getElementById('imports-trends-chart');
+        if (!canvas) return;
 
-        // Import Distribution
-        const importsCanvas = document.getElementById('imports-distribution-chart');
-        if (importsCanvas) {
-            const ctx = importsCanvas.getContext('2d');
-            
-            this.charts.importsDistribution = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: this.data.imports.map(item => `SITC ${item.sitc_section}: ${item.commodity_description.substring(0, 25)}`),
-                    datasets: [{
-                        data: this.data.imports.map(item => this.getLatestValue(item)),
-                        backgroundColor: this.data.imports.map((_, i) => this.getChartColor(i + 5)),
-                        borderWidth: 3,
-                        borderColor: '#fff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Import Commodities Distribution (2025Q1)',
-                            font: { size: 16, weight: 'bold' },
-                            padding: 15
-                        },
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                boxWidth: 12,
-                                padding: 10,
-                                font: { size: 10 }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: (context) => {
-                                    const value = context.parsed;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percent = ((value / total) * 100).toFixed(1);
-                                    return `$${value.toFixed(2)}M (${percent}%)`;
-                                }
+        const ctx = canvas.getContext('2d');
+
+        // Get top 5 imports
+        const top5 = [...this.data.imports]
+            .sort((a, b) => this.getLatestValue(b) - this.getLatestValue(a))
+            .slice(0, 5);
+
+        const datasets = top5.map((item, index) => ({
+            label: `${item.sitc_section}: ${item.commodity_description.substring(0, 30)}`,
+            data: this.getQuarterlyValues(item),
+            borderColor: this.getChartColor(index + 5),
+            backgroundColor: this.getChartColor(index + 5, 0.1),
+            borderWidth: 3,
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6
+        }));
+
+        this.charts.importsTrends = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: this.quarters,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Top 5 Import Commodities - Quarterly Trends',
+                        font: { size: 16, weight: 'bold' },
+                        padding: 15
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 12,
+                            padding: 10,
+                            font: { size: 10 }
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: (context) => {
+                                return `${context.dataset.label}: $${context.parsed.y.toFixed(2)}M`;
                             }
                         }
                     }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: (value) => `$${value}M`
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
                 }
-            });
-        }
+            }
+        });
     }
 
-    renderGrowthChart() {
-        const canvas = document.getElementById('growth-chart');
+    renderComparisonTrendChart() {
+        const canvas = document.getElementById('comparison-trends-chart');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        // Calculate quarterly totals for exports and imports
+        const exportTotals = this.quarters.map(quarter => {
+            return this.data.exports.reduce((sum, item) => sum + (parseFloat(item[quarter]) || 0), 0);
+        });
+
+        const importTotals = this.quarters.map(quarter => {
+            return this.data.imports.reduce((sum, item) => sum + (parseFloat(item[quarter]) || 0), 0);
+        });
+
+        this.charts.comparisonTrends = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: this.quarters,
+                datasets: [{
+                    label: 'Total Exports',
+                    data: exportTotals,
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }, {
+                    label: 'Total Imports',
+                    data: importTotals,
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Exports vs Imports - Overall Trends',
+                        font: { size: 16, weight: 'bold' },
+                        padding: 15
+                    },
+                    legend: {
+                        position: 'top'
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: (context) => {
+                                return `${context.dataset.label}: $${context.parsed.y.toFixed(2)}M`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: (value) => `$${value}M`
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                }
+            }
+        });
+    }
+
+    renderExportsDistributionChart() {
+        const canvas = document.getElementById('exports-distribution-chart');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        this.charts.exportsDistribution = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: this.data.exports.map(item => `SITC ${item.sitc_section}: ${item.commodity_description.substring(0, 25)}`),
+                datasets: [{
+                    data: this.data.exports.map(item => this.getLatestValue(item)),
+                    backgroundColor: this.data.exports.map((_, i) => this.getChartColor(i)),
+                    borderWidth: 3,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Export Commodities Distribution (2025Q1)',
+                        font: { size: 14, weight: 'bold' },
+                        padding: 10
+                    },
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            boxWidth: 10,
+                            padding: 8,
+                            font: { size: 9 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                const value = context.parsed;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percent = ((value / total) * 100).toFixed(1);
+                                return `$${value.toFixed(2)}M (${percent}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    renderImportsDistributionChart() {
+        const canvas = document.getElementById('imports-distribution-chart');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        this.charts.importsDistribution = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: this.data.imports.map(item => `SITC ${item.sitc_section}: ${item.commodity_description.substring(0, 25)}`),
+                datasets: [{
+                    data: this.data.imports.map(item => this.getLatestValue(item)),
+                    backgroundColor: this.data.imports.map((_, i) => this.getChartColor(i + 5)),
+                    borderWidth: 3,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Import Commodities Distribution (2025Q1)',
+                        font: { size: 14, weight: 'bold' },
+                        padding: 10
+                    },
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            boxWidth: 10,
+                            padding: 8,
+                            font: { size: 9 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                const value = context.parsed;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percent = ((value / total) * 100).toFixed(1);
+                                return `$${value.toFixed(2)}M (${percent}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    renderExportsGrowthChart() {
+        const canvas = document.getElementById('exports-growth-chart');
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
@@ -515,23 +708,23 @@ class CommoditiesAnalyzer {
             sitc: item.sitc_section,
             name: item.commodity_description.substring(0, 20),
             growth: this.getGrowthRates(item).yoy
-        })).sort((a, b) => b.growth - a.growth);
+        })).sort((a, b) => b.growth - a.growth).slice(0, 8); // Top 8 for readability
 
-        this.charts.growth = new Chart(ctx, {
+        this.charts.exportsGrowth = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: exportGrowth.map(item => `SITC ${item.sitc}: ${item.name}`),
                 datasets: [{
                     label: 'Year-over-Year Growth Rate (%)',
                     data: exportGrowth.map(item => item.growth),
-                    backgroundColor: exportGrowth.map(item => 
+                    backgroundColor: exportGrowth.map(item =>
                         item.growth >= 0 ? 'rgba(40, 167, 69, 0.7)' : 'rgba(220, 53, 69, 0.7)'
                     ),
-                    borderColor: exportGrowth.map(item => 
+                    borderColor: exportGrowth.map(item =>
                         item.growth >= 0 ? 'rgba(40, 167, 69, 1)' : 'rgba(220, 53, 69, 1)'
                     ),
                     borderWidth: 2,
-                    borderRadius: 8
+                    borderRadius: 6
                 }]
             },
             options: {
@@ -541,9 +734,9 @@ class CommoditiesAnalyzer {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Export Commodities - Year-over-Year Growth Rates',
-                        font: { size: 16, weight: 'bold' },
-                        padding: 15
+                        text: 'Export Commodities - YoY Growth Rates',
+                        font: { size: 14, weight: 'bold' },
+                        padding: 10
                     },
                     legend: {
                         display: false
@@ -566,6 +759,154 @@ class CommoditiesAnalyzer {
                         }
                     },
                     y: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    renderImportsGrowthChart() {
+        const canvas = document.getElementById('imports-growth-chart');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        const importGrowth = this.data.imports.map(item => ({
+            sitc: item.sitc_section,
+            name: item.commodity_description.substring(0, 20),
+            growth: this.getGrowthRates(item).yoy
+        })).sort((a, b) => b.growth - a.growth).slice(0, 8); // Top 8 for readability
+
+        this.charts.importsGrowth = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: importGrowth.map(item => `SITC ${item.sitc}: ${item.name}`),
+                datasets: [{
+                    label: 'Year-over-Year Growth Rate (%)',
+                    data: importGrowth.map(item => item.growth),
+                    backgroundColor: importGrowth.map(item =>
+                        item.growth >= 0 ? 'rgba(0, 123, 255, 0.7)' : 'rgba(220, 53, 69, 0.7)'
+                    ),
+                    borderColor: importGrowth.map(item =>
+                        item.growth >= 0 ? 'rgba(0, 123, 255, 1)' : 'rgba(220, 53, 69, 1)'
+                    ),
+                    borderWidth: 2,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Import Commodities - YoY Growth Rates',
+                        font: { size: 14, weight: 'bold' },
+                        padding: 10
+                    },
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                return `Growth: ${context.parsed.x >= 0 ? '+' : ''}${context.parsed.x.toFixed(2)}%`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            callback: (value) => `${value}%`
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    renderBalanceChart() {
+        const canvas = document.getElementById('balance-chart');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        // Calculate trade balance by quarter
+        const balances = this.quarters.map(quarter => {
+            const exports = this.data.exports.reduce((sum, item) => sum + (parseFloat(item[quarter]) || 0), 0);
+            const imports = this.data.imports.reduce((sum, item) => sum + (parseFloat(item[quarter]) || 0), 0);
+            return exports - imports;
+        });
+
+        this.charts.balance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: this.quarters,
+                datasets: [{
+                    label: 'Trade Balance',
+                    data: balances,
+                    borderColor: balances.map(balance =>
+                        balance >= 0 ? 'rgba(40, 167, 69, 1)' : 'rgba(220, 53, 69, 1)'
+                    ),
+                    backgroundColor: balances.map(balance =>
+                        balance >= 0 ? 'rgba(40, 167, 69, 0.1)' : 'rgba(220, 53, 69, 0.1)'
+                    ),
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    pointBackgroundColor: balances.map(balance =>
+                        balance >= 0 ? 'rgba(40, 167, 69, 1)' : 'rgba(220, 53, 69, 1)'
+                    )
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Quarterly Trade Balance',
+                        font: { size: 14, weight: 'bold' },
+                        padding: 10
+                    },
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                const value = context.parsed.y;
+                                return `Balance: ${value >= 0 ? '+' : ''}$${value.toFixed(2)}M`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: (value) => `$${value}M`
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
                         grid: {
                             display: false
                         }
@@ -600,7 +941,7 @@ class CommoditiesAnalyzer {
         const labels = allSections.map(section => {
             const item = this.data.exports.find(e => e.sitc_section === section) ||
                         this.data.imports.find(i => i.sitc_section === section);
-            return `SITC ${section}: ${item?.commodity_description.substring(0, 15) || 'Unknown'}`;
+            return `SITC ${section}`;
         });
 
         this.charts.radar = new Chart(ctx, {
@@ -635,9 +976,9 @@ class CommoditiesAnalyzer {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Exports vs Imports - SITC Comparison (2025Q1)',
-                        font: { size: 16, weight: 'bold' },
-                        padding: 15
+                        text: 'Exports vs Imports - SITC Comparison',
+                        font: { size: 14, weight: 'bold' },
+                        padding: 10
                     },
                     legend: {
                         position: 'top'
@@ -766,6 +1107,173 @@ class CommoditiesAnalyzer {
     updateElement(id, value) {
         const el = document.getElementById(id);
         if (el) el.textContent = value;
+    }
+
+    setupFilters() {
+        const applyBtn = document.getElementById('apply-filters');
+        const resetBtn = document.getElementById('reset-filters');
+
+        if (applyBtn) {
+            applyBtn.addEventListener('click', () => this.applyFilters());
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => this.resetFilters());
+        }
+    }
+
+    applyFilters() {
+        const tradeType = document.getElementById('trade-type-filter')?.value || 'all';
+        const sitcSection = document.getElementById('sitc-filter')?.value || 'all';
+        const valueRange = document.getElementById('value-range-filter')?.value || 'all';
+        const growthFilter = document.getElementById('growth-filter')?.value || 'all';
+
+        console.log('🔍 Applying filters:', { tradeType, sitcSection, valueRange, growthFilter });
+
+        // Filter data based on criteria
+        const filteredData = this.applyDataFilters(tradeType, sitcSection, valueRange, growthFilter);
+
+        // Update displays with filtered data
+        this.updateFilteredDisplays(filteredData);
+
+        // Show filter applied message
+        this.showFilterMessage('Filters applied successfully!');
+    }
+
+    resetFilters() {
+        // Reset all filter selects
+        const filters = ['trade-type-filter', 'sitc-filter', 'value-range-filter', 'growth-filter'];
+        filters.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.value = 'all';
+        });
+
+        // Re-render with full data
+        this.renderSummaryStats();
+        this.renderTopPerformers();
+        this.renderSITCComparison();
+        this.renderAllCharts();
+        this.renderDetailedBreakdown();
+
+        this.showFilterMessage('Filters reset!');
+    }
+
+    applyDataFilters(tradeType, sitcSection, valueRange, growthFilter) {
+        let filteredExports = [...this.data.exports];
+        let filteredImports = [...this.data.imports];
+        let filteredReexports = [...this.data.reexports];
+
+        // Apply trade type filter
+        if (tradeType !== 'all') {
+            if (tradeType === 'exports') {
+                filteredImports = [];
+                filteredReexports = [];
+            } else if (tradeType === 'imports') {
+                filteredExports = [];
+                filteredReexports = [];
+            } else if (tradeType === 'reexports') {
+                filteredExports = [];
+                filteredImports = [];
+            }
+        }
+
+        // Apply SITC section filter
+        if (sitcSection !== 'all') {
+            filteredExports = filteredExports.filter(item => item.sitc_section === sitcSection);
+            filteredImports = filteredImports.filter(item => item.sitc_section === sitcSection);
+            filteredReexports = filteredReexports.filter(item => item.sitc_section === sitcSection);
+        }
+
+        // Apply value range filter
+        if (valueRange !== 'all') {
+            const [min, max] = this.parseValueRange(valueRange);
+            filteredExports = filteredExports.filter(item => {
+                const value = this.getLatestValue(item);
+                return value >= min && (max === null || value <= max);
+            });
+            filteredImports = filteredImports.filter(item => {
+                const value = this.getLatestValue(item);
+                return value >= min && (max === null || value <= max);
+            });
+            filteredReexports = filteredReexports.filter(item => {
+                const value = this.getLatestValue(item);
+                return value >= min && (max === null || value <= max);
+            });
+        }
+
+        // Apply growth filter
+        if (growthFilter !== 'all') {
+            const growthFilterFn = this.getGrowthFilterFunction(growthFilter);
+            filteredExports = filteredExports.filter(growthFilterFn);
+            filteredImports = filteredImports.filter(growthFilterFn);
+            filteredReexports = filteredReexports.filter(growthFilterFn);
+        }
+
+        return {
+            exports: filteredExports,
+            imports: filteredImports,
+            reexports: filteredReexports
+        };
+    }
+
+    parseValueRange(range) {
+        const ranges = {
+            '0-1': [0, 1],
+            '1-10': [1, 10],
+            '10-50': [10, 50],
+            '50-100': [50, 100],
+            '100+': [100, null]
+        };
+        return ranges[range] || [0, null];
+    }
+
+    getGrowthFilterFunction(growthFilter) {
+        return (item) => {
+            const growth = this.getGrowthRates(item).yoy;
+            switch (growthFilter) {
+                case 'positive': return growth >= 0;
+                case 'negative': return growth < 0;
+                case 'high-growth': return growth > 10;
+                case 'declining': return growth < -5;
+                default: return true;
+            }
+        };
+    }
+
+    updateFilteredDisplays(filteredData) {
+        // Temporarily replace data for rendering
+        const originalData = { ...this.data };
+        this.data = filteredData;
+
+        // Re-render components with filtered data
+        this.renderSummaryStats();
+        this.renderTopPerformers();
+        this.renderSITCComparison();
+        this.renderAllCharts();
+        this.renderDetailedBreakdown();
+
+        // Restore original data
+        this.data = originalData;
+    }
+
+    showFilterMessage(message) {
+        // Create a temporary notification
+        const notification = document.createElement('div');
+        notification.className = 'alert alert-success alert-dismissible fade show position-fixed';
+        notification.style.cssText = 'top: 20px; right: 20px; z-index: 10000; min-width: 300px;';
+        notification.innerHTML = `
+            <i class="fas fa-check-circle me-2"></i>${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        document.body.appendChild(notification);
+
+        // Auto-remove after 3 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 3000);
     }
 
     showError(message) {

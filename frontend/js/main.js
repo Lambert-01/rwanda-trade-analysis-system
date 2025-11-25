@@ -1,8 +1,91 @@
-ewar/* =====================================================================
-   Rwanda trade analysis system - MAIN.JS (HACKATHON ENHANCED)
-    NISR Hackathon 2025 - Track 5: Mobile/Web Data Solutions
-    Enhanced with modern features, PWA capabilities, and mobile optimization
-    ===================================================================== */
+/* =====================================================================
+    Rwanda trade analysis system - MAIN.JS (HACKATHON ENHANCED)
+     NISR Hackathon 2025 - Track 5: Mobile/Web Data Solutions
+     Enhanced with modern features, PWA capabilities, and mobile optimization
+     ===================================================================== */
+
+/************************************
+ * 0. DARK MODE TOGGLE             *
+ ************************************/
+function toggleTheme() {
+    const body = document.body;
+    const themeToggle = document.getElementById('theme-toggle');
+    const sunIcon = themeToggle ? themeToggle.querySelector('.sun-icon') : null;
+    const moonIcon = themeToggle ? themeToggle.querySelector('.moon-icon') : null;
+
+    // Toggle dark mode class
+    body.classList.toggle('dark-mode');
+
+    // Update toggle button appearance
+    if (body.classList.contains('dark-mode')) {
+        if (sunIcon) sunIcon.style.display = 'none';
+        if (moonIcon) moonIcon.style.display = 'inline-block';
+        localStorage.setItem('theme', 'dark');
+        showToast('Dark mode enabled', 'info', 1500);
+    } else {
+        if (sunIcon) sunIcon.style.display = 'inline-block';
+        if (moonIcon) moonIcon.style.display = 'none';
+        localStorage.setItem('theme', 'light');
+        showToast('Light mode enabled', 'info', 1500);
+    }
+
+    // Update Chart.js theme if charts exist
+    updateChartTheme();
+}
+
+// Load saved theme preference
+function loadSavedTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const themeToggle = document.getElementById('theme-toggle');
+
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (themeToggle) {
+            const sunIcon = themeToggle.querySelector('.sun-icon');
+            const moonIcon = themeToggle.querySelector('.moon-icon');
+            if (sunIcon) sunIcon.style.display = 'none';
+            if (moonIcon) moonIcon.style.display = 'inline-block';
+        }
+    } else {
+        if (themeToggle) {
+            const sunIcon = themeToggle.querySelector('.sun-icon');
+            const moonIcon = themeToggle.querySelector('.moon-icon');
+            if (sunIcon) sunIcon.style.display = 'inline-block';
+            if (moonIcon) moonIcon.style.display = 'none';
+        }
+    }
+}
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadSavedTheme();
+});
+
+// Update Chart.js theme for dark mode
+function updateChartTheme() {
+    const isDark = document.body.classList.contains('dark-mode');
+
+    // Update existing charts
+    Object.values(globalChartRegistry).forEach(chart => {
+        if (chart && chart.options) {
+            // Update chart colors for dark mode
+            if (isDark) {
+                chart.options.plugins.legend.labels.color = '#e0e0e0';
+                chart.options.scales.x.ticks.color = '#e0e0e0';
+                chart.options.scales.y.ticks.color = '#e0e0e0';
+                chart.options.scales.x.grid.color = 'rgba(255, 255, 255, 0.1)';
+                chart.options.scales.y.grid.color = 'rgba(255, 255, 255, 0.1)';
+            } else {
+                chart.options.plugins.legend.labels.color = '#666';
+                chart.options.scales.x.ticks.color = '#666';
+                chart.options.scales.y.ticks.color = '#666';
+                chart.options.scales.x.grid.color = 'rgba(0, 0, 0, 0.1)';
+                chart.options.scales.y.grid.color = 'rgba(0, 0, 0, 0.1)';
+            }
+            chart.update();
+        }
+    });
+}
 
 /************************************
  * 1. NAVIGATION & SECTION CONTROL  *
@@ -81,6 +164,8 @@ if (window.location.hash) {
         defaultSection = 'commodities';
     } else if (pathName.includes('regional.html') || pathName.endsWith('regional/')) {
         defaultSection = 'regional';
+    } else if (pathName.includes('excel-viewer.html') || pathName.endsWith('excel-viewer/')) {
+        defaultSection = 'excel-viewer';
     }
 
     console.log(`📍 Detected page: ${pathName}, showing section: ${defaultSection}`);

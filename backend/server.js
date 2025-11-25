@@ -3,10 +3,10 @@
  * Express.js server to serve trade data API endpoints
  */
 
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 const express = require('express');
 const morgan = require('morgan');
-const path = require('path');  
 const corsMiddleware = require('./middleware/cors');
 
 // Import database connection
@@ -44,10 +44,10 @@ async function initializeApp() {
         app.use(express.json()); // Parse JSON request bodies
         app.use(corsMiddleware); // Apply CORS middleware
 
-        // Additional CORS for direct frontend access
+        // Additional CORS for network access
         const cors = require('cors');
         app.use(cors({
-            origin: ['http://localhost:3001', 'http://localhost:3000', 'http://127.0.0.1:3001', 'http://127.0.0.1:3000'],
+            origin: '*', // Allow all origins for network access
             credentials: true,
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization']
@@ -197,12 +197,20 @@ async function initializeApp() {
           });
         });
 
-        // Start server
-        app.listen(PORT, () => {
-          console.log(`🚀 Rwanda trade analysis systemAPI running on port ${PORT}`);
+        // Start server on all interfaces for network access
+        app.listen(PORT, '0.0.0.0', () => {
+          console.log(`🚀 Rwanda trade analysis systemAPI running on ALL INTERFACES (0.0.0.0) port ${PORT}`);
+          console.log(`🌐 Network accessible at: http://YOUR_IP_ADDRESS:${PORT}`);
           console.log(`📊 MongoDB connected: ✅`);
-          console.log(`📚 API documentation available at http://localhost:${PORT}/api`);
-          console.log(`🔍 Health check available at http://localhost:${PORT}/api/health`);
+          console.log(`📚 API documentation available at http://YOUR_IP_ADDRESS:${PORT}/api`);
+          console.log(`🔍 Health check available at http://YOUR_IP_ADDRESS:${PORT}/api/health`);
+          console.log('='.repeat(60));
+          console.log('🔑 NETWORK ACCESS INSTRUCTIONS:');
+          console.log('1. Find your IP address using: ipconfig (Windows) or ifconfig/ip addr (Linux/Mac)');
+          console.log('2. Share this URL with your friend: http://YOUR_IP_ADDRESS:' + PORT);
+          console.log('3. Make sure both machines are on the same network');
+          console.log('4. Backend API will be accessible at: http://YOUR_IP_ADDRESS:' + PORT + '/api/*');
+          console.log('='.repeat(60));
         });
 
         return app;

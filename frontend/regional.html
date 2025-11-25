@@ -154,48 +154,142 @@
         <!-- Regional Analysis Section -->
         <section id="regional" class="section active">
             <div class="container-fluid">
-                <div class="section-header">
-                    <h2 class="section-title">Regional & Continental Analysis</h2>
-                    <p class="section-subtitle">Explore Rwanda's trade performance across different regions and continents</p>
-                    <div class="section-actions">
-                        <button class="btn btn-primary" onclick="loadRegionalAnalysis()">
-                            <i class="fas fa-sync-alt me-1"></i>Refresh Analysis
-                        </button>
-                        <button class="btn btn-outline-primary" onclick="exportRegionalData()">
-                            <i class="fas fa-download me-1"></i>Export Data
-                        </button>
+                <!-- Page Header -->
+                <div class="section-header mb-5">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <h2 class="section-title">Regional & Continental Analysis</h2>
+                            <p class="section-subtitle">Comprehensive analysis of Rwanda's trade patterns across regional blocks and continents</p>
+                            <div class="data-meta mt-3">
+                                <span class="badge bg-primary me-2">
+                                    <i class="fas fa-database me-1"></i>Data: 2022-2025
+                                </span>
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check-circle me-1"></i>Real-time Analysis
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 text-end">
+                            <div class="section-actions">
+                                <button class="btn btn-primary me-2" onclick="loadRegionalAnalysis()">
+                                    <i class="fas fa-sync-alt me-1"></i>Refresh Data
+                                </button>
+                                <button class="btn btn-outline-primary" onclick="exportRegionalData()">
+                                    <i class="fas fa-download me-1"></i>Export Report
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- EAC Analysis -->
+                <!-- Key Metrics Dashboard -->
+                <div class="row g-4 mb-5">
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="metric-card primary">
+                            <div class="metric-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3 id="total-trade-value">$255.6M</h3>
+                                <p class="metric-label">Total Trade Value</p>
+                                <span class="metric-change positive">
+                                    <i class="fas fa-arrow-up"></i>+12.3%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="metric-card success">
+                            <div class="metric-icon">
+                                <i class="fas fa-globe-africa"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3 id="regional-blocks-count">6</h3>
+                                <p class="metric-label">Regional Blocks</p>
+                                <span class="metric-change neutral">
+                                    <i class="fas fa-minus"></i>Stable
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="metric-card info">
+                            <div class="metric-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3 id="top-continent-share">75.5%</h3>
+                                <p class="metric-label">Africa Share</p>
+                                <span class="metric-change positive">
+                                    <i class="fas fa-arrow-up"></i>+8.2%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="metric-card warning">
+                            <div class="metric-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3 id="concentration-risk">High</h3>
+                                <p class="metric-label">Concentration Risk</p>
+                                <span class="metric-change negative">
+                                    <i class="fas fa-arrow-down"></i>Needs Attention
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regional Blocks Analysis -->
                 <div class="row g-4 mb-5">
                     <div class="col-lg-12">
                         <div class="chart-card">
                             <div class="chart-header">
-                                <h3 class="chart-title">East African Community (EAC) Trade</h3>
-                                <div class="badge bg-info">
-                                    <i class="fas fa-globe-africa me-1"></i>Regional Focus
+                                <h3 class="chart-title">
+                                    <i class="fas fa-handshake me-2"></i>Regional Trade Blocks Performance
+                                </h3>
+                                <div class="chart-badges">
+                                    <span class="badge bg-primary">
+                                        <i class="fas fa-chart-line me-1"></i>Time Series Analysis
+                                    </span>
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-robot me-1"></i>AI Insights
+                                    </span>
                                 </div>
                             </div>
-                            <div class="row g-4">
-                                <div class="col-lg-8">
-                                    <div class="chart-container">
-                                        <canvas id="eac-trade-chart" height="300"></canvas>
+                            <div class="chart-container">
+                                <canvas id="regional-blocks-chart" height="400"></canvas>
+                            </div>
+                            <div class="chart-footer mt-3">
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <div class="block-stat">
+                                            <span class="block-name">COMESA</span>
+                                            <span class="block-value" id="comesa-value">$76.5M</span>
+                                            <span class="block-change positive">+15.2%</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="regional-stats">
-                                        <div class="stat-item">
-                                            <span class="stat-label">EAC Export Share</span>
-                                            <span class="stat-value" id="eac-export-share">15.2%</span>
+                                    <div class="col-md-3">
+                                        <div class="block-stat">
+                                            <span class="block-name">EAC</span>
+                                            <span class="block-value" id="eac-value">$135.2M</span>
+                                            <span class="block-change positive">+8.7%</span>
                                         </div>
-                                        <div class="stat-item">
-                                            <span class="stat-label">Top EAC Partner</span>
-                                            <span class="stat-value" id="top-eac-partner">DRC</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="block-stat">
+                                            <span class="block-name">SADC</span>
+                                            <span class="block-value" id="sadc-value">$57.6M</span>
+                                            <span class="block-change positive">+12.1%</span>
                                         </div>
-                                        <div class="stat-item">
-                                            <span class="stat-label">EAC Growth Rate</span>
-                                            <span class="stat-value" id="eac-growth-rate">+23.4%</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="block-stat">
+                                            <span class="block-name">EU</span>
+                                            <span class="block-value" id="eu-value">$28.5M</span>
+                                            <span class="block-change neutral">+2.3%</span>
                                         </div>
                                     </div>
                                 </div>
@@ -204,18 +298,30 @@
                     </div>
                 </div>
 
-                <!-- Continental Analysis -->
+                <!-- Continental Distribution & Trends -->
                 <div class="row g-4 mb-5">
                     <div class="col-lg-6">
                         <div class="chart-card">
                             <div class="chart-header">
-                                <h3 class="chart-title">Export Performance by Continent</h3>
+                                <h3 class="chart-title">
+                                    <i class="fas fa-globe me-2"></i>Continental Distribution
+                                </h3>
                                 <div class="chart-controls">
-                                    <span class="text-muted">2022-2025 Distribution</span>
+                                    <select class="form-select form-select-sm" id="continent-year-select">
+                                        <option value="2025Q1">2025 Q1</option>
+                                        <option value="2024Q4">2024 Q4</option>
+                                        <option value="2024Q3">2024 Q3</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="chart-container">
-                                <canvas id="continental-chart" height="300"></canvas>
+                                <canvas id="continental-distribution-chart" height="350"></canvas>
+                            </div>
+                            <div class="chart-insight mt-3">
+                                <div class="insight-badge">
+                                    <i class="fas fa-lightbulb text-warning"></i>
+                                    <span>Africa dominates with 75.5% market share, followed by Other regions (13.4%)</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -223,109 +329,156 @@
                     <div class="col-lg-6">
                         <div class="chart-card">
                             <div class="chart-header">
-                                <h3 class="chart-title">Regional Comparison</h3>
-                                <div class="badge bg-success">
-                                    <i class="fas fa-chart-radar me-1"></i>Multi-dimensional
+                                <h3 class="chart-title">
+                                    <i class="fas fa-chart-area me-2"></i>Regional Trends Over Time
+                                </h3>
+                                <div class="badge bg-info">
+                                    <i class="fas fa-calendar-alt me-1"></i>2023-2025
                                 </div>
                             </div>
                             <div class="chart-container">
-                                <canvas id="regional-comparison-chart" height="300"></canvas>
+                                <canvas id="regional-trends-chart" height="350"></canvas>
+                            </div>
+                            <div class="chart-insight mt-3">
+                                <div class="insight-badge">
+                                    <i class="fas fa-chart-line text-success"></i>
+                                    <span>COMESA shows strongest growth trajectory among regional blocks</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Regional Breakdown -->
+                <!-- Regional Performance Comparison -->
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-8">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-balance-scale me-2"></i>Regional Performance Comparison
+                                </h3>
+                                <div class="chart-badges">
+                                    <span class="badge bg-warning">
+                                        <i class="fas fa-trophy me-1"></i>Performance Metrics
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="regional-performance-chart" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="chart-card h-100">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-star me-2"></i>Top Performers
+                                </h3>
+                            </div>
+                            <div class="performance-ranking">
+                                <div class="ranking-item top-performer">
+                                    <div class="rank-badge">1</div>
+                                    <div class="rank-content">
+                                        <h6>COMESA</h6>
+                                        <p>$76.5M | +15.2% growth</p>
+                                    </div>
+                                    <i class="fas fa-crown text-warning"></i>
+                                </div>
+                                <div class="ranking-item">
+                                    <div class="rank-badge">2</div>
+                                    <div class="rank-content">
+                                        <h6>EAC</h6>
+                                        <p>$135.2M | +8.7% growth</p>
+                                    </div>
+                                </div>
+                                <div class="ranking-item">
+                                    <div class="rank-badge">3</div>
+                                    <div class="rank-content">
+                                        <h6>SADC</h6>
+                                        <p>$57.6M | +12.1% growth</p>
+                                    </div>
+                                </div>
+                                <div class="ranking-item">
+                                    <div class="rank-badge">4</div>
+                                    <div class="rank-content">
+                                        <h6>EU</h6>
+                                        <p>$28.5M | +2.3% growth</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategic Insights & Recommendations -->
                 <div class="row g-4 mb-5">
                     <div class="col-lg-12">
                         <div class="chart-card">
                             <div class="chart-header">
-                                <h3 class="chart-title">Regional Export Distribution</h3>
-                                <div class="ai-badge">
-                                    <i class="fas fa-robot me-1"></i>AI Analysis
+                                <h3 class="chart-title">
+                                    <i class="fas fa-brain me-2"></i>Strategic Insights & Recommendations
+                                </h3>
+                                <div class="badge bg-primary">
+                                    <i class="fas fa-robot me-1"></i>AI-Powered Analysis
                                 </div>
                             </div>
-                            <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="regional-breakdown">
-                                        <h5>Export by Region (2022-2025)</h5>
-                                        <div class="region-item">
-                                            <div class="region-name">Asia</div>
-                                            <div class="region-bar">
-                                                <div class="region-fill asia" style="width: 76%"></div>
-                                            </div>
-                                            <div class="region-value">$6.82B (76%)</div>
-                                        </div>
-                                        <div class="region-item">
-                                            <div class="region-name">Africa</div>
-                                            <div class="region-bar">
-                                                <div class="region-fill africa" style="width: 15%"></div>
-                                            </div>
-                                            <div class="region-value">$1.37B (15%)</div>
-                                        </div>
-                                        <div class="region-item">
-                                            <div class="region-name">Europe</div>
-                                            <div class="region-bar">
-                                                <div class="region-fill europe" style="width: 6%"></div>
-                                            </div>
-                                            <div class="region-value">$0.57B (6%)</div>
-                                        </div>
-                                        <div class="region-item">
-                                            <div class="region-name">Americas</div>
-                                            <div class="region-bar">
-                                                <div class="region-fill americas" style="width: 1%"></div>
-                                            </div>
-                                            <div class="region-value">$0.12B (1%)</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="chart-container">
-                                        <canvas id="regional-export-chart" height="300"></canvas>
-                                    </div>
-                                </div>
+                            <div class="insights-grid" id="regional-insights">
+                                <!-- Insights will be populated by JavaScript -->
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Regional Insights -->
+                <!-- Regional Risk Assessment -->
                 <div class="row g-4">
                     <div class="col-lg-12">
                         <div class="chart-card">
                             <div class="chart-header">
-                                <h3 class="chart-title">Regional Insights</h3>
-                                <div class="badge bg-info">
-                                    <i class="fas fa-robot me-1"></i>AI Generated
+                                <h3 class="chart-title">
+                                    <i class="fas fa-shield-alt me-2"></i>Regional Risk Assessment
+                                </h3>
+                                <div class="chart-badges">
+                                    <span class="badge bg-danger">
+                                        <i class="fas fa-exclamation-triangle me-1"></i>Risk Analysis
+                                    </span>
+                                    <span class="badge bg-info">
+                                        <i class="fas fa-chart-bar me-1"></i>Diversification Metrics
+                                    </span>
                                 </div>
                             </div>
-                            <div class="regional-insights" id="regional-insights">
-                                <div class="insight-item">
-                                    <i class="fas fa-info-circle text-info me-2"></i>
-                                    <div>
-                                        <h6>Asian Market Dominance</h6>
-                                        <p>Asian markets represent 76% of Rwanda's export value, indicating over-reliance on this region.</p>
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="risk-metrics">
+                                        <div class="risk-item">
+                                            <div class="risk-indicator high-risk"></div>
+                                            <div class="risk-content">
+                                                <h6>Geographic Concentration</h6>
+                                                <p>75.5% of trade concentrated in African markets</p>
+                                                <span class="risk-level">High Risk</span>
+                                            </div>
+                                        </div>
+                                        <div class="risk-item">
+                                            <div class="risk-indicator medium-risk"></div>
+                                            <div class="risk-content">
+                                                <h6>Regional Block Dependency</h6>
+                                                <p>EAC accounts for 52.9% of total regional trade</p>
+                                                <span class="risk-level">Medium Risk</span>
+                                            </div>
+                                        </div>
+                                        <div class="risk-item">
+                                            <div class="risk-indicator low-risk"></div>
+                                            <div class="risk-content">
+                                                <h6>Market Diversification</h6>
+                                                <p>6 active regional blocks provide good diversification</p>
+                                                <span class="risk-level">Low Risk</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="insight-item">
-                                    <i class="fas fa-chart-bar text-success me-2"></i>
-                                    <div>
-                                        <h6>African Growth Potential</h6>
-                                        <p>African markets show significant growth potential with only 15% current share but high regional demand.</p>
-                                    </div>
-                                </div>
-                                <div class="insight-item">
-                                    <i class="fas fa-exclamation-triangle text-warning me-2"></i>
-                                    <div>
-                                        <h6>Geographic Concentration Risk</h6>
-                                        <p>Heavy concentration in Asian markets increases vulnerability to regional disruptions.</p>
-                                    </div>
-                                </div>
-                                <div class="insight-item">
-                                    <i class="fas fa-lightbulb text-primary me-2"></i>
-                                    <div>
-                                        <h6>Diversification Opportunity</h6>
-                                        <p>European and American markets offer diversification potential with higher-value goods.</p>
+                                <div class="col-lg-6">
+                                    <div class="chart-container">
+                                        <canvas id="risk-distribution-chart" height="300"></canvas>
                                     </div>
                                 </div>
                             </div>

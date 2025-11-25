@@ -1,0 +1,29 @@
+{
+  "generated_at": "2025-11-23T23:11:56.416277",
+  "insights": [
+    {
+      "type": "info",
+      "icon": "fas fa-globe-africa",
+      "title": "Regional Trade Focus",
+      "message": "Rwanda's trade is concentrated in 6 regional blocks, with COMESA leading at $76.51M"
+    },
+    {
+      "type": "success",
+      "icon": "fas fa-chart-line",
+      "title": "Growth Opportunities",
+      "message": "Several regional blocks show strong trade potential. CEPGL and SADC represent key growth areas."
+    },
+    {
+      "type": "warning",
+      "icon": "fas fa-exclamation-triangle",
+      "title": "Diversification Needed",
+      "message": "Heavy concentration in specific regional blocks increases vulnerability to regional economic changes."
+    },
+    {
+      "type": "primary",
+      "icon": "fas fa-lightbulb",
+      "title": "Strategic Recommendations",
+      "message": "Consider strengthening trade relations with emerging regional blocks to diversify export markets and reduce dependency risks."
+    }
+  ]
+}

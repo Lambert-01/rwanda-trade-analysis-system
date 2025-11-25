@@ -1,0 +1,20 @@
+{
+  "generated_at": "2025-11-23T23:11:56.411949",
+  "eac_trade": [
+    {
+      "regional_block": "CEPGL",
+      "trade_volume": 58.69345257197721,
+      "period": "2025Q1"
+    },
+    {
+      "regional_block": "COMESA",
+      "trade_volume": 76.5101864731315,
+      "period": "2025Q1"
+    }
+  ],
+  "eac_stats": {
+    "total_eac_trade": 135.2036390451087,
+    "eac_blocks_count": 2,
+    "top_eac_partner": "COMESA"
+  }
+}

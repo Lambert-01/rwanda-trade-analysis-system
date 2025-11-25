@@ -1,0 +1,21 @@
+{
+  "generated_at": "2025-11-23T23:11:56.414177",
+  "continental_distribution": [
+    {
+      "continent": "Africa",
+      "value": 193.00330678098308,
+      "share": 75.5
+    },
+    {
+      "continent": "Other",
+      "value": 34.14059988166557,
+      "share": 13.35
+    },
+    {
+      "continent": "Europe",
+      "value": 28.503334086528017,
+      "share": 11.15
+    }
+  ],
+  "total_trade_value": 255.64724074917666
+}

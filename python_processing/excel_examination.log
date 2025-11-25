@@ -39,3 +39,19 @@
 2025-09-30 09:56:54,658 - INFO -   Examining sheet: ImportsCommodity
 2025-09-30 09:56:54,781 - INFO -   Examining sheet: ReexportsCommodity
 2025-09-30 09:56:54,874 - INFO - Examination results saved to data\processed\excel_examination_results.json
+2025-11-19 10:41:57,318 - INFO - Examining 2025Q1_Trade_report_annexTables.xlsx
+2025-11-19 10:41:57,319 - INFO - Examining Excel file: 2025Q1_Trade_report_annexTables.xlsx
+2025-11-19 10:41:58,398 - INFO -   Examining sheet: Graph Overall
+2025-11-19 10:41:58,544 - INFO -   Examining sheet: Graph EAC
+2025-11-19 10:41:58,634 - INFO -   Examining sheet: EAC
+2025-11-19 10:41:58,786 - INFO -   Examining sheet: Total trade with the World
+2025-11-19 10:41:58,896 - INFO -   Examining sheet: Regional blocks
+2025-11-19 10:41:59,029 - INFO -   Examining sheet: Trade by continents
+2025-11-19 10:41:59,210 - INFO -   Examining sheet: Sheet11
+2025-11-19 10:41:59,305 - INFO -   Examining sheet: ExportCountry
+2025-11-19 10:41:59,531 - INFO -   Examining sheet: ImportCountry
+2025-11-19 10:41:59,637 - INFO -   Examining sheet: ReexportsCountry
+2025-11-19 10:41:59,845 - INFO -   Examining sheet: ExportsCommodity
+2025-11-19 10:42:00,107 - INFO -   Examining sheet: ImportsCommodity
+2025-11-19 10:42:00,178 - INFO -   Examining sheet: ReexportsCommodity
+2025-11-19 10:42:00,311 - INFO - Examination results saved to data\processed\excel_examination_results.json

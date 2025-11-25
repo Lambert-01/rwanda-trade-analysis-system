@@ -1,0 +1,3194 @@
+{
+  "examination_date": "2025-11-19T10:41:57.318376",
+  "files_examined": [
+    "2025Q1_Trade_report_annexTables.xlsx"
+  ],
+  "summary": {
+    "total_files": 1,
+    "total_sheets": 13,
+    "common_sheets": [],
+    "unique_sheets": {
+      "2025q1_only": [
+        "ReexportsCountry",
+        "ExportCountry",
+        "ExportsCommodity",
+        "ImportsCommodity",
+        "Regional blocks",
+        "Sheet11",
+        "Total trade with the World",
+        "Graph Overall",
+        "Graph EAC",
+        "ReexportsCommodity",
+        "Trade by continents",
+        "ImportCountry",
+        "EAC"
+      ]
+    },
+    "file_sizes": {
+      "2025Q1_Trade_report_annexTables.xlsx": 110610
+    },
+    "data_characteristics": {}
+  },
+  "detailed_results": {
+    "2025Q1_Trade_report_annexTables.xlsx": {
+      "filename": "2025Q1_Trade_report_annexTables.xlsx",
+      "filepath": "..\\data\\raw\\2025Q1_Trade_report_annexTables.xlsx",
+      "file_size": 110610,
+      "total_sheets": 13,
+      "sheets": {
+        "Graph Overall": {
+          "sheet_name": "Graph Overall",
+          "shape": [
+            12,
+            11
+          ],
+          "columns": 11,
+          "rows": 12,
+          "memory_usage": "4634",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 1,
+            "empty_count": 1,
+            "mixed_count": 9
+          },
+          "sample_data": [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              "Rwanda's Formal External Trade in Goods (values in US$ million)",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              "Flow/Period",
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1"
+            ],
+            [
+              NaN,
+              "Exports",
+              402.14468784688006,
+              484.73934625285204,
+              388.1129711318348,
+              399.1084006995603,
+              431.6120219963785,
+              537.6377961348556,
+              667.0045749074241,
+              677.4462049907256,
+              480.8222662354178
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 1,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 3,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 9,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 11,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "Rwanda's Formal External Trade in Goods (values in US$ million)",
+              "Flow/Period",
+              "Exports",
+              "2023Q1",
+              "402.14468784688006",
+              "1476.5099483773447",
+              "2023Q2",
+              "484.73934625285204",
+              "1571.0946258966371",
+              "2023Q3",
+              "388.1129711318348",
+              "1581.8144762227898",
+              "2023Q4",
+              "399.1084006995603",
+              "1486.9343027633097",
+              "2024Q1",
+              "431.6120219963785",
+              "1410.520446799369",
+              "2024Q2",
+              "537.6377961348556",
+              "1568.9725638823377",
+              "2024Q3",
+              "667.0045749074241",
+              "1751.5689343393103",
+              "2024Q4",
+              "677.4462049907256",
+              "1629.3897840889606",
+              "2025Q1",
+              "480.8222662354178",
+              "1379.0488043778544"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 0,
+              "col_1": 9,
+              "col_2": 6,
+              "col_3": 6,
+              "col_4": 6,
+              "col_5": 6,
+              "col_6": 6,
+              "col_7": 6,
+              "col_8": 6,
+              "col_9": 6,
+              "col_10": 6
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 3,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 4,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 6,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 10
+              }
+            ]
+          }
+        },
+        "Graph EAC": {
+          "sheet_name": "Graph EAC",
+          "shape": [
+            13,
+            11
+          ],
+          "columns": 11,
+          "rows": 13,
+          "memory_usage": "4976",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 1,
+            "empty_count": 1,
+            "mixed_count": 9
+          },
+          "sample_data": [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              "Rwanda's External Trade  with EAC (values in US$ million)",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1"
+            ],
+            [
+              NaN,
+              "Exports",
+              74.18325781327185,
+              57.14705661771808,
+              70.97113499430529,
+              59.824330246599274,
+              56.242685603787145,
+              55.92002454194189,
+              72.61101916090975,
+              86.14993925597129,
+              69.32185735418759
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 1,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 3,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 9,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 11,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 12,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "Rwanda's External Trade  with EAC (values in US$ million)",
+              "Exports",
+              "Imports",
+              "2023Q1",
+              "74.18325781327185",
+              "387.64509357129117",
+              "2023Q2",
+              "57.14705661771808",
+              "350.9878461259191",
+              "2023Q3",
+              "70.97113499430529",
+              "414.98734003888177",
+              "2023Q4",
+              "59.824330246599274",
+              "381.3578767163398",
+              "2024Q1",
+              "56.242685603787145",
+              "344.87195064579873",
+              "2024Q2",
+              "55.92002454194189",
+              "471.61871581087854",
+              "2024Q3",
+              "72.61101916090975",
+              "567.0911547635528",
+              "2024Q4",
+              "86.14993925597129",
+              "612.4593387680063",
+              "2025Q1",
+              "69.32185735418759",
+              "358.2783064271449"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 0,
+              "col_1": 9,
+              "col_2": 6,
+              "col_3": 6,
+              "col_4": 6,
+              "col_5": 6,
+              "col_6": 6,
+              "col_7": 6,
+              "col_8": 6,
+              "col_9": 6,
+              "col_10": 6
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 3,
+                "filled_cells": 9
+              },
+              {
+                "row_index": 4,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 6,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 10
+              }
+            ]
+          }
+        },
+        "EAC": {
+          "sheet_name": "EAC",
+          "shape": [
+            31,
+            21
+          ],
+          "columns": 21,
+          "rows": 31,
+          "memory_usage": "21775",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 2,
+            "empty_count": 1,
+            "mixed_count": 18
+          },
+          "sample_data": [
+            [
+              NaN,
+              "Trade in Goods of Rwanda with  EAC",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              "VALUES IN US$ Million",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              "SHARE IN %",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              "Flow",
+              "Partner \\ Period",
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1",
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1"
+            ],
+            [
+              NaN,
+              "Exports",
+              "Burundi",
+              2.26512401606302,
+              3.7218201869390044,
+              5.182146963239396,
+              5.466726496166151,
+              1.164976327645988,
+              2.1842576986824813,
+              3.0258459706316754,
+              2.442237559597421,
+              3.737660689230249,
+              3.053416745008164,
+              6.512706703051925,
+              7.301767068619109,
+              9.137965228581741,
+              2.0713383707401474,
+              3.9060385194291447,
+              4.167199421793331,
+              2.8348685799312885,
+              5.391749199871178
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 0,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 2,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 3,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 28,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 30,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "Trade in Goods of Rwanda with  EAC",
+              "Flow",
+              "Exports",
+              "Partner \\ Period",
+              "Burundi",
+              "DRC",
+              "2023Q1",
+              "2.26512401606302",
+              "44.31962833433481",
+              "VALUES IN US$ Million",
+              "2023Q2",
+              "3.7218201869390044",
+              "2023Q3",
+              "5.182146963239396",
+              "51.12107401344382",
+              "2023Q4",
+              "5.466726496166151",
+              "47.007099306209",
+              "2024Q1",
+              "1.164976327645988",
+              "51.02525700576274",
+              "2024Q2",
+              "2.1842576986824813",
+              "47.52663133276006",
+              "2024Q3",
+              "3.0258459706316754",
+              "62.168168319276454",
+              "2024Q4",
+              "2.442237559597421",
+              "72.14630396888096",
+              "2025Q1",
+              "3.737660689230249",
+              "54.95579188274689",
+              "2023Q1",
+              "3.053416745008164",
+              "59.74343759058496",
+              "2023Q2",
+              "6.512706703051925",
+              "66.80604843939986",
+              "2023Q3",
+              "7.301767068619109",
+              "72.0307967704698",
+              "SHARE IN %",
+              "2023Q4",
+              "9.137965228581741",
+              "2024Q1",
+              "2.0713383707401474",
+              "90.72336510603418",
+              "2024Q2",
+              "3.9060385194291447",
+              "84.99036207881757",
+              "2024Q3",
+              "4.167199421793331",
+              "85.61809080452183",
+              "2024Q4",
+              "2.8348685799312885",
+              "83.7450433418388",
+              "2025Q1",
+              "5.391749199871178",
+              "79.27628309489766"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 0,
+              "col_1": 7,
+              "col_2": 9,
+              "col_3": 25,
+              "col_4": 25,
+              "col_5": 24,
+              "col_6": 25,
+              "col_7": 24,
+              "col_8": 24,
+              "col_9": 25,
+              "col_10": 25,
+              "col_11": 24,
+              "col_12": 23,
+              "col_13": 22,
+              "col_14": 22,
+              "col_15": 24,
+              "col_16": 22,
+              "col_17": 22,
+              "col_18": 23,
+              "col_19": 23,
+              "col_20": 22
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 3,
+                "filled_cells": 20
+              },
+              {
+                "row_index": 4,
+                "filled_cells": 20
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 6,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 9,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 10,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 11,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 12,
+                "filled_cells": 20
+              },
+              {
+                "row_index": 13,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 14,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 15,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 16,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 17,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 18,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 19,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 20,
+                "filled_cells": 20
+              },
+              {
+                "row_index": 21,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 22,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 23,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 24,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 25,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 26,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 27,
+                "filled_cells": 19
+              }
+            ]
+          }
+        },
+        "Total trade with the World": {
+          "sheet_name": "Total trade with the World",
+          "shape": [
+            17,
+            12
+          ],
+          "columns": 12,
+          "rows": 17,
+          "memory_usage": "7009",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 2,
+            "empty_count": 1,
+            "mixed_count": 9
+          },
+          "sample_data": [
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              "Rwanda's External Trade  (values in US$ million)",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              "Partner",
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1"
+            ],
+            [
+              NaN,
+              "Exports",
+              "WORLD",
+              402.14468784688006,
+              484.73934625285204,
+              388.1129711318348,
+              399.1084006995603,
+              431.6120219963785,
+              537.6377961348556,
+              667.0045749074241,
+              677.4462049907256,
+              480.8222662354178
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 1,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 3,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 14,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 16,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "Rwanda's External Trade  (values in US$ million)",
+              "Exports",
+              "Imports",
+              "Partner",
+              "WORLD",
+              "EAC",
+              "2023Q1",
+              "402.14468784688006",
+              "74.18325781327185",
+              "2023Q2",
+              "484.73934625285204",
+              "57.14705661771808",
+              "2023Q3",
+              "388.1129711318348",
+              "70.97113499430529",
+              "2023Q4",
+              "399.1084006995603",
+              "59.824330246599274",
+              "2024Q1",
+              "431.6120219963785",
+              "56.242685603787145",
+              "2024Q2",
+              "537.6377961348556",
+              "55.92002454194189",
+              "2024Q3",
+              "667.0045749074241",
+              "72.61101916090975",
+              "2024Q4",
+              "677.4462049907256",
+              "86.14993925597129",
+              "2025Q1",
+              "480.8222662354178",
+              "69.32185735418759"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 0,
+              "col_1": 8,
+              "col_2": 3,
+              "col_3": 10,
+              "col_4": 10,
+              "col_5": 10,
+              "col_6": 10,
+              "col_7": 10,
+              "col_8": 10,
+              "col_9": 10,
+              "col_10": 10,
+              "col_11": 10
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 3,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 4,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 6,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 9,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 10,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 11,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 12,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 13,
+                "filled_cells": 10
+              }
+            ]
+          }
+        },
+        "Regional blocks": {
+          "sheet_name": "Regional blocks",
+          "shape": [
+            31,
+            11
+          ],
+          "columns": 11,
+          "rows": 31,
+          "memory_usage": "12292",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 2,
+            "empty_count": 0,
+            "mixed_count": 9
+          },
+          "sample_data": [
+            [
+              "w",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Trade in Goods of Rwanda with selected regional organizations (Value in US$ million)",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Partner",
+              "Flow \\ Period",
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1"
+            ],
+            [
+              "CEPGL",
+              "Export",
+              46.584752350397814,
+              41.899510512663014,
+              56.30322097668324,
+              52.473825802375124,
+              52.19023333340869,
+              49.71088903144255,
+              65.19401428990808,
+              74.58854152847844,
+              58.69345257197721
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 1,
+                "text_ratio": 1.0,
+                "sample_content": "Trade in Goods of Rwanda with selected regional or"
+              },
+              {
+                "row_index": 3,
+                "text_ratio": 1.0,
+                "sample_content": "Partner"
+              },
+              {
+                "row_index": 28,
+                "text_ratio": 1.0,
+                "sample_content": "Source: NISR"
+              },
+              {
+                "row_index": 30,
+                "text_ratio": 1.0,
+                "sample_content": "*Major revisions  include Domestic exports destina"
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "w",
+              "Trade in Goods of Rwanda with selected regional organizations (Value in US$ million)",
+              "Partner",
+              "Flow \\ Period",
+              "Export",
+              "Import",
+              "2023Q1",
+              "46.584752350397814",
+              "4.542269490398233",
+              "2023Q2",
+              "41.899510512663014",
+              "6.279899499732548",
+              "2023Q3",
+              "56.30322097668324",
+              "8.91525817268391",
+              "2023Q4",
+              "52.473825802375124",
+              "12.066122053382188",
+              "2024Q1",
+              "52.19023333340869",
+              "14.094919676514454",
+              "2024Q2",
+              "49.71088903144255",
+              "11.220648172096622",
+              "2024Q3",
+              "65.19401428990808",
+              "20.798656665419376",
+              "2024Q4",
+              "74.58854152847844",
+              "27.148591834759166",
+              "2025Q1",
+              "58.69345257197721",
+              "12.494808727209515"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 11,
+              "col_1": 5,
+              "col_2": 25,
+              "col_3": 25,
+              "col_4": 25,
+              "col_5": 25,
+              "col_6": 25,
+              "col_7": 25,
+              "col_8": 25,
+              "col_9": 25,
+              "col_10": 25
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 3,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 4,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 6,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 9,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 10,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 11,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 12,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 13,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 14,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 15,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 16,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 17,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 18,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 19,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 20,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 21,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 22,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 23,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 24,
+                "filled_cells": 11
+              },
+              {
+                "row_index": 25,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 26,
+                "filled_cells": 10
+              },
+              {
+                "row_index": 27,
+                "filled_cells": 10
+              }
+            ]
+          }
+        },
+        "Trade by continents": {
+          "sheet_name": "Trade by continents",
+          "shape": [
+            23,
+            20
+          ],
+          "columns": 20,
+          "rows": 23,
+          "memory_usage": "16135",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 2,
+            "empty_count": 0,
+            "mixed_count": 18
+          },
+          "sample_data": [
+            [
+              NaN,
+              NaN,
+              NaN,
+              "Trade in Goods of Rwanda by Continents",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              "VALUES IN US$",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              "SHARE IN %",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Flow",
+              "Partner \\ Period",
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1",
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1"
+            ],
+            [
+              "Exports",
+              "WORLD",
+              402.14468784688006,
+              484.73934625285204,
+              388.1129711318348,
+              399.1084006995603,
+              431.6120219963785,
+              537.6377961348556,
+              667.0045749074241,
+              677.4462049907256,
+              480.8222662354178,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 0,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 2,
+                "text_ratio": 1.0,
+                "sample_content": ""
+              },
+              {
+                "row_index": 3,
+                "text_ratio": 1.0,
+                "sample_content": "Flow"
+              },
+              {
+                "row_index": 22,
+                "text_ratio": 1.0,
+                "sample_content": "Source: NISR"
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "Flow",
+              "Exports",
+              "Imports",
+              "Partner \\ Period",
+              "WORLD",
+              "AFRICA",
+              "2023Q1",
+              "402.14468784688006",
+              "89.74986403453877",
+              "Trade in Goods of Rwanda by Continents",
+              "2023Q2",
+              "484.73934625285204",
+              "2023Q3",
+              "388.1129711318348",
+              "83.86110369060785",
+              "VALUES IN US$",
+              "2023Q4",
+              "399.1084006995603",
+              "2024Q1",
+              "431.6120219963785",
+              "70.2",
+              "2024Q2",
+              "537.6377961348556",
+              "69.15828356593329",
+              "2024Q3",
+              "667.0045749074241",
+              "85.63005780690959",
+              "2024Q4",
+              "677.4462049907256",
+              "99.01387379903561",
+              "2025Q1",
+              "480.8222662354178",
+              "83.41129154592208",
+              "2023Q1",
+              "100",
+              "22.31780420004249",
+              "2023Q2",
+              "100",
+              "14.917648442639567",
+              "2023Q3",
+              "100",
+              "21.60739525042099",
+              "SHARE IN %",
+              "2023Q4",
+              "100",
+              "2024Q1",
+              "100",
+              "16.26460719868202",
+              "2024Q2",
+              "100",
+              "12.863359693667503",
+              "2024Q3",
+              "100",
+              "12.838001571247768",
+              "2024Q4",
+              "100",
+              "14.615754442139227",
+              "2025Q1",
+              "100",
+              "17.34763495854467"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 5,
+              "col_1": 7,
+              "col_2": 19,
+              "col_3": 20,
+              "col_4": 19,
+              "col_5": 20,
+              "col_6": 18,
+              "col_7": 19,
+              "col_8": 19,
+              "col_9": 19,
+              "col_10": 19,
+              "col_11": 17,
+              "col_12": 17,
+              "col_13": 17,
+              "col_14": 18,
+              "col_15": 16,
+              "col_16": 17,
+              "col_17": 17,
+              "col_18": 17,
+              "col_19": 17
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 3,
+                "filled_cells": 20
+              },
+              {
+                "row_index": 4,
+                "filled_cells": 20
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 6,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 9,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 10,
+                "filled_cells": 20
+              },
+              {
+                "row_index": 11,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 12,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 13,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 14,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 15,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 16,
+                "filled_cells": 20
+              },
+              {
+                "row_index": 17,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 18,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 19,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 20,
+                "filled_cells": 19
+              },
+              {
+                "row_index": 21,
+                "filled_cells": 19
+              }
+            ]
+          }
+        },
+        "Sheet11": {
+          "sheet_name": "Sheet11",
+          "shape": [
+            8,
+            6
+          ],
+          "columns": 6,
+          "rows": 8,
+          "memory_usage": "2527",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 2,
+            "empty_count": 0,
+            "mixed_count": 4
+          },
+          "sample_data": [
+            [
+              "DESCRIPTION",
+              "QUANTITY",
+              "NUMBER OF DAYS",
+              "UNIT VALUE/day",
+              " TOTAL VALUE ",
+              "EXPLANATION"
+            ],
+            [
+              "Salaries for Regionals ",
+              5,
+              103,
+              27896,
+              NaN,
+              " 1 day August, 27 for September, 27 for October, 25 for November and 24 days for December 2015. "
+            ],
+            [
+              "Salaries for Team Leaders",
+              22,
+              103,
+              25284,
+              NaN,
+              " 1 day August, 27 for September, 27 for October, 25 for November and 24 days for December 2015."
+            ],
+            [
+              "Salaries for enumerators",
+              83,
+              103,
+              22672,
+              NaN,
+              "1 day August, 27 for September, 27 for October, 25 for November and 24 days for December 2015. "
+            ],
+            [
+              "Salaries of editors",
+              8,
+              103,
+              25284,
+              NaN,
+              "1 day August, 27 for September, 27 for October, 25 for November and 24 days for December 2015. "
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 0,
+                "text_ratio": 1.0,
+                "sample_content": "DESCRIPTION"
+              },
+              {
+                "row_index": 5,
+                "text_ratio": 1.0,
+                "sample_content": "TOTAL"
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "DESCRIPTION",
+              "Salaries for Regionals ",
+              "Salaries for Team Leaders",
+              "QUANTITY",
+              "5",
+              "22",
+              "NUMBER OF DAYS",
+              "103",
+              "103",
+              "UNIT VALUE/day",
+              "27896",
+              "25284",
+              " TOTAL VALUE ",
+              "286316928",
+              "411841840",
+              "EXPLANATION",
+              " 1 day August, 27 for September, 27 for October, 25 for November and 24 days for December 2015. ",
+              " 1 day August, 27 for September, 27 for October, 25 for November and 24 days for December 2015."
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 6,
+              "col_1": 5,
+              "col_2": 2,
+              "col_3": 4,
+              "col_4": 3,
+              "col_5": 4
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 0,
+                "filled_cells": 6
+              },
+              {
+                "row_index": 1,
+                "filled_cells": 5
+              },
+              {
+                "row_index": 2,
+                "filled_cells": 5
+              },
+              {
+                "row_index": 3,
+                "filled_cells": 5
+              },
+              {
+                "row_index": 4,
+                "filled_cells": 5
+              }
+            ]
+          }
+        },
+        "ExportCountry": {
+          "sheet_name": "ExportCountry",
+          "shape": [
+            31,
+            13
+          ],
+          "columns": 13,
+          "rows": 31,
+          "memory_usage": "14206",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 1,
+            "empty_count": 0,
+            "mixed_count": 12
+          },
+          "sample_data": [
+            [
+              "PARTNER COUNTRY ANALYSIS",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Top 20 destinations of exports of Rwanda in  2025, Quarter 1 (Values in US$ million)",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Year and Period",
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1",
+              "Shares in % Q1",
+              "% change Q1/Q4",
+              "% change Q1/Q1"
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 0,
+                "text_ratio": 1.0,
+                "sample_content": "PARTNER COUNTRY ANALYSIS"
+              },
+              {
+                "row_index": 2,
+                "text_ratio": 1.0,
+                "sample_content": "Top 20 destinations of exports of Rwanda in  2025,"
+              },
+              {
+                "row_index": 4,
+                "text_ratio": 1.0,
+                "sample_content": "Year and Period"
+              },
+              {
+                "row_index": 28,
+                "text_ratio": 1.0,
+                "sample_content": "Source: NISR"
+              },
+              {
+                "row_index": 30,
+                "text_ratio": 1.0,
+                "sample_content": "*Major revisions  include Domestic exports destina"
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "PARTNER COUNTRY ANALYSIS",
+              "Top 20 destinations of exports of Rwanda in  2025, Quarter 1 (Values in US$ million)",
+              "Year and Period",
+              "2023Q1",
+              "402.14468784688006",
+              "211.59547680912516",
+              "2023Q2",
+              "484.73934625285204",
+              "321.5667351898509",
+              "2023Q3",
+              "388.1129711318348",
+              "203.48599686973355",
+              "2023Q4",
+              "399.1084006995603",
+              "215.06638888780282",
+              "2024Q1",
+              "431.6120219963785",
+              "268.67271469094396",
+              "2024Q2",
+              "537.6377961348556",
+              "360.6197369274398",
+              "2024Q3",
+              "667.0045749074241",
+              "447.01299991649586",
+              "2024Q4",
+              "677.4462049907256",
+              "442.54866971286356",
+              "2025Q1",
+              "480.8222662354178",
+              "288.74992491014586",
+              "Shares in % Q1",
+              "100",
+              "60.05335966882398",
+              "% change Q1/Q4",
+              "-0.29024288173257917",
+              "-0.3475295607656127",
+              "% change Q1/Q1",
+              "0.11401499895999723",
+              "0.07472738808738666"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 26,
+              "col_1": 22,
+              "col_2": 22,
+              "col_3": 22,
+              "col_4": 22,
+              "col_5": 22,
+              "col_6": 22,
+              "col_7": 22,
+              "col_8": 22,
+              "col_9": 22,
+              "col_10": 22,
+              "col_11": 22,
+              "col_12": 22
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 4,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 9,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 10,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 11,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 12,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 13,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 14,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 15,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 16,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 17,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 18,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 19,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 20,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 21,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 22,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 23,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 24,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 25,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 26,
+                "filled_cells": 13
+              }
+            ]
+          }
+        },
+        "ImportCountry": {
+          "sheet_name": "ImportCountry",
+          "shape": [
+            27,
+            13
+          ],
+          "columns": 13,
+          "rows": 27,
+          "memory_usage": "12454",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 1,
+            "empty_count": 0,
+            "mixed_count": 12
+          },
+          "sample_data": [
+            [
+              "PARTNER COUNTRY ANALYSIS",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Top 20 destinations of exports of Rwanda in  2025, Quarter 1 (Values in US$ million)",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Year and Period",
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1",
+              "Shares in % Q1",
+              "% change Q1/Q4",
+              "% change Q1/Q1"
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 0,
+                "text_ratio": 1.0,
+                "sample_content": "PARTNER COUNTRY ANALYSIS"
+              },
+              {
+                "row_index": 2,
+                "text_ratio": 1.0,
+                "sample_content": "Top 20 destinations of exports of Rwanda in  2025,"
+              },
+              {
+                "row_index": 4,
+                "text_ratio": 1.0,
+                "sample_content": "Year and Period"
+              },
+              {
+                "row_index": 26,
+                "text_ratio": 1.0,
+                "sample_content": "Source: NISR"
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "PARTNER COUNTRY ANALYSIS",
+              "Top 20 destinations of exports of Rwanda in  2025, Quarter 1 (Values in US$ million)",
+              "Year and Period",
+              "2023Q1",
+              "1476.5099483773447",
+              "252.72683073188458",
+              "2023Q2",
+              "1571.0946258966371",
+              "287.576746325718",
+              "2023Q3",
+              "1581.8144762227898",
+              "309.35637213058766",
+              "2023Q4",
+              "1486.9343027633097",
+              "304.31726534777147",
+              "2024Q1",
+              "1410.520446799369",
+              "302.071239286069",
+              "2024Q2",
+              "1568.9725638823377",
+              "280.9106957215485",
+              "2024Q3",
+              "1751.5689343393103",
+              "299.9426648399864",
+              "2024Q4",
+              "1629.3897840889606",
+              "303.2585170608372",
+              "2025Q1",
+              "1379.0488043778544",
+              "338.52645586585294",
+              "Shares in % Q1",
+              "100",
+              "24.54782273050707",
+              "% change Q1/Q4",
+              "-0.15364094101711778",
+              "0.11629661434353245",
+              "% change Q1/Q1",
+              "-0.022312078136071944",
+              "0.12068416929047632"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 25,
+              "col_1": 22,
+              "col_2": 22,
+              "col_3": 22,
+              "col_4": 22,
+              "col_5": 22,
+              "col_6": 22,
+              "col_7": 22,
+              "col_8": 22,
+              "col_9": 22,
+              "col_10": 22,
+              "col_11": 22,
+              "col_12": 22
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 4,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 6,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 9,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 10,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 11,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 12,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 13,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 14,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 15,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 16,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 17,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 18,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 19,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 20,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 21,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 22,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 23,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 24,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 25,
+                "filled_cells": 13
+              }
+            ]
+          }
+        },
+        "ReexportsCountry": {
+          "sheet_name": "ReexportsCountry",
+          "shape": [
+            28,
+            13
+          ],
+          "columns": 13,
+          "rows": 28,
+          "memory_usage": "12912",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 1,
+            "empty_count": 0,
+            "mixed_count": 12
+          },
+          "sample_data": [
+            [
+              "PARTNER COUNTRY ANALYSIS",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Top 20 destinations of re-exports of Rwanda in the year 2025, Quarter 1 (Values in US$ Million)",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Year and Period",
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1",
+              "Shares in % Q1",
+              "% change Q1/Q4",
+              "% change Q1/Q1"
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 0,
+                "text_ratio": 1.0,
+                "sample_content": "PARTNER COUNTRY ANALYSIS"
+              },
+              {
+                "row_index": 2,
+                "text_ratio": 1.0,
+                "sample_content": "Top 20 destinations of re-exports of Rwanda in the"
+              },
+              {
+                "row_index": 4,
+                "text_ratio": 1.0,
+                "sample_content": "Year and Period"
+              },
+              {
+                "row_index": 27,
+                "text_ratio": 1.0,
+                "sample_content": "Source: NISR"
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "PARTNER COUNTRY ANALYSIS",
+              "Top 20 destinations of re-exports of Rwanda in the year 2025, Quarter 1 (Values in US$ Million)",
+              "Year and Period",
+              "2023Q1",
+              "156.25277435433534",
+              "145.46457233874992",
+              "2023Q2",
+              "154.52127101941767",
+              "143.2111280560493",
+              "2023Q3",
+              "172.99703145780026",
+              "157.97154383762168",
+              "2023Q4",
+              "159.55370666284614",
+              "149.9615512462209",
+              "2024Q1",
+              "173.1654878845185",
+              "160.1153735029784",
+              "2024Q2",
+              "164.00308225717004",
+              "155.74256430133224",
+              "2024Q3",
+              "184.55894346212972",
+              "174.58862520373853",
+              "2024Q4",
+              "177.28709361426786",
+              "166.32423217971876",
+              "2025Q1",
+              "135.3866131659466",
+              "127.13663781921528",
+              "Shares in % Q1",
+              "100",
+              "93.9063581296482",
+              "% change Q1/Q4",
+              "-0.2363425311686036",
+              "-0.23560965138356993",
+              "% change Q1/Q1",
+              "-0.21816630542320348",
+              "-0.2059685772968557"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 25,
+              "col_1": 21,
+              "col_2": 22,
+              "col_3": 22,
+              "col_4": 21,
+              "col_5": 22,
+              "col_6": 22,
+              "col_7": 22,
+              "col_8": 22,
+              "col_9": 22,
+              "col_10": 22,
+              "col_11": 22,
+              "col_12": 22
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 4,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 6,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 9,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 10,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 11,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 12,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 13,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 14,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 15,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 16,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 17,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 18,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 19,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 20,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 21,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 22,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 23,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 24,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 25,
+                "filled_cells": 13
+              }
+            ]
+          }
+        },
+        "ExportsCommodity": {
+          "sheet_name": "ExportsCommodity",
+          "shape": [
+            16,
+            14
+          ],
+          "columns": 14,
+          "rows": 16,
+          "memory_usage": "8584",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 1,
+            "empty_count": 0,
+            "mixed_count": 13
+          },
+          "sample_data": [
+            [
+              "COMMODITY ANALYSIS",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Products  exported by Rwanda in  2025, Quarter 1 (Values in US$ Million)",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Year and Period",
+              NaN,
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1",
+              "Shares in % Q1",
+              "% change Q1/Q4",
+              "% change Q1/Q1"
+            ],
+            [
+              "SITC SECTION",
+              "COMMODITY DESCRIPTION/ TOTAL ESTIMATES",
+              402.14468784688006,
+              484.73934625285204,
+              388.1129711318348,
+              399.1084006995603,
+              431.6120219963785,
+              537.6377961348556,
+              667.0045749074241,
+              677.4462049907256,
+              480.8222662354178,
+              100,
+              -0.29024288173257917,
+              0.11401499895999723
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 0,
+                "text_ratio": 1.0,
+                "sample_content": "COMMODITY ANALYSIS"
+              },
+              {
+                "row_index": 2,
+                "text_ratio": 1.0,
+                "sample_content": "Products  exported by Rwanda in  2025, Quarter 1 ("
+              },
+              {
+                "row_index": 3,
+                "text_ratio": 1.0,
+                "sample_content": "Year and Period"
+              },
+              {
+                "row_index": 15,
+                "text_ratio": 1.0,
+                "sample_content": "Source: NISR"
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "COMMODITY ANALYSIS",
+              "Products  exported by Rwanda in  2025, Quarter 1 (Values in US$ Million)",
+              "Year and Period",
+              "COMMODITY DESCRIPTION/ TOTAL ESTIMATES",
+              "Food and live animals",
+              "Beverages and tobacco",
+              "2023Q1",
+              "402.14468784688006",
+              "106.34298380408097",
+              "2023Q2",
+              "484.73934625285204",
+              "74.62181621581541",
+              "2023Q3",
+              "388.1129711318348",
+              "89.35060707907543",
+              "2023Q4",
+              "399.1084006995603",
+              "103.81165959340615",
+              "2024Q1",
+              "431.6120219963785",
+              "76.20898691691424",
+              "2024Q2",
+              "537.6377961348556",
+              "73.43132519231176",
+              "2024Q3",
+              "667.0045749074241",
+              "99.16692353140945",
+              "2024Q4",
+              "677.4462049907256",
+              "103.124930087838",
+              "2025Q1",
+              "480.8222662354178",
+              "82.55449567716147",
+              "Shares in % Q1",
+              "100",
+              "17.169441075081483",
+              "% change Q1/Q4",
+              "-0.29024288173257917",
+              "-0.19947101436243775",
+              "% change Q1/Q1",
+              "0.11401499895999723",
+              "0.0832645730767334"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 15,
+              "col_1": 11,
+              "col_2": 12,
+              "col_3": 12,
+              "col_4": 12,
+              "col_5": 12,
+              "col_6": 12,
+              "col_7": 12,
+              "col_8": 12,
+              "col_9": 12,
+              "col_10": 12,
+              "col_11": 12,
+              "col_12": 12,
+              "col_13": 12
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 3,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 4,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 6,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 9,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 10,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 11,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 12,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 13,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 14,
+                "filled_cells": 14
+              }
+            ]
+          }
+        },
+        "ImportsCommodity": {
+          "sheet_name": "ImportsCommodity",
+          "shape": [
+            16,
+            14
+          ],
+          "columns": 14,
+          "rows": 16,
+          "memory_usage": "8584",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 1,
+            "empty_count": 0,
+            "mixed_count": 13
+          },
+          "sample_data": [
+            [
+              "COMMODITY ANALYSIS",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Products  imported by Rwanda in  2025, Quarter 1 (Values in US$ Million)",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Year and Period",
+              NaN,
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1",
+              "Shares in % Q1",
+              "% change Q1/Q4",
+              "% change Q1/Q1"
+            ],
+            [
+              "SITC SECTION",
+              "COMMODITY DESCRIPTION/ TOTAL ESTIMATES",
+              1476.5099483773447,
+              1571.0946258966371,
+              1581.8144762227898,
+              1486.9343027633097,
+              1410.520446799369,
+              1568.9725638823377,
+              1751.5689343393103,
+              1629.3897840889606,
+              1379.0488043778544,
+              100,
+              -0.15364094101711778,
+              -0.022312078136071944
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 0,
+                "text_ratio": 1.0,
+                "sample_content": "COMMODITY ANALYSIS"
+              },
+              {
+                "row_index": 2,
+                "text_ratio": 1.0,
+                "sample_content": "Products  imported by Rwanda in  2025, Quarter 1 ("
+              },
+              {
+                "row_index": 3,
+                "text_ratio": 1.0,
+                "sample_content": "Year and Period"
+              },
+              {
+                "row_index": 15,
+                "text_ratio": 1.0,
+                "sample_content": "Source: NISR"
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "COMMODITY ANALYSIS",
+              "Products  imported by Rwanda in  2025, Quarter 1 (Values in US$ Million)",
+              "Year and Period",
+              "COMMODITY DESCRIPTION/ TOTAL ESTIMATES",
+              "Food and live animals",
+              "Beverages and tobacco",
+              "2023Q1",
+              "1476.5099483773447",
+              "264.48208607512186",
+              "2023Q2",
+              "1571.0946258966371",
+              "228.9831980977162",
+              "2023Q3",
+              "1581.8144762227898",
+              "254.3593310805152",
+              "2023Q4",
+              "1486.9343027633097",
+              "290.3228110732527",
+              "2024Q1",
+              "1410.520446799369",
+              "202.46",
+              "2024Q2",
+              "1568.9725638823377",
+              "238.2",
+              "2024Q3",
+              "1751.5689343393103",
+              "237.17",
+              "2024Q4",
+              "1629.3897840889606",
+              "234.56643276944519",
+              "2025Q1",
+              "1379.0488043778544",
+              "203.565452023726",
+              "Shares in % Q1",
+              "100",
+              "14.761294261486471",
+              "% change Q1/Q4",
+              "-0.15364094101711778",
+              "-0.13216290318994606",
+              "% change Q1/Q1",
+              "-0.022312078136071944",
+              "0.005460100877832774"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 15,
+              "col_1": 11,
+              "col_2": 12,
+              "col_3": 12,
+              "col_4": 12,
+              "col_5": 12,
+              "col_6": 12,
+              "col_7": 12,
+              "col_8": 12,
+              "col_9": 12,
+              "col_10": 12,
+              "col_11": 12,
+              "col_12": 12,
+              "col_13": 12
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 3,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 4,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 6,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 9,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 10,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 11,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 12,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 13,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 14,
+                "filled_cells": 14
+              }
+            ]
+          }
+        },
+        "ReexportsCommodity": {
+          "sheet_name": "ReexportsCommodity",
+          "shape": [
+            17,
+            14
+          ],
+          "columns": 14,
+          "rows": 17,
+          "memory_usage": "9079",
+          "data_types": {
+            "numeric_count": 0,
+            "text_count": 1,
+            "empty_count": 0,
+            "mixed_count": 13
+          },
+          "sample_data": [
+            [
+              "COMMODITY ANALYSIS",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Products  re-exported by Rwanda in  2025, Quarter 1 (Values in US$ Million)",
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN,
+              NaN
+            ],
+            [
+              "Year and Period",
+              NaN,
+              "2023Q1",
+              "2023Q2",
+              "2023Q3",
+              "2023Q4",
+              "2024Q1",
+              "2024Q2",
+              "2024Q3",
+              "2024Q4",
+              "2025Q1",
+              "Shares in % Q1",
+              "% change Q1/Q4",
+              "% change Q1/Q1"
+            ]
+          ],
+          "header_analysis": {
+            "potential_header_rows": [
+              {
+                "row_index": 0,
+                "text_ratio": 1.0,
+                "sample_content": "COMMODITY ANALYSIS"
+              },
+              {
+                "row_index": 2,
+                "text_ratio": 1.0,
+                "sample_content": "Products  re-exported by Rwanda in  2025, Quarter "
+              },
+              {
+                "row_index": 4,
+                "text_ratio": 1.0,
+                "sample_content": "Year and Period"
+              },
+              {
+                "row_index": 16,
+                "text_ratio": 1.0,
+                "sample_content": "Source: NISR"
+              }
+            ],
+            "header_candidates": []
+          },
+          "content_preview": {
+            "first_few_values": [
+              "COMMODITY ANALYSIS",
+              "Products  re-exported by Rwanda in  2025, Quarter 1 (Values in US$ Million)",
+              "Year and Period",
+              "COMMODITY DESCRIPTION/ TOTAL ESTIMATES",
+              "Food and live animals",
+              "Beverages and tobacco",
+              "2023Q1",
+              "156.25277435433534",
+              "52.970766980143715",
+              "2023Q2",
+              "154.52127101941767",
+              "54.876093670174754",
+              "2023Q3",
+              "172.99703145780026",
+              "52.23",
+              "2023Q4",
+              "159.55370666284614",
+              "56.11149495206159",
+              "2024Q1",
+              "173.1654878845185",
+              "58.81839750457572",
+              "2024Q2",
+              "164.00308225717004",
+              "50.638592454789745",
+              "2024Q3",
+              "184.55894346212972",
+              "52.33",
+              "2024Q4",
+              "177.28709361426786",
+              "51.32339986259393",
+              "2025Q1",
+              "135.3866131659466",
+              "42.32786869915701",
+              "Shares in % Q1",
+              "100",
+              "31.26444166771107",
+              "% change Q1/Q4",
+              "-0.2363425311686036",
+              "-0.17527153671659113",
+              "% change Q1/Q1",
+              "-0.21816630542320348",
+              "-0.2803634492785331"
+            ],
+            "last_few_values": [],
+            "unique_values_count": {
+              "col_0": 15,
+              "col_1": 11,
+              "col_2": 12,
+              "col_3": 12,
+              "col_4": 12,
+              "col_5": 12,
+              "col_6": 12,
+              "col_7": 12,
+              "col_8": 12,
+              "col_9": 12,
+              "col_10": 12,
+              "col_11": 12,
+              "col_12": 12,
+              "col_13": 12
+            },
+            "potential_data_starts": [
+              {
+                "row_index": 4,
+                "filled_cells": 13
+              },
+              {
+                "row_index": 5,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 6,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 7,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 8,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 9,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 10,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 11,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 12,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 13,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 14,
+                "filled_cells": 14
+              },
+              {
+                "row_index": 15,
+                "filled_cells": 14
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

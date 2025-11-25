@@ -1,0 +1,36 @@
+{
+  "generated_at": "2025-11-23T23:10:28.432892",
+  "total_regional_blocks": 6,
+  "regional_blocks": [
+    {
+      "regional_block": "COMESA",
+      "latest_value": 76.5101864731315,
+      "period": "2025Q1"
+    },
+    {
+      "regional_block": "CEPGL",
+      "latest_value": 58.69345257197721,
+      "period": "2025Q1"
+    },
+    {
+      "regional_block": "SADC",
+      "latest_value": 57.59656947225279,
+      "period": "2025Q1"
+    },
+    {
+      "regional_block": "COMMON WEALTH",
+      "latest_value": 34.14059988166557,
+      "period": "2025Q1"
+    },
+    {
+      "regional_block": "EU",
+      "latest_value": 28.503334086528017,
+      "period": "2025Q1"
+    },
+    {
+      "regional_block": "ECOWAS",
+      "latest_value": 0.20309826362158975,
+      "period": "2025Q1"
+    }
+  ]
+}

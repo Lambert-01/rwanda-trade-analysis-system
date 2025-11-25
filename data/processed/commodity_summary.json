@@ -1,0 +1,112 @@
+{
+  "generated_at": "2025-11-24T02:19:30.308498",
+  "total_exports_commodities": 10,
+  "total_imports_commodities": 10,
+  "total_reexports_commodities": 10,
+  "data_sources": [
+    "ExportsCommodity",
+    "ImportsCommodity",
+    "ReexportsCommodity"
+  ],
+  "total_exports_value": 677.45,
+  "top_exports_commodities": [
+    {
+      "sitc_section": "9",
+      "description": "Other commodities & transactions",
+      "value": 438.15,
+      "share": 57.47
+    },
+    {
+      "sitc_section": "0",
+      "description": "Food and live animals",
+      "value": 103.12,
+      "share": 17.17
+    },
+    {
+      "sitc_section": "2",
+      "description": "Crude materials, inedible, except fuels",
+      "value": 58.76,
+      "share": 12.51
+    },
+    {
+      "sitc_section": "6",
+      "description": "Manufactured goods classified chiefly by material",
+      "value": 34.87,
+      "share": 6.71
+    },
+    {
+      "sitc_section": "4",
+      "description": "Animals and vegetable oils, fats & waxes",
+      "value": 23.4,
+      "share": 2.67
+    }
+  ],
+  "total_imports_value": 1629.39,
+  "top_imports_commodities": [
+    {
+      "sitc_section": "9",
+      "description": "Other commodities & transactions",
+      "value": 396.16,
+      "share": 13.65
+    },
+    {
+      "sitc_section": "7",
+      "description": "Machinery and transport equipment",
+      "value": 238.86,
+      "share": 22.15
+    },
+    {
+      "sitc_section": "0",
+      "description": "Food and live animals",
+      "value": 234.57,
+      "share": 14.76
+    },
+    {
+      "sitc_section": "6",
+      "description": "Manufactured goods classified chiefly by material",
+      "value": 215.13,
+      "share": 13.86
+    },
+    {
+      "sitc_section": "3",
+      "description": "Mineral fuels, lubricants and related materials",
+      "value": 190.53,
+      "share": 12.91
+    }
+  ],
+  "total_reexports_value": 177.29,
+  "top_reexports_commodities": [
+    {
+      "sitc_section": "0",
+      "description": "Food and live animals",
+      "value": 51.32,
+      "share": 31.26
+    },
+    {
+      "sitc_section": "3",
+      "description": "Mineral fuels, lubricants and related materials",
+      "value": 48.01,
+      "share": 25.37
+    },
+    {
+      "sitc_section": "6",
+      "description": "Manufactured goods classified chiefly by material",
+      "value": 20.4,
+      "share": 10.54
+    },
+    {
+      "sitc_section": "1",
+      "description": "Beverages and tobacco",
+      "value": 12.51,
+      "share": 7.71
+    },
+    {
+      "sitc_section": "5",
+      "description": "Chemicals & related products",
+      "value": 11.62,
+      "share": 7.63
+    }
+  ],
+  "trade_balance": -951.94,
+  "balance_type": "deficit"
+}

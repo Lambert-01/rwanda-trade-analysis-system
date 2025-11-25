@@ -16,7 +16,11 @@ const PORT = process.env.PORT || 3001; // Use environment variable or default to
 
 // Middleware
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({
+    origin: '*', // Allow all origins for network access
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
@@ -797,15 +801,16 @@ app.use((req, res) => {
     });
 });
 
-// Start server
-app.listen(PORT, () => {
+// Start server on all interfaces (0.0.0.0) for network access
+app.listen(PORT, '0.0.0.0', () => {
     console.log('='.repeat(60));
     console.log('🇷🇼Rwanda trade analysis system - FRONTEND SERVER');
     console.log('='.repeat(60));
-    console.log(`🚀 Server running on port: ${PORT}`);
-    console.log(`📊 Excel analysis available at: http://localhost:${PORT}/api/analyze-excel`);
-    console.log(`📈 Dashboard available at: http://localhost:${PORT}`);
-    console.log(`🔍 API documentation at: http://localhost:${PORT}/api`);
+    console.log(`🚀 Server running on ALL INTERFACES (0.0.0.0) port: ${PORT}`);
+    console.log(`🌐 Network accessible at: http://YOUR_IP_ADDRESS:${PORT}`);
+    console.log(`📊 Excel analysis available at: http://YOUR_IP_ADDRESS:${PORT}/api/analyze-excel`);
+    console.log(`📈 Dashboard available at: http://YOUR_IP_ADDRESS:${PORT}`);
+    console.log(`🔍 API documentation at: http://YOUR_IP_ADDRESS:${PORT}/api`);
     console.log(`💾 Static files served from: ./frontend/`);
     console.log('='.repeat(60));
     console.log('📋 Available proxy routes:');
@@ -816,7 +821,11 @@ app.listen(PORT, () => {
     console.log('   /analytics/* → http://localhost:3000/api/analytics/* (Legacy analytics)');
     console.log('   /analysis-results → http://localhost:3000/api/analysis-results (Direct)');
     console.log('='.repeat(60));
-    console.log('✨ Open http://localhost:' + PORT + ' in your browser to start exploring!');
+    console.log('🔑 NETWORK ACCESS INSTRUCTIONS:');
+    console.log('1. Find your IP address using: ipconfig (Windows) or ifconfig/ip addr (Linux/Mac)');
+    console.log('2. Share this URL with your friend: http://YOUR_IP_ADDRESS:' + PORT);
+    console.log('3. Make sure both machines are on the same network');
+    console.log('4. Disable firewall if access is blocked');
     console.log('='.repeat(60));
 });
 
