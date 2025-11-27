@@ -1519,7 +1519,7 @@ a:hover {
 }
 
 /* Modal Styles */
-.modal {
+.modal.nisr-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -1537,12 +1537,12 @@ a:hover {
     -webkit-backdrop-filter: blur(5px);
 }
 
-.modal.active {
+.modal.nisr-modal.active {
     opacity: 1;
     visibility: visible;
 }
 
-.modal-content {
+.modal.nisr-modal .modal-content {
     background: white;
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-2xl);
@@ -1554,11 +1554,11 @@ a:hover {
     width: 90%;
 }
 
-.modal.active .modal-content {
+.modal.nisr-modal.active .modal-content {
     transform: scale(1);
 }
 
-.modal-header {
+.modal.nisr-modal .modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1569,13 +1569,13 @@ a:hover {
     border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
 }
 
-.modal-title {
+.modal.nisr-modal .modal-title {
     font-size: 1.5rem;
     font-weight: 700;
     margin: 0;
 }
 
-.modal-close {
+.modal.nisr-modal .modal-close {
     background: rgba(255, 255, 255, 0.2);
     border: none;
     color: white;
@@ -1589,12 +1589,12 @@ a:hover {
     transition: var(--transition);
 }
 
-.modal-close:hover {
+.modal.nisr-modal .modal-close:hover {
     background: rgba(255, 255, 255, 0.3);
     transform: scale(1.1);
 }
 
-.modal-body {
+.modal.nisr-modal .modal-body {
     padding: var(--spacing-lg);
 }
 
@@ -1609,7 +1609,7 @@ a:hover {
         grid-template-columns: 1fr;
     }
 
-    .modal-content {
+    .modal.nisr-modal .modal-content {
         width: 95%;
         max-height: 95vh;
     }
@@ -2409,28 +2409,31 @@ a:hover {
    AI CHATBOX STYLES - Enhanced Layout & Controls
    ============================================ */
 
-/* Chatbox Main Container - Properly Sized and Positioned */
+/* Enhanced Chatbox Main Container - Wider and More Beautiful */
 .ai-chatbox {
     position: fixed !important;
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) translateY(30px) scale(0.95) !important;
-    width: 400px !important;
-    height: 550px !important;
+    width: 520px !important;
+    height: 650px !important;
     max-width: 95vw !important;
     max-height: 90vh !important;
-    background: #ffffff !important;
-    border-radius: var(--border-radius-lg) !important;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(0, 161, 241, 0.1) !important;
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(0, 161, 241, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
     display: flex !important;
     flex-direction: column !important;
     z-index: 10000 !important;
     opacity: 0 !important;
     visibility: hidden !important;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    border: 2px solid rgba(0, 161, 241, 0.2) !important;
+    border: 2px solid rgba(0, 161, 241, 0.15) !important;
     overflow: hidden !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
 }
 
 .ai-chatbox.show {
@@ -2445,22 +2448,24 @@ a:hover {
     width: 300px;
 }
 
-/* Compact Chatbox Header - Clean and Professional */
+/* Enhanced Chatbox Header - Modern and Beautiful */
 .chatbox-header {
-    background: linear-gradient(135deg, #00A1F1 0%, #00AF54 100%);
+    background: linear-gradient(135deg, #00A1F1 0%, #00AF54 50%, #FCDD09 100%);
     color: white;
-    padding: 12px 16px;
+    padding: 16px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+    border-radius: 24px 24px 0 0;
     flex-shrink: 0;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 161, 241, 0.3);
-    min-height: 50px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 161, 241, 0.4);
+    min-height: 60px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     width: 100%;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .chatbox-header::before {
@@ -2485,24 +2490,27 @@ a:hover {
 }
 
 .ai-avatar {
-    width: 32px;
-    height: 32px;
-    background: rgba(255, 255, 255, 0.2);
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: white;
     position: relative;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-    transition: var(--transition);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .ai-avatar:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.6);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 100%);
 }
 
 .avatar-glow {
@@ -2817,17 +2825,18 @@ a:hover {
     background: linear-gradient(135deg, rgba(0, 161, 241, 0.8) 0%, rgba(0, 175, 84, 0.8) 100%);
 }
 
-/* Improved Message Styles - Better Visibility */
+/* Enhanced Message Styles - Modern and Beautiful */
 .message {
     display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
-    animation: slideInMessage 0.3s ease-out;
+    gap: 16px;
+    margin-bottom: 20px;
+    animation: slideInMessage 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     z-index: 1;
     width: 100%;
     align-items: flex-start;
     clear: both;
+    transition: all 0.2s ease;
 }
 
 @keyframes slideInMessage {
@@ -2893,20 +2902,24 @@ a:hover {
 }
 
 .message-text {
-    background: #ffffff;
-    padding: 12px 16px;
-    border-radius: 18px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    line-height: 1.5;
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    padding: 16px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
     word-wrap: break-word;
-    font-size: 14px;
-    border: 1px solid rgba(0, 161, 241, 0.1);
+    font-size: 15px;
+    border: 2px solid rgba(0, 161, 241, 0.08);
     position: relative;
     width: 100%;
     display: block;
     color: #1f2937;
     font-weight: 400;
-    max-width: 320px;
+    max-width: 380px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .message-text::before {
@@ -3001,14 +3014,17 @@ a:hover {
 .input-area {
     display: flex;
     align-items: center;
-    gap: 6px;
-    background: #f8fafc;
-    border-radius: 20px;
-    padding: 6px 12px;
-    border: 2px solid #e2e8f0;
-    transition: all 0.3s ease;
-    min-height: 36px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    gap: 8px;
+    background: linear-gradient(145deg, #f8fafc 0%, #ffffff 100%);
+    border-radius: 24px;
+    padding: 8px 16px;
+    border: 2px solid rgba(0, 161, 241, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 44px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .input-area:focus-within {
@@ -3048,20 +3064,22 @@ a:hover {
 }
 
 .btn-send {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #00A1F1 0%, #00AF54 100%);
+    background: linear-gradient(135deg, #00A1F1 0%, #00AF54 50%, #FCDD09 100%);
     color: white;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
-    font-size: 12px;
-    box-shadow: 0 2px 8px rgba(0, 161, 241, 0.3);
+    font-size: 14px;
+    box-shadow: 0 4px 16px rgba(0, 161, 241, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .btn-send:hover {
@@ -3449,13 +3467,13 @@ a:hover {
     }
 }
 
-/* Desktop Chatbox - Optimized Size */
+/* Desktop Chatbox - Enhanced Wider Size */
 @media (min-width: 1200px) {
     .ai-chatbox {
-        width: 420px !important;
-        height: 580px !important;
-        max-width: 420px !important;
-        max-height: 580px !important;
+        width: 580px !important;
+        height: 700px !important;
+        max-width: 580px !important;
+        max-height: 700px !important;
     }
 
     .chat-messages {
@@ -3527,9 +3545,9 @@ a:hover {
     }
 
     .message-text {
-        padding: 14px 18px;
-        font-size: 15px;
-        max-width: 340px;
+        padding: 16px 20px;
+        font-size: 16px;
+        max-width: 420px;
     }
 
     .chat-input-container {

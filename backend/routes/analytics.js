@@ -16,25 +16,12 @@ const openaiService = require('../utils/openaiService');
  */
 router.get('/growth', (req, res) => {
   try {
-    // Check if trade balance data exists (contains growth rates)
-    if (dataFileExists('trade_balance.json')) {
-      const balanceData = loadJsonData('trade_balance.json');
-      
-      // Extract quarters, export and import growth rates
-      const result = balanceData.map(item => ({ 
-        period: item.quarter,
-        exports: parseFloat(item.export_value) || 0,
-        imports: parseFloat(item.import_value) || 0,
-        balance: parseFloat(item.trade_balance) || 0,
-        export_growth: parseFloat(item.export_growth) * 100 || 0, // Convert to percentage
-        import_growth: parseFloat(item.import_growth) * 100 || 0, // Convert to percentage
-        balance_growth: parseFloat(item.balance_growth) * 100 || 0 // Convert to percentage
-      }));
-      
-      res.json(result);
+    // Load processed growth analysis data
+    if (dataFileExists('growth_analysis.json')) {
+      const growthData = loadJsonData('growth_analysis.json');
+      res.json(growthData);
     } else {
-      // If trade balance data doesn't exist, return empty array
-      res.json([]);
+      res.json({ error: 'Growth analysis data not available. Please run the Python analytics pipeline.' });
     }
   } catch (error) {
     console.error('Error fetching growth analytics:', error);
@@ -1152,18 +1139,224 @@ router.get('/regional', (req, res) => {
 });
 
 /**
+  * @route   GET /api/analytics/time-series
+  * @desc    Get time series analysis data
+  * @access  Public
+  */
+router.get('/time-series', (req, res) => {
+  try {
+    if (dataFileExists('time_series.json')) {
+      const timeSeriesData = loadJsonData('time_series.json');
+      res.json(timeSeriesData);
+    } else {
+      res.json({ error: 'Time series data not available' });
+    }
+  } catch (error) {
+    console.error('Error fetching time series data:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+  * @route   GET /api/analytics/growth-analysis
+  * @desc    Get growth analysis data
+  * @access  Public
+  */
+router.get('/growth-analysis', (req, res) => {
+  try {
+    if (dataFileExists('growth_analysis.json')) {
+      const growthData = loadJsonData('growth_analysis.json');
+      res.json(growthData);
+    } else {
+      res.json({ error: 'Growth analysis data not available' });
+    }
+  } catch (error) {
+    console.error('Error fetching growth analysis data:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+  * @route   GET /api/analytics/share-analysis
+  * @desc    Get share analysis data
+  * @access  Public
+  */
+router.get('/share-analysis', (req, res) => {
+  try {
+    if (dataFileExists('share_analysis.json')) {
+      const shareData = loadJsonData('share_analysis.json');
+      res.json(shareData);
+    } else {
+      res.json({ error: 'Share analysis data not available' });
+    }
+  } catch (error) {
+    console.error('Error fetching share analysis data:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+  * @route   GET /api/analytics/hhi-analysis
+  * @desc    Get HHI analysis data
+  * @access  Public
+  */
+router.get('/hhi-analysis', (req, res) => {
+  try {
+    if (dataFileExists('hhi.json')) {
+      const hhiData = loadJsonData('hhi.json');
+      res.json(hhiData);
+    } else {
+      res.json({ error: 'HHI analysis data not available' });
+    }
+  } catch (error) {
+    console.error('Error fetching HHI analysis data:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * @route   GET /api/analytics/trade-balance-analysis
+ * @desc    Get trade balance analysis data
+ * @access  Public
+ */
+router.get('/trade-balance-analysis', (req, res) => {
+  try {
+    // Try to load processed analytics data first
+    if (dataFileExists('trade_balance.json')) {
+      const balanceData = loadJsonData('trade_balance.json');
+      // Check if this is the processed analytics structure (has trade_balance key)
+      if (balanceData && balanceData.trade_balance) {
+        res.json(balanceData);
+      } else {
+        // If it's raw data, return error indicating processed data not available
+        res.json({ error: 'Processed trade balance analytics data not available. Please run the Python analytics pipeline.' });
+      }
+    } else {
+      res.json({ error: 'Trade balance analysis data not available' });
+    }
+  } catch (error) {
+    console.error('Error fetching trade balance analysis data:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+  * @route   GET /api/analytics/correlation-analysis
+  * @desc    Get correlation analysis data
+  * @access  Public
+  */
+router.get('/correlation-analysis', (req, res) => {
+  try {
+    if (dataFileExists('correlations.json')) {
+      const correlationData = loadJsonData('correlations.json');
+      res.json(correlationData);
+    } else {
+      res.json({ error: 'Correlation analysis data not available' });
+    }
+  } catch (error) {
+    console.error('Error fetching correlation analysis data:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * @route   GET /api/analytics/ai-insights/:section
+ * @desc    Get AI-generated insights for specific analytics section
+ * @access  Public
+ * @param   {string} section - Analytics section (time-series, growth, share, hhi, balance, correlation)
+ */
+router.get('/ai-insights/:section', async (req, res) => {
+  try {
+    const { section } = req.params;
+    console.log('🧠 Generating AI insights for section:', section);
+
+    // Get section data based on the requested section
+    let sectionData = {};
+    let pdfContext = '';
+
+    // Load relevant data based on section
+    switch (section) {
+      case 'time-series':
+        if (dataFileExists('time_series.json')) {
+          sectionData = loadJsonData('time_series.json');
+        }
+        pdfContext = 'Time series analysis from Q1 2022 to Q1 2025 shows export trends, seasonality patterns, and forecasting for next quarters.';
+        break;
+
+      case 'growth':
+        if (dataFileExists('growth_analysis.json')) {
+          sectionData = loadJsonData('growth_analysis.json');
+        }
+        pdfContext = 'Growth analysis includes QoQ, YoY changes, and CAGR calculations showing export and import performance trends.';
+        break;
+
+      case 'share':
+        if (dataFileExists('share_analysis.json')) {
+          sectionData = loadJsonData('share_analysis.json');
+        }
+        pdfContext = 'Market share analysis by country, region, and commodity reveals UAE dominance in exports (66.6%) and China leadership in imports (30.1%).';
+        break;
+
+      case 'hhi':
+        if (dataFileExists('hhi.json')) {
+          sectionData = loadJsonData('hhi.json');
+        }
+        pdfContext = 'Herfindahl-Hirschman Index shows high market concentration in both export destinations and import sources, indicating potential diversification needs.';
+        break;
+
+      case 'balance':
+        if (dataFileExists('trade_balance.json')) {
+          sectionData = loadJsonData('trade_balance.json');
+        }
+        pdfContext = 'Trade balance analysis shows persistent deficits with Q1 2025 deficit of US$411.35 million, driven by high import volumes for machinery and infrastructure.';
+        break;
+
+      case 'correlation':
+        if (dataFileExists('correlations.json')) {
+          sectionData = loadJsonData('correlations.json');
+        }
+        pdfContext = 'Correlation analysis reveals relationships between trade variables, showing strong positive correlation between exports and time, indicating upward growth trends.';
+        break;
+
+      default:
+        sectionData = { error: 'Unknown section' };
+        pdfContext = 'General trade analysis insights for Rwanda\'s economic development.';
+    }
+
+    // Generate insights using OpenAI service
+    const result = await openaiService.generateSectionInsights(section, sectionData, pdfContext);
+    res.json(result);
+
+  } catch (error) {
+    console.error('❌ Error generating AI insights:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      fallback_insights: [
+        "This section provides valuable insights into Rwanda's trade patterns.",
+        "The data helps identify trends and opportunities for economic development.",
+        "Understanding these metrics supports better policy and business decisions."
+      ]
+    });
+  }
+});
+
+/**
  * @route   GET /api/analytics/ai-status
- * @desc    Get OpenAI service status
+ * @desc    Get AI services status
  * @access  Public
  */
 router.get('/ai-status', (req, res) => {
   res.json({
     openai_configured: !!process.env.OPENAI_API_KEY,
-    api_key_length: process.env.OPENAI_API_KEY ? process.env.OPENAI_API_KEY.length : 0,
-    service_available: true,
+    openrouter_model: process.env.OPENAI_MODEL || 'x-ai/grok-4.1-fast',
+    openai_key_length: process.env.OPENAI_API_KEY ? process.env.OPENAI_API_KEY.length : 0,
+    huggingface_removed: true,
+    services_available: true,
     timestamp: new Date().toISOString()
   });
 });
+
 
 
 module.exports = router;

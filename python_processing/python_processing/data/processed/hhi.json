@@ -1,0 +1,28 @@
+{
+  "hhi": {
+    "export_destinations": {
+      "hhi_value": 0.375757554113562,
+      "interpretation": "Highly concentrated market",
+      "number_of_destinations": 21
+    },
+    "import_sources": {
+      "hhi_value": 0.3213036618176289,
+      "interpretation": "Highly concentrated market",
+      "number_of_sources": 21
+    },
+    "commodity_hhi": {
+      "hhi_value": 0,
+      "interpretation": "Highly competitive market",
+      "number_of_commodities": 0
+    },
+    "insights": [
+      "Export destinations HHI: 0.3758 - Highly concentrated market",
+      "Import sources HHI: 0.3213 - Highly concentrated market",
+      "Export commodities HHI: 0.0000 - Highly competitive market",
+      "High concentration in export markets increases vulnerability to destination-specific shocks",
+      "High concentration in import sources increases supply chain risks",
+      "Top export destination Total Estimates represents 51.9% of total exports",
+      "Top import source Total Estimates represents 54.5% of total imports"
+    ]
+  }
+}

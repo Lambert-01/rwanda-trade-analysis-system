@@ -1,0 +1,196 @@
+{
+  "share_analysis": {
+    "country_share": {
+      "exports": {
+        "Total Estimates": {
+          "value": 4468.628270195929,
+          "share_percentage": 107.81444120007357
+        },
+        "United Arab Emirates": {
+          "value": 2759.3186439144015,
+          "share_percentage": 66.57398639997687
+        },
+        "Congo, The Democratic Republic Of": {
+          "value": 468.4476444891387,
+          "share_percentage": 11.302220271697108
+        },
+        "China": {
+          "value": 191.2138554150942,
+          "share_percentage": 4.613410139480262
+        },
+        "Luxembourg": {
+          "value": 83.52893942124835,
+          "share_percentage": 2.0152998600937178
+        },
+        "United States": {
+          "value": 56.28562650340676,
+          "share_percentage": 1.358001382557332
+        },
+        "United Kingdom": {
+          "value": 82.04632810816055,
+          "share_percentage": 1.97952894773039
+        },
+        "Pakistan": {
+          "value": 63.97928255749503,
+          "share_percentage": 1.5436259586245467
+        },
+        "Uganda": {
+          "value": 55.6034531655963,
+          "share_percentage": 1.3415426098041445
+        },
+        "Hong Kong": {
+          "value": 74.10252575556416,
+          "share_percentage": 1.7878691004879477
+        },
+        "Netherlands": {
+          "value": 43.56889462252465,
+          "share_percentage": 1.0511852280848655
+        },
+        "Ethiopia": {
+          "value": 13.89461081709707,
+          "share_percentage": 0.3352347992177331
+        },
+        "Kazakhstan": {
+          "value": 25.68997959239224,
+          "share_percentage": 0.6198212576034261
+        },
+        "Egypt": {
+          "value": 29.67438518755538,
+          "share_percentage": 0.7159528749102569
+        },
+        "Singapore": {
+          "value": 29.190433293470157,
+          "share_percentage": 0.7042765841396603
+        },
+        "Burundi": {
+          "value": 29.190795908195383,
+          "share_percentage": 0.7042853329327143
+        },
+        "Belgium": {
+          "value": 27.928281431195643,
+          "share_percentage": 0.6738246893941633
+        },
+        "India": {
+          "value": 37.53441743037967,
+          "share_percentage": 0.9055916035838116
+        },
+        "Thailand": {
+          "value": 19.008568103486947,
+          "share_percentage": 0.45861907148547193
+        },
+        "South Sudan": {
+          "value": 33.56091848964697,
+          "share_percentage": 0.8097231307548115
+        },
+        "Ireland": {
+          "value": 20.9714733913853,
+          "share_percentage": 0.5059780201263602
+        }
+      },
+      "imports": {
+        "Total Estimates": {
+          "value": 13855.853886747913,
+          "share_percentage": 155.54219066633638
+        },
+        "China": {
+          "value": 2678.6867873102556,
+          "share_percentage": 30.070237057400067
+        },
+        "Tanzania, United Republic Of": {
+          "value": 1890.4819046352427,
+          "share_percentage": 21.22205526021534
+        },
+        "Kenya": {
+          "value": 1337.0976110678869,
+          "share_percentage": 15.00990796093316
+        },
+        "India": {
+          "value": 1268.4577771279507,
+          "share_percentage": 14.239375143161286
+        },
+        "United Arab Emirates": {
+          "value": 796.4324031475248,
+          "share_percentage": 8.940541789467169
+        },
+        "Uganda": {
+          "value": 541.7027500705611,
+          "share_percentage": 6.081013348195026
+        },
+        "Cameroon": {
+          "value": 646.3164467444205,
+          "share_percentage": 7.255379337282029
+        },
+        "Malaysia": {
+          "value": 253.63629033095896,
+          "share_percentage": 2.847254637138772
+        },
+        "United States": {
+          "value": 201.210649493542,
+          "share_percentage": 2.258738109064133
+        },
+        "Japan": {
+          "value": 239.3141658702644,
+          "share_percentage": 2.686478214998309
+        },
+        "Germany": {
+          "value": 227.67111418372383,
+          "share_percentage": 2.5557763629025696
+        },
+        "Belgium": {
+          "value": 177.10438564068383,
+          "share_percentage": 1.9881274979028505
+        },
+        "South Africa": {
+          "value": 313.4894112901649,
+          "share_percentage": 3.5191501138308388
+        },
+        "Turkey": {
+          "value": 275.2374378999536,
+          "share_percentage": 3.0897434683036065
+        },
+        "Egypt": {
+          "value": 143.26818283418004,
+          "share_percentage": 1.608291137663251
+        },
+        "Pakistan": {
+          "value": 103.08210578798872,
+          "share_percentage": 1.157172750507838
+        },
+        "Brazil": {
+          "value": 110.25975515718628,
+          "share_percentage": 1.2377471644591582
+        },
+        "Russian Federation": {
+          "value": 153.00682227769528,
+          "share_percentage": 1.7176145561645613
+        },
+        "Congo, The Democratic Republic Of": {
+          "value": 113.23100795412708,
+          "share_percentage": 1.2711016709974863
+        },
+        "France": {
+          "value": 117.09892005832536,
+          "share_percentage": 1.3145218403287497
+        }
+      }
+    },
+    "region_share": {},
+    "continent_share": {},
+    "commodity_share": {
+      "exports": {},
+      "imports": {}
+    },
+    "insights": [
+      "Total Estimates contributes 107.8% of total exports",
+      "United Arab Emirates contributes 66.6% of total exports",
+      "Congo, The Democratic Republic Of contributes 11.3% of total exports",
+      "China contributes 4.6% of total exports",
+      "Luxembourg contributes 2.0% of total exports",
+      "Total Estimates contributes 155.5% of total imports",
+      "China contributes 30.1% of total imports",
+      "Tanzania, United Republic Of contributes 21.2% of total imports",
+      "Kenya contributes 15.0% of total imports",
+      "India contributes 14.2% of total imports"
+    ]
+  }
+}

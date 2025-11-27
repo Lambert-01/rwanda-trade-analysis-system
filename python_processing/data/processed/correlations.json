@@ -1,0 +1,107 @@
+{
+  "correlations": {
+    "matrix": {
+      "exports": {
+        "exports": 1.0,
+        "imports": 0.7634846624326852,
+        "trade_balance": 0.4363162161222591
+      },
+      "imports": {
+        "exports": 0.7634846624326852,
+        "imports": 1.0,
+        "trade_balance": -0.24798919598702468
+      },
+      "trade_balance": {
+        "exports": 0.4363162161222591,
+        "imports": -0.24798919598702468,
+        "trade_balance": 1.0
+      }
+    },
+    "strong_relationships": [
+      {
+        "variables": "exports vs imports",
+        "correlation": 0.7634846624326852,
+        "strength": "strong positive",
+        "interpretation": "Exports and Imports show strong positive correlation (r = 0.763)"
+      }
+    ],
+    "country_level_analysis": [
+      {
+        "analysis": "Export concentration vs Trade balance",
+        "correlation": 0.2024074386031062,
+        "interpretation": "Export market concentration and trade balance show positive correlation (r = 0.202)"
+      }
+    ],
+    "regional_dependencies": [],
+    "heatmap_ready_data": [
+      {
+        "x": 0,
+        "y": 0,
+        "value": 1.0,
+        "variable1": "exports",
+        "variable2": "exports"
+      },
+      {
+        "x": 0,
+        "y": 1,
+        "value": 0.7634846624326852,
+        "variable1": "exports",
+        "variable2": "imports"
+      },
+      {
+        "x": 0,
+        "y": 2,
+        "value": 0.4363162161222591,
+        "variable1": "exports",
+        "variable2": "trade_balance"
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "value": 0.7634846624326852,
+        "variable1": "imports",
+        "variable2": "exports"
+      },
+      {
+        "x": 1,
+        "y": 1,
+        "value": 1.0,
+        "variable1": "imports",
+        "variable2": "imports"
+      },
+      {
+        "x": 1,
+        "y": 2,
+        "value": -0.24798919598702468,
+        "variable1": "imports",
+        "variable2": "trade_balance"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "value": 0.4363162161222591,
+        "variable1": "trade_balance",
+        "variable2": "exports"
+      },
+      {
+        "x": 2,
+        "y": 1,
+        "value": -0.24798919598702468,
+        "variable1": "trade_balance",
+        "variable2": "imports"
+      },
+      {
+        "x": 2,
+        "y": 2,
+        "value": 1.0,
+        "variable1": "trade_balance",
+        "variable2": "trade_balance"
+      }
+    ],
+    "insights": [
+      "Exports and Imports show strong positive correlation (r = 0.763)",
+      "Export market concentration and trade balance show positive correlation (r = 0.202)",
+      "Strong positive correlation between exports and imports suggests synchronized trade growth"
+    ]
+  }
+}

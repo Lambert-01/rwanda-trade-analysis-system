@@ -42,18 +42,37 @@ class AdvancedAnalyticsEngine {
     async loadAnalysisData() {
         try {
             console.log('📊 Loading comprehensive analysis data...');
-            
-            const [timeSeriesRes, comprehensiveRes] = await Promise.all([
-                fetch('/data/processed/enhanced_time_series_analysis_20251009_181029.json'),
-                fetch('/data/processed/comprehensive_trade_analysis_20251009_181031.json')
-            ]);
 
-            this.data.timeSeries = await timeSeriesRes.json();
-            this.data.comprehensive = await comprehensiveRes.json();
+            // Load data from API endpoints
+            const endpoints = [
+                '/api/analytics/time-series',
+                '/api/analytics/growth',
+                '/api/analytics/share-analysis',
+                '/api/analytics/hhi-analysis',
+                '/api/analytics/trade-balance-analysis',
+                '/api/analytics/correlation-analysis'
+            ];
+
+            const responses = await Promise.all(
+                endpoints.map(endpoint => fetch(endpoint).catch(() => null))
+            );
+
+            const data = await Promise.all(
+                responses.map(response => response && response.ok ? response.json() : null)
+            );
+
+            // Store data globally
+            this.data = {
+                timeSeries: data[0],
+                growth: data[1],
+                share: data[2],
+                hhi: data[3],
+                tradeBalance: data[4],
+                correlations: data[5]
+            };
 
             console.log('✅ Analysis data loaded successfully');
-            console.log('📈 Time Series Analysis:', this.data.timeSeries);
-            console.log('📊 Comprehensive Analysis:', this.data.comprehensive);
+            console.log('📈 Analytics Data:', this.data);
 
         } catch (error) {
             console.error('❌ Error loading analysis data:', error);
@@ -62,64 +81,15 @@ class AdvancedAnalyticsEngine {
     }
 
     renderDashboard() {
-        console.log('🎨 Rendering Advanced Analytics Dashboard...');
-        
-        this.renderOverviewMetrics();
-        this.renderStatisticalAnalysis();
-        this.renderForecastingSection();
-        this.renderVolatilityAnalysis();
-        this.renderTrendAnalysis();
-        this.renderDistributionAnalysis();
-        this.renderAIRecommendations();
-        this.renderAllCharts();
-        
-        console.log('✅ Analytics dashboard rendered successfully');
+        console.log('🎨 Advanced Analytics Dashboard rendering handled by analytics.html inline script');
+        // The analytics.html file now handles all rendering through its inline JavaScript
+        // This analytics.js file is kept for compatibility but main logic moved to HTML
     }
 
     renderOverviewMetrics() {
-        const ts = this.data.timeSeries;
-        if (!ts) return;
-
-        // Exports Metrics
-        const exportStats = ts.exports_analysis?.statistical_analysis?.basic_statistics;
-        if (exportStats) {
-            this.updateElement('exports-mean', `$${exportStats.mean.toFixed(2)}M`);
-            this.updateElement('exports-median', `$${exportStats.median.toFixed(2)}M`);
-            this.updateElement('exports-std', `${exportStats.std.toFixed(2)}M`);
-            this.updateElement('exports-range', `$${exportStats.range.toFixed(2)}M`);
-        }
-
-        // Imports Metrics
-        const importStats = ts.imports_analysis?.statistical_analysis?.basic_statistics;
-        if (importStats) {
-            this.updateElement('imports-mean', `$${importStats.mean.toFixed(2)}M`);
-            this.updateElement('imports-median', `$${importStats.median.toFixed(2)}M`);
-            this.updateElement('imports-std', `${importStats.std.toFixed(2)}M`);
-            this.updateElement('imports-range', `$${importStats.range.toFixed(2)}M`);
-        }
-
-        // Trade Balance Metrics
-        const balanceStats = ts.trade_balance_analysis?.statistical_analysis?.basic_statistics;
-        if (balanceStats) {
-            this.updateElement('balance-mean', `$${Math.abs(balanceStats.mean).toFixed(2)}M`);
-            this.updateElement('balance-median', `$${Math.abs(balanceStats.median).toFixed(2)}M`);
-            this.updateElement('balance-std', `${balanceStats.std.toFixed(2)}M`);
-            this.updateElement('balance-trend', balanceStats.mean < 0 ? 'Deficit' : 'Surplus');
-        }
-
-        // Volatility Metrics
-        const exportVol = ts.exports_analysis?.statistical_analysis?.volatility_analysis;
-        const importVol = ts.imports_analysis?.statistical_analysis?.volatility_analysis;
-        
-        if (exportVol) {
-            this.updateElement('exports-volatility', `${exportVol.volatility.toFixed(2)}%`);
-            this.updateElement('exports-mean-return', `${exportVol.mean_return.toFixed(2)}%`);
-        }
-        
-        if (importVol) {
-            this.updateElement('imports-volatility', `${importVol.volatility.toFixed(2)}%`);
-            this.updateElement('imports-mean-return', `${importVol.mean_return.toFixed(2)}%`);
-        }
+        // This method is now handled by the analytics.html inline script
+        // The key metrics are rendered directly in the HTML file
+        console.log('📊 Overview metrics rendering handled by analytics.html');
     }
 
     renderStatisticalAnalysis() {

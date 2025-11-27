@@ -12,6 +12,9 @@ const PROCESSED_DATA_DIR = path.join(__dirname, '../../data/processed');
 // Alternative path if the above doesn't work
 const ALTERNATIVE_DATA_DIR = path.join(__dirname, '../../../data/processed');
 
+// Python processing directory (for analytics pipeline outputs)
+const PYTHON_PROCESSING_DIR = path.join(__dirname, '../../python_processing/data/processed');
+
 /**
  * Load JSON data from a file in the processed data directory
  * @param {string} filename - The name of the JSON file to load
@@ -29,8 +32,14 @@ function loadJsonData(filename) {
       console.log(`📁 Trying alternative path for ${filename}: ${filePath}`);
     }
 
+    // If file doesn't exist in alternative path, try python processing path
     if (!fs.existsSync(filePath)) {
-      throw new Error(`File not found in either location: ${filename}`);
+      filePath = path.join(PYTHON_PROCESSING_DIR, filename);
+      console.log(`📁 Trying python processing path for ${filename}: ${filePath}`);
+    }
+
+    if (!fs.existsSync(filePath)) {
+      throw new Error(`File not found in any location: ${filename}`);
     }
 
     const data = fs.readFileSync(filePath, 'utf8');
@@ -52,8 +61,22 @@ function loadJsonData(filename) {
  * @returns {boolean} True if the file exists, false otherwise
  */
 function dataFileExists(filename) {
-  const filePath = path.join(PROCESSED_DATA_DIR, filename);
-  return fs.existsSync(filePath);
+  // Check primary path
+  if (fs.existsSync(path.join(PROCESSED_DATA_DIR, filename))) {
+    return true;
+  }
+
+  // Check alternative path
+  if (fs.existsSync(path.join(ALTERNATIVE_DATA_DIR, filename))) {
+    return true;
+  }
+
+  // Check python processing path
+  if (fs.existsSync(path.join(PYTHON_PROCESSING_DIR, filename))) {
+    return true;
+  }
+
+  return false;
 }
 
 /**

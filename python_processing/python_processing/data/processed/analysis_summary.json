@@ -1,0 +1,15 @@
+{
+  "analysis_summary": {
+    "generated_at": "2025-11-26T00:13:48.469628",
+    "dataset": "2025Q1_Trade_report_annexTables.xlsx",
+    "analyses_completed": 6,
+    "key_findings": [
+      "Time Series: Export trend shows increasing pattern",
+      "Growth: Exports CAGR of 10.3%, Imports CAGR of -1.7%",
+      "Market Share: Total Estimates leads exports with 107.8% share",
+      "Concentration: Export markets are highly concentrated market",
+      "Trade Balance: 100.0% of quarters show trade deficit",
+      "Correlations: Exports-Imports correlation is 0.763"
+    ]
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "overview": {
+    "total_exports": {
+      "value": 4.5,
+      "formatted": "$4.5B",
+      "growth_rate": 904.7,
+      "period": "2022-2025 Cumulative"
+    },
+    "total_imports": {
+      "value": 13.9,
+      "formatted": "$13.9B",
+      "growth_rate": 991.5,
+      "period": "2022-2025 Cumulative"
+    },
+    "trade_balance": {
+      "value": -9.4,
+      "formatted": "$-9.4B",
+      "status": "deficit",
+      "period": "2022-2025 Cumulative"
+    },
+    "total_trade": {
+      "value": 18.3,
+      "formatted": "$18.3B",
+      "period": "2022-2025 Cumulative"
+    },
+    "reexports": {
+      "value": 1.5,
+      "formatted": "$1.5B",
+      "growth_rate": 45.2,
+      "period": "2022-2025 Cumulative"
+    }
+  },
+  "quarterly_trends": {
+    "periods": [
+      "2024Q1",
+      "2024Q2",
+      "2024Q3",
+      "2024Q4",
+      "2025Q1"
+    ],
+    "exports": [
+      1568.97,
+      1751.57,
+      1629.39,
+      1379.05,
+      13855.85
+    ],
+    "imports": [
+      164.0,
+      184.56,
+      177.29,
+      135.39,
+      1477.73
+    ],
+    "trade_balance": [
+      1404.97,
+      1567.01,
+      1452.1,
+      1243.66,
+      12378.13
+    ]
+  },
+  "metadata": {
+    "source": "NISR 2025Q1 Trade Report",
+    "last_updated": "2025-11-26T21:22:05.884749",
+    "data_period": "2022-2025 Cumulative",
+    "currency": "USD",
+    "unit": "billion"
+  },
+  "top_export_countries": [
+    {
+      "country": "United Arab Emirates",
+      "value": 288.75,
+      "formatted": "$288.75M"
+    },
+    {
+      "country": "Congo, The Democratic Republic Of",
+      "value": 54.96,
+      "formatted": "$54.96M"
+    },
+    {
+      "country": "China",
+      "value": 23.45,
+      "formatted": "$23.45M"
+    },
+    {
+      "country": "Luxembourg",
+      "value": 11.98,
+      "formatted": "$11.98M"
+    },
+    {
+      "country": "United States",
+      "value": 10.73,
+      "formatted": "$10.73M"
+    }
+  ],
+  "top_import_countries": [
+    {
+      "country": "China",
+      "value": 338.53,
+      "formatted": "$338.53M"
+    },
+    {
+      "country": "Tanzania, United Republic Of",
+      "value": 151.3,
+      "formatted": "$151.30M"
+    },
+    {
+      "country": "Kenya",
+      "value": 135.35,
+      "formatted": "$135.35M"
+    },
+    {
+      "country": "India",
+      "value": 115.65,
+      "formatted": "$115.65M"
+    },
+    {
+      "country": "United Arab Emirates",
+      "value": 81.09,
+      "formatted": "$81.09M"
+    }
+  ]
+}

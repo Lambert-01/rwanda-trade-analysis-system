@@ -385,16 +385,6 @@ function forceSectionsVisible() {
     console.log('✅ All sections forced visible');
 }
 
-// Expose functions globally for debugging
-window.refreshCharts = refreshCharts;
-window.forceSectionsVisible = forceSectionsVisible;
-window.testAPIConnection = testAPIConnection;
-window.loadRealTradeData = loadRealTradeData;
-window.renderChartsFromAPI = renderChartsFromAPI;
-window.populateWithSampleData = populateWithSampleData;
-window.forceLoadData = forceLoadData;
-window.testDataLoading = testDataLoading;
-
 // Quick function to populate dashboard with real data from your processed files
 window.populateWithSampleData = function() {
     console.log('🚀 Populating dashboard with real data from processed files...');
@@ -427,6 +417,86 @@ window.populateWithSampleData = function() {
         showToast('Error updating dashboard', 'error', 3000);
     }
 };
+
+// Define functions first before exposing globally
+async function forceLoadData() {
+    console.log('🔥 Force loading data and populating charts...');
+
+    try {
+        showToast('Loading real data...', 'info', 2000);
+
+        // Load data from API
+        const success = await loadRealTradeData();
+
+        if (success) {
+            console.log('✅ Data loaded successfully');
+            showToast('Data loaded successfully!', 'success', 3000);
+        } else {
+            console.warn('⚠️ Using fallback data');
+            await renderFallbackCharts();
+            showToast('Using fallback data', 'warning', 2000);
+        }
+
+        // Also update the dashboard stats
+        populateWithSampleData();
+
+    } catch (error) {
+        console.error('❌ Error force loading data:', error);
+        showToast('Error loading data', 'error', 3000);
+    }
+}
+
+async function testDataLoading() {
+    console.log('🧪 Testing data loading...');
+
+    try {
+        // Test API connectivity
+        console.log('1️⃣ Testing API connectivity...');
+        const apiTest = await testAPIConnection();
+
+        // Test data loading
+        console.log('2️⃣ Testing data loading...');
+        const dataLoadResult = await loadRealTradeData();
+
+        // Check if charts are populated
+        console.log('3️⃣ Checking chart population...');
+        const charts = document.querySelectorAll('.chart-container canvas');
+        console.log(`Found ${charts.length} chart canvases`);
+
+        charts.forEach(canvas => {
+            const ctx = canvas.getContext('2d');
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const hasData = !isCanvasEmpty(imageData);
+            console.log(`Chart ${canvas.id}: ${hasData ? '✅ Has data' : '❌ Empty'}`);
+        });
+
+        console.log('✅ Data loading test complete');
+        return {
+            apiTest,
+            dataLoadResult,
+            chartsFound: charts.length,
+            chartsWithData: charts.filter(canvas => {
+                const ctx = canvas.getContext('2d');
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                return !isCanvasEmpty(imageData);
+            }).length
+        };
+
+    } catch (error) {
+        console.error('❌ Data loading test failed:', error);
+        return { error: error.message };
+    }
+}
+
+// Expose functions globally for debugging
+window.refreshCharts = refreshCharts;
+window.forceSectionsVisible = forceSectionsVisible;
+window.testAPIConnection = testAPIConnection;
+window.loadRealTradeData = loadRealTradeData;
+window.renderChartsFromAPI = renderChartsFromAPI;
+window.forceLoadData = forceLoadData;
+window.testDataLoading = testDataLoading;
+
 
 // Test function to verify data loading
 window.testDataLoading = async function() {
@@ -1434,7 +1504,7 @@ function showComparisonModal() {
     if (!document.getElementById('comparison-modal')) {
         const modal = document.createElement('div');
         modal.id = 'comparison-modal';
-        modal.className = 'modal';
+        modal.className = 'modal nisr-modal';
         modal.innerHTML = `
             <div class="modal-content">
                 <div class="modal-header">
@@ -2782,7 +2852,7 @@ function initializeAccessibilityFeatures() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             // Close any open modals
-            document.querySelectorAll('.modal.active').forEach(modal => {
+            document.querySelectorAll('.modal.nisr-modal.active').forEach(modal => {
                 hideModal(modal.id);
             });
         }

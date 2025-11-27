@@ -19,7 +19,6 @@ const predictionsRoutes = require('./routes/predictions');
 const analyticsRoutes = require('./routes/analytics');
 const modelsRoutes = require('./routes/models');
 const chatRoutes = require('./routes/chat');
-const alertsRoutes = require('./routes/alerts');
 
 // Log route loading
 console.log('Loading backend routes...');
@@ -67,8 +66,6 @@ async function initializeApp() {
         console.log('   ✅ /api/models routes registered');
         app.use('/api/chat', chatRoutes);
         console.log('   ✅ /api/chat routes registered');
-        app.use('/api/alerts', alertsRoutes);
-        console.log('   ✅ /api/alerts routes registered');
 
         // Direct route for analysis-results (for frontend compatibility)
         app.get('/api/analysis-results', (req, res) => {
@@ -136,16 +133,6 @@ async function initializeApp() {
                 { method: 'POST', path: '/api/models/explain-correlation', description: 'Get AI explanation for correlation' },
                 { method: 'POST', path: '/api/models/explain-outliers', description: 'Get AI explanation for outliers' },
                 { method: 'POST', path: '/api/models/comprehensive-insights', description: 'Get comprehensive AI insights' }
-              ],
-              alerts: [
-                { method: 'GET', path: '/api/alerts', description: 'Get active alerts with optional filtering' },
-                { method: 'GET', path: '/api/alerts/:id', description: 'Get specific alert by ID' },
-                { method: 'POST', path: '/api/alerts/:id/acknowledge', description: 'Acknowledge an alert' },
-                { method: 'GET', path: '/api/alerts/statistics', description: 'Get alert statistics and summary' },
-                { method: 'GET', path: '/api/alerts/recent', description: 'Get recent alerts (last 24 hours)' },
-                { method: 'GET', path: '/api/alerts/categories', description: 'Get available alert categories' },
-                { method: 'POST', path: '/api/alerts/test', description: 'Generate a test alert (development)' },
-                { method: 'DELETE', path: '/api/alerts/:id', description: 'Delete a specific alert' }
               ],
               exports: [
                 { method: 'GET', path: '/api/exports/quarterly', description: 'Get quarterly export data' },

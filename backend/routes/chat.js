@@ -49,18 +49,15 @@ router.post('/message', async (req, res) => {
         // Create enhanced prompt with full system awareness
         const enhancedPrompt = await buildEnhancedPrompt(message, messageAnalysis, systemContext, tradeContext);
 
-        // Check if OpenAI/OpenRouter is configured
-        if (openaiService.isConfigured()) {
-            try {
-                console.log('🚀 Calling OpenRouter API with enhanced context...');
-                console.log('🎯 Using configured model:', openaiService.model);
+        console.log('🚀 Calling OpenRouter API with enhanced context...');
+        console.log('🎯 Using configured model:', openaiService.model);
 
-                const completion = await openaiService.client.chat.completions.create({
-                    model: openaiService.model,
-                    messages: [
-                        {
-                            role: "system",
-                            content: `You are the Rwanda Trade Intelligence Assistant, an advanced analytical system built for the NISR Hackathon 2025.
+        const completion = await openaiService.client.chat.completions.create({
+            model: openaiService.model,
+            messages: [
+                {
+                    role: "system",
+                    content: `You are the Rwanda Trade Intelligence Assistant, an advanced analytical system built for the NISR Hackathon 2025.
 
 Your role is to provide high-quality, evidence-based, policy-relevant insights using three sources:
 1. Processed data (JSON files) stored in the platform
@@ -85,120 +82,87 @@ MESSAGE ANALYSIS:
 - Urgency: ${messageAnalysis.urgency}
 - Context: ${messageAnalysis.context}
 
-CRITICAL INSTRUCTION: When answering any question, you MUST provide structured output with these sections:
+OFFICIAL NISR PDF REPORT CONTENT (Formal External Trade in Goods Report 2025Q1):
 
-**Executive Summary**
-[2-3 sentences summarizing key findings]
+SUMMARY:
+In the first quarter of 2025, Rwanda's total trade was US$ 1,869.26 million, a decrease of 0.46 percent over the first quarter of 2024. Domestic exports were estimated at US$ 480.82 million; imports were estimated at US$ 1,379.05 million and re-exports were estimated at US$ 139.36 million.
 
-**Key Insights**
-• [3-7 bullet points with evidence-based insights]
-• [Include percentages, totals, comparisons]
-• [Cite specific data sources]
+In this quarter, total domestic exports increased by 11.80 percent when compared to the first quarter of 2024 (US$ 480.82 million and US$ 431.61 million respectively) and decreased by 28.02 percent when compared to the fourth quarter of 2024. Total imports of Rwanda decreased by 2.23 percent in the first quarter of 2025 when compared to the same quarter of 2024 and decreased by 19.30 percent when compared to the fourth quarter of 2024. Re-exports decreased by 21.82 percent in the first quarter of 2025 over the same quarter of 2024 and decreased by 23.83 percent compared to the fourth quarter of 2024.
 
-**Data Highlights**
-• [Specific numbers, trends, comparisons]
-• [Growth rates, market shares, changes over time]
+The top five export destinations were the United Arab Emirates, the Democratic Republic of the Congo, China, Luxembourg, and the United States.
 
-**Contextual Interpretation**
-• [Analysis from PDF reports and official sources]
-• [Why trends are happening, broader implications]
+In terms of re-exports, the top five destinations were the Democratic Republic of the Congo, Ethiopia, the United Arab Emirates, Uganda and Zambia. The Democratic Republic of the Congo accounted for 63.41 percent of Rwanda's total re-exports.
 
-**AI Reasoning**
-• [Trends analysis, cause identification]
-• [Implications for Rwanda's trade environment]
+In terms of total imports (CIF); China, Tanzania, Kenya, India and United Arab Emirates were the top five countries of origin of imports to Rwanda.
 
-**Policy Recommendations**
-• [If relevant: actionable recommendations]
-• [Strategic suggestions based on data]
+REGIONAL TRADE ANALYSIS:
+- EAC: Rwanda's trade with EAC partner states totaled US$ 373.73 million in exports, US$ 1,073.00 million in imports, and US$ 127.14 million in re-exports during Q1 2025.
+- COMESA: Trade with COMESA member states was US$ 370.76 million in exports, US$ 1,431.20 million in imports, and US$ 131.32 million in re-exports.
+- SADC: Trade with SADC member states totaled US$ 370.20 million in exports, US$ 1,313.76 million in imports, and US$ 127.69 million in re-exports.
+- EU: Trade with EU member states was US$ 122.90 million in exports, US$ 1,010.00 million in imports, and US$ 0.26 million in re-exports.
 
-**Optional: Suggested Visualizations**
-• [Chart types, dashboard views to explore]
+KEY FINDINGS FROM PDF:
+- Rwanda's export sector shows strong growth in Q1 2025 with 11.8% increase YoY
+- UAE remains dominant export partner (40.09% of total exports)
+- DRC is key re-export destination (63.41% of total re-exports)
+- China leads imports (30.13% of total imports)
+- EAC trade represents significant portion of Rwanda's total trade
+- Trade deficit persists but narrowed slightly compared to previous quarters
 
-Always combine data + PDF insights. Use numbers from processed JSON, explanations from PDF. Blend into coherent answers. Never guess - always cite available data. Be professional, analytical, evidence-driven, concise but impactful. Useful for policy makers, businesses, researchers.`
-                        },
-                        {
-                            role: "user",
-                            content: enhancedPrompt
-                        }
-                    ],
-                    max_tokens: openaiService.maxTokens,
-                    temperature: openaiService.temperature
-                });
+Always do the following before answering:
+1. Analyze the user input carefully.
+2. Identify relevant trade data or context from the provided datasets and PDF report.
+3. Blend your analysis with insights from both JSON data and PDF report naturally — do not follow a rigid multi-section format.
+4. Respond in a professional tone suitable for policymakers, business leaders, and researchers.
+5. Keep answers concise but informative, and include numbers or trends where relevant from both sources.
+6. If the user input is casual (e.g., greetings like "Hello"), respond politely but naturally without unnecessary data analysis.
 
-                // Clean the AI response to remove any <think> tags that may be present
-                // Some reasoning models (DeepSeek, Qwen) include internal reasoning in <think> tags
-                // We remove these to provide clean responses to users
-                const rawResponse = completion.choices[0].message.content;
-                const aiResponse = cleanAIResponse(rawResponse);
+Do not invent data — only reference available data from JSON files and PDF report. Provide reasoning, insights, or suggested actions when appropriate, but format the output naturally, like a professional analyst explaining findings verbally.
 
-                console.log('✅ Enhanced AI response generated and cleaned successfully');
-                console.log('📊 Tokens used:', completion.usage?.total_tokens || 'N/A');
-
-                // Generate real-time insight about this interaction
-                const interactionInsight = await generateRealTimeInsights({
-                    type: 'user_chat',
-                    message: message.substring(0, 50),
-                    response_length: aiResponse.length,
-                    system_health: systemContext.system_health
-                });
-
-                return res.json({
-                    success: true,
-                    response: aiResponse,
-                    using_ai: true,
-                    model: openaiService.model,
-                    provider: 'OpenRouter',
-                    tokens_used: completion.usage?.total_tokens || 0,
-                    timestamp: new Date().toISOString(),
-                    message_analysis: messageAnalysis,
-                    contextual_suggestions: contextualSuggestions,
-                    system_context: {
-                        health: systemContext.system_health,
-                        recent_activity: systemContext.recent_events?.slice(0, 2) || []
-                    },
-                    real_time_insight: interactionInsight.success ? interactionInsight.insight : null
-                });
-
-            } catch (aiError) {
-                console.error('❌ OpenRouter/DeepSeek API error:', aiError);
-
-                // Generate enhanced fallback with system context
-                const enhancedFallbackResponse = await generateEnhancedFallbackResponse(message, messageAnalysis, systemContext, tradeContext);
-
-                return res.json({
-                    success: true,
-                    response: enhancedFallbackResponse,
-                    using_ai: false,
-                    fallback: true,
-                    message_analysis: messageAnalysis,
-                    contextual_suggestions: contextualSuggestions,
-                    system_context: {
-                        health: systemContext.system_health,
-                        recent_activity: systemContext.recent_events?.slice(0, 2) || []
-                    },
-                    timestamp: new Date().toISOString()
-                });
-            }
-        } else {
-            // Enhanced fallback when OpenAI is not configured
-            console.log('🤖 OpenAI not configured, using enhanced fallback response');
-
-            const enhancedFallbackResponse = await generateEnhancedFallbackResponse(message, messageAnalysis, systemContext, tradeContext);
-
-            return res.json({
-                success: true,
-                response: enhancedFallbackResponse,
-                using_ai: false,
-                note: 'OpenAI API key not configured - using enhanced static responses',
-                message_analysis: messageAnalysis,
-                contextual_suggestions: contextualSuggestions,
-                system_context: {
-                    health: systemContext.system_health,
-                    recent_activity: systemContext.recent_events?.slice(0, 2) || []
+Always combine data + PDF insights. Use numbers from processed JSON, explanations and context from PDF. Blend into coherent answers. Never guess - always cite available data sources. Be professional, analytical, evidence-driven, concise but impactful. Useful for policy makers, businesses, researchers.`
                 },
-                timestamp: new Date().toISOString()
-            });
-        }
+                {
+                    role: "user",
+                    content: enhancedPrompt
+                }
+            ],
+            max_tokens: openaiService.maxTokens,
+            temperature: openaiService.temperature
+        });
+
+        // Clean the AI response to remove any <think> tags that may be present
+        // Some reasoning models (DeepSeek, Qwen) include internal reasoning in <think> tags
+        // We remove these to provide clean responses to users
+        const rawResponse = completion.choices[0].message.content;
+        const aiResponse = cleanAIResponse(rawResponse);
+
+        console.log('✅ Enhanced AI response generated and cleaned successfully');
+        console.log('📊 Tokens used:', completion.usage?.total_tokens || 'N/A');
+
+        // Generate real-time insight about this interaction
+        const interactionInsight = await generateRealTimeInsights({
+            type: 'user_chat',
+            message: message.substring(0, 50),
+            response_length: aiResponse.length,
+            system_health: systemContext.system_health
+        });
+
+        return res.json({
+            success: true,
+            response: aiResponse,
+            using_ai: true,
+            model: openaiService.model,
+            provider: 'OpenRouter',
+            tokens_used: completion.usage?.total_tokens || 0,
+            timestamp: new Date().toISOString(),
+            message_analysis: messageAnalysis,
+            contextual_suggestions: contextualSuggestions,
+            system_context: {
+                health: systemContext.system_health,
+                recent_activity: systemContext.recent_events?.slice(0, 2) || []
+            },
+            real_time_insight: interactionInsight.success ? interactionInsight.insight : null
+        });
 
     } catch (error) {
         console.error('❌ Enhanced chat API error:', error);
@@ -657,25 +621,25 @@ async function generateEnhancedFallbackResponse(message, messageAnalysis, system
     try {
         const lowerMessage = message.toLowerCase();
 
-        // Enhanced trade data specific responses based on intent
+        // Enhanced trade data specific responses based on intent with PDF insights
         switch (messageAnalysis.intent) {
             case 'export_analysis':
-                return `I understand you're interested in export analysis. Based on current data, Rwanda's export sector shows ${tradeContext.total_exports ? 'strong performance' : 'growth potential'} with key markets in ${tradeContext.top_destinations?.map(d => d.country).join(', ') || 'multiple regions'}. The system is currently ${systemContext.system_health > 80 ? 'operating optimally' : 'processing data'} and can provide detailed export insights through the dashboard.`;
+                return `Based on the NISR Q1 2025 report and current data, Rwanda's export sector shows strong 11.8% year-over-year growth, reaching $480.82M. Key markets include UAE (40.09% share), DRC, China, and Luxembourg. The report highlights that domestic exports increased significantly compared to Q1 2024, with UAE remaining the dominant export partner. The system is currently ${systemContext.system_health > 80 ? 'operating optimally' : 'processing data'} and can provide detailed export insights.`;
 
             case 'import_analysis':
-                return `For import analysis, I can help you understand Rwanda's import patterns totaling $${tradeContext.total_imports?.toFixed(0)}M. The current trade balance of $${tradeContext.trade_balance?.toFixed(0)}M reflects development needs. The system has processed ${systemContext.total_events_logged} recent events and maintains ${systemContext.system_health}% health for accurate analysis.`;
+                return `According to the NISR Q1 2025 report, Rwanda's imports totaled $1,379.05M, showing a 2.23% decrease from Q1 2024. China leads as the top import source (30.13% share), followed by Tanzania, Kenya, India, and UAE. The report indicates that imports decreased by 19.3% compared to Q4 2024, reflecting the country's development import needs. The system maintains ${systemContext.system_health}% health for accurate analysis.`;
 
             case 'forecast_request':
-                return `I can provide AI-powered forecasts for Rwanda's trade data. Based on current trends showing ${tradeContext.total_exports ? 'positive growth' : 'stable performance'}, the forecasting models are ready to generate predictions. The system is currently at ${systemContext.system_health}% health with ${systemContext.total_insights_generated} insights generated recently.`;
+                return `I can provide AI-powered forecasts for Rwanda's trade data. The NISR Q1 2025 report shows positive export growth trends with 11.8% YoY increase, while imports decreased by 2.23%. Based on these patterns, the forecasting models are ready to generate predictions. The system is currently at ${systemContext.system_health}% health with ${systemContext.total_insights_generated} insights generated recently.`;
 
             case 'trend_analysis':
-                return `Trend analysis reveals Rwanda's export growth of approximately 157.9% with current export values at $${tradeContext.total_exports?.toFixed(0)}M. The system's ${systemContext.total_events_logged} logged events provide rich data for pattern analysis. I recommend checking the analytics dashboard for detailed trend visualizations.`;
+                return `The NISR Q1 2025 report reveals Rwanda's export growth of 11.8% year-over-year, with total exports reaching $480.82M compared to $431.61M in Q1 2024. However, there's a 28.02% decrease from Q4 2024 ($626.06M). The report shows imports decreased by 2.23% YoY and 19.3% from Q4 2024. The system's ${systemContext.total_events_logged} logged events provide rich data for pattern analysis.`;
 
             case 'commodity_analysis':
-                return `Commodity analysis shows Rwanda's key exports include ${tradeContext.top_products?.map(p => p.commodity).join(', ') || 'traditional agricultural products'}. The system has generated ${systemContext.total_insights_generated} AI insights about commodity performance and market opportunities.`;
+                return `The NISR Q1 2025 report shows Rwanda's key export commodities include food and live animals (27.27% of exports), crude materials (17.32%), manufactured goods (36.36%), and machinery (7.20%). For re-exports, food and live animals dominate (26.28%). The system has generated ${systemContext.total_insights_generated} AI insights about commodity performance and market opportunities.`;
 
             default:
-                return `I'm here to help you with comprehensive trade data analysis for Rwanda. The system is currently at ${systemContext.system_health}% health and has processed ${systemContext.total_events_logged} events. Current trade data shows exports of $${tradeContext.total_exports?.toFixed(0)}M and imports of $${tradeContext.total_imports?.toFixed(0)}M. What specific aspect would you like to explore?`;
+                return `I'm here to help you with comprehensive trade data analysis for Rwanda. The NISR Q1 2025 report shows total trade of $1,869.26M with exports at $480.82M and imports at $1,379.05M. The system is currently at ${systemContext.system_health}% health and has processed ${systemContext.total_events_logged} events. What specific aspect would you like to explore?`;
         }
     } catch (error) {
         console.error('Error generating enhanced fallback response:', error);

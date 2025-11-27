@@ -126,11 +126,11 @@ temp/
 # DATA & MODEL FILES (Optional exclusions)
 # ========================================
 # Uncomment these if you don't want to push large data files
-# data/raw/*.xlsx
-# data/raw/*.pdf
-# models/*.pkl
-# models/*.h5
-# data/processed/*.json
+data/raw/*.xlsx
+data/raw/*.pdf
+models/*.pkl
+models/*.h5
+data/processed/*.json
 
 # ========================================
 # OS GENERATED FILES

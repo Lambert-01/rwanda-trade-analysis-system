@@ -66,10 +66,309 @@
             margin-top: 5px;
         }
 
+        /* Chart Filters */
+        .chart-filters {
+            margin-right: 10px;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .chart-filters .form-select {
+            min-width: 140px;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .chart-filters .form-select:focus {
+            border-color: #00A1F1;
+            box-shadow: 0 0 0 2px rgba(0, 161, 241, 0.2);
+        }
+
+        .chart-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Country Filter Display */
+        .country-filter-display {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .country-list {
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .country-tag {
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .country-tag i {
+            font-size: 0.7rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Compact Stats Cards */
+        .modern-stats-card.compact {
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .modern-stats-card.compact:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .modern-stats-card.compact .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .modern-stats-card.compact .card-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .modern-stats-card.compact .card-badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .modern-stats-card.compact .card-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #1a365d;
+        }
+
+        .modern-stats-card.compact .card-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: #64748b;
+        }
+
+        .modern-stats-card.compact .card-subtitle {
+            font-size: 0.65rem;
+            color: #94a3b8;
+        }
+
+        .modern-stats-card.compact .card-footer {
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .modern-stats-card.compact .trend-indicator {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        /* Counting Animation */
+        .counting-number {
+            transition: all 0.3s ease;
+        }
+
+        /* Treemap Styles */
+        .treemap-legend {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+            border: 1px solid #ddd;
+        }
+
+        .treemap-grid-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8px;
+            min-height: 60px;
+            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .treemap-grid-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .treemap-country {
+            font-weight: 600;
+            color: #1e40af;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            line-height: 1.2;
+        }
+
+        .treemap-value {
+            color: #1e3a8a;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.6);
+            font-weight: 500;
+            line-height: 1.1;
+        }
+
+        .treemap-percentage {
+            color: #1e3a8a;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.6);
+            font-size: 0.9em;
+            line-height: 1.1;
+        }
+
+        /* Responsive treemap adjustments */
+        @media (max-width: 768px) {
+            .treemap-grid-item {
+                padding: 6px;
+                min-height: 50px;
+            }
+
+            .treemap-country {
+                font-size: 10px !important;
+            }
+
+            .treemap-value {
+                font-size: 9px !important;
+            }
+
+            .treemap-percentage {
+                font-size: 8px !important;
+            }
+        }
+
+        /* Commodity Donut Chart Styles */
+        .commodity-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .commodity-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: #666;
+            background: rgba(255,255,255,0.8);
+            padding: 4px 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .commodity-legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        /* Regional Trends Legend */
+        .regional-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .regional-legend .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .regional-legend .legend-color {
+            width: 14px;
+            height: 3px;
+            border-radius: 2px;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .charts-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .chart-controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+
+            .chart-filters .form-select {
+                min-width: 100%;
+            }
+
+            .country-list {
+                max-height: 100px;
+            }
+
+            .country-tag {
+                font-size: 0.7rem !important;
+                padding: 3px 6px !important;
+            }
+
+            .modern-stats-card.compact {
+                padding: 12px;
+            }
+
+            .modern-stats-card.compact .card-value {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -162,17 +461,13 @@
                 <i class="fas fa-bars"></i>
             </button>
             <div class="page-title">
-                <h1>Trade Analytics Dashboard</h1>
-                <p>Real-time insights and AI-powered analysis</p>
+                <h1 style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #1a365d;">Trade Analytics Dashboard</h1>
+                <p style="margin: 4px 0 0 0; font-size: 0.875rem; color: #64748b; font-weight: 500;">Comprehensive Rwanda Trade Intelligence Platform</p>
             </div>
         </div>
 
         <div class="header-right">
             <div class="header-actions">
-                <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
-                    <i class="fas fa-moon sun-icon"></i>
-                    <i class="fas fa-sun moon-icon"></i>
-                </button>
                 <button class="btn btn-refresh" onclick="loadRealTradeData()" title="Refresh Data">
                     <i class="fas fa-sync-alt"></i>
                 </button>
@@ -198,96 +493,24 @@
         </div>
 
         <!-- Dashboard Overview -->
-        <section id="dashboard" class="section active">
+        <section id="dashboard" class="section active" style="margin-top: 0; padding-top: 0;">
             <!-- Modern Hero Section -->
-            <div class="hero-section">
+            <div class="hero-section" style="margin-top: 0; padding-top: 10px;">
                 <div class="container-fluid">
-                    <div class="row align-items-center min-vh-75">
+                    <div class="row align-items-center" style="min-height: 60vh;">
                         <div class="col-lg-8">
                             <div class="hero-content">
                                 <!-- Structured Hero Content -->
                                 <div class="hero-header" data-aos="fade-up">
                                     <div class="hero-main-title">
-                                        <span class="hero-flag">🇷🇼</span>
-                                        <h1 class="hero-title">Transform Rwanda's Trade Future</h1>
+                                        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 8px;">
+                                            <i class="fas fa-globe-africa text-primary me-2"></i>
+                                            AI-Powered Trade Analytics to Transform Rwanda's Trade</h1>
                                     </div>
-                                    <p class="hero-subtitle">
+                                    <p class="hero-subtitle" style="font-size: 1rem; margin-bottom: 0;">
                                         <i class="fas fa-rocket text-primary"></i>
                                         Advanced AI-driven insights for strategic trade decisions
                                     </p>
-                                </div>
-
-                                <!-- Core Capabilities -->
-                                <div class="hero-capabilities" data-aos="fade-up" data-aos-delay="200">
-                                    <div class="capability-item">
-                                        <div class="capability-icon ai">
-                                            <i class="fas fa-brain"></i>
-                                        </div>
-                                        <span class="capability-text">AI Analytics</span>
-                                    </div>
-                                    <div class="capability-item">
-                                        <div class="capability-icon realtime">
-                                            <i class="fas fa-bolt"></i>
-                                        </div>
-                                        <span class="capability-text">Real-Time</span>
-                                    </div>
-                                    <div class="capability-item">
-                                        <div class="capability-icon regional">
-                                            <i class="fas fa-globe-africa"></i>
-                                        </div>
-                                        <span class="capability-text">Regional</span>
-                                    </div>
-                                    <div class="capability-item">
-                                        <div class="capability-icon predictive">
-                                            <i class="fas fa-chart-line"></i>
-                                        </div>
-                                        <span class="capability-text">Predictive</span>
-                                    </div>
-                                </div>
-
-                                <!-- Key Features Grid -->
-                                <div class="hero-features-compact" data-aos="fade-up" data-aos-delay="300">
-                                    <div class="feature-row">
-                                        <div class="feature-badge">
-                                            <i class="fas fa-robot text-info"></i>
-                                            <span>Qwen3 235B AI</span>
-                                        </div>
-                                        <div class="feature-badge">
-                                            <i class="fas fa-database text-success"></i>
-                                            <span>NISR Data</span>
-                                        </div>
-                                        <div class="feature-badge">
-                                            <i class="fas fa-chart-bar text-warning"></i>
-                                            <span>Live Charts</span>
-                                        </div>
-                                    </div>
-                                    <div class="feature-row">
-                                        <div class="feature-badge">
-                                            <i class="fas fa-bell text-danger"></i>
-                                            <span>Smart Alerts</span>
-                                        </div>
-                                        <div class="feature-badge">
-                                            <i class="fas fa-comments text-primary"></i>
-                                            <span>AI Chat</span>
-                                        </div>
-                                        <div class="feature-badge">
-                                            <i class="fas fa-map text-secondary"></i>
-                                            <span>EAC Focus</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Action Buttons -->
-                                <div class="hero-actions" data-aos="fade-up" data-aos-delay="700">
-                                    <button class="btn btn-primary btn-lg me-3" onclick="loadRealTradeData()">
-                                        <i class="fas fa-sync-alt me-2"></i>Load Real Data
-                                    </button>
-                                    <button class="btn btn-outline-primary btn-lg me-3" onclick="toggleChatbox()">
-                                        <i class="fas fa-robot me-2"></i>AI Assistant
-                                    </button>
-                                    <a href="#dashboard" class="btn btn-success btn-lg">
-                                        <i class="fas fa-chart-bar me-2"></i>Explore Analytics
-                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -296,88 +519,91 @@
                             <div class="hero-visual">
                                <!-- Organized Information Grid -->
                                <div class="info-grid" data-aos="fade-left" data-aos-delay="300">
-                                   <!-- Team Section -->
-                                   <div class="info-card team-section">
-                                       <div class="card-header">
-                                           <div class="card-icon">
+                                   <!-- Team Section - Compact Version -->
+                                   <div class="info-card team-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 24px rgba(102, 126, 234, 0.3); max-height: 280px;">
+                                       <div class="card-header" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 12px;">
+                                           <div class="card-icon" style="background: rgba(255,255,255,0.2); color: white; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
                                                <i class="fas fa-users-cog"></i>
                                            </div>
                                            <div class="card-title">
-                                               <h5>Team Codabytes</h5>
-                                               <span class="card-subtitle"><i class="fas fa-graduation-cap"></i> Undergraduates</span>
+                                               <h6 style="color: white; margin: 0; font-weight: 700; font-size: 0.9rem;">Team Codabytes</h6>
+                                               <span class="card-subtitle" style="color: rgba(255,255,255,0.8); font-size: 0.65rem;"><i class="fas fa-graduation-cap"></i> Undergraduates</span>
                                            </div>
                                        </div>
-                                       <div class="card-content">
+                                       <div class="card-content" style="padding: 10px;">
                                            <div class="team-members-compact">
-                                               <div class="member-compact">
-                                                   <div class="member-icon">
+                                               <div class="member-compact" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 8px; margin-bottom: 6px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);">
+                                                   <div class="member-icon" style="background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
                                                        <i class="fas fa-user-graduate"></i>
                                                    </div>
-                                                   <div class="member-info">
-                                                       <span class="member-name">Lambert NDACYAYISABA</span>
-                                                       <span class="member-role">Applied Mathematician</span>
-                                                       <span class="member-skill">Data Scientist & Engineer</span>
+                                                   <div class="member-info" style="margin-left: 8px; flex: 1;">
+                                                       <span class="member-name" style="color: white; font-weight: 600; font-size: 0.75rem; display: block; margin-bottom: 1px; line-height: 1.1;">Lambert NDACYAYISABA</span>
+                                                       <span class="member-role" style="color: rgba(255,255,255,0.8); font-size: 0.6rem; display: block; margin-bottom: 1px; line-height: 1;">Applied Mathematician</span>
+                                                       <span class="member-skill" style="color: rgba(255,255,255,0.9); font-size: 0.55rem; background: rgba(255,255,255,0.2); padding: 1px 4px; border-radius: 6px; display: inline-block;">Data Scientist</span>
                                                    </div>
                                                </div>
-                                               <div class="member-compact">
-                                                   <div class="member-icon">
+                                               <div class="member-compact" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 8px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);">
+                                                   <div class="member-icon" style="background: linear-gradient(45deg, #4ecdc4, #44a08d); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
                                                        <i class="fas fa-user-tie"></i>
                                                    </div>
-                                                   <div class="member-info">
-                                                       <span class="member-name">Derrick RUTAGANIRA</span>
-                                                       <span class="member-role">Software Engineer</span>
-                                                       <span class="member-skill">Full Stack Developer</span>
+                                                   <div class="member-info" style="margin-left: 8px; flex: 1;">
+                                                       <span class="member-name" style="color: white; font-weight: 600; font-size: 0.75rem; display: block; margin-bottom: 1px; line-height: 1.1;">Derrick RUTAGANIRA</span>
+                                                       <span class="member-role" style="color: rgba(255,255,255,0.8); font-size: 0.6rem; display: block; margin-bottom: 1px; line-height: 1;">Software Engineer</span>
+                                                       <span class="member-skill" style="color: rgba(255,255,255,0.9); font-size: 0.55rem; background: rgba(255,255,255,0.2); padding: 1px 4px; border-radius: 6px; display: inline-block;">Full Stack Dev</span>
                                                    </div>
                                                </div>
                                            </div>
                                        </div>
                                    </div>
-
-                                   <!-- Data Ecosystem Section -->
-                                   <div class="info-card data-section">
-                                       <div class="card-header">
-                                           <div class="card-icon">
-                                               <i class="fas fa-server"></i>
-                                           </div>
-                                           <div class="card-title">
-                                               <h5>Data Ecosystem</h5>
-                                               <span class="card-subtitle"><i class="fas fa-database"></i> Real-time Processing</span>
-                                           </div>
-                                       </div>
-                                       <div class="card-content">
-                                           <div class="data-sources-compact">
-                                               <div class="data-item">
-                                                   <div class="data-icon">
-                                                       <i class="fas fa-file-excel"></i>
-                                                   </div>
-                                                   <div class="data-info">
-                                                       <span class="data-name">NISR Excel Reports</span>
-                                                       <span class="data-meta">2022-Q1 → 2025-Q1</span>
-                                                   </div>
-                                               </div>
-                                               <div class="data-item">
-                                                   <div class="data-icon">
-                                                       <i class="fas fa-table"></i>
-                                                   </div>
-                                                   <div class="data-info">
-                                                       <span class="data-name">13+ Data Sheets</span>
-                                                       <span class="data-meta">Annex Tables</span>
-                                                   </div>
-                                               </div>
-                                               <div class="data-item">
-                                                   <div class="data-icon">
-                                                       <i class="fas fa-cogs"></i>
-                                                   </div>
-                                                   <div class="data-info">
-                                                       <span class="data-name">AI Processing</span>
-                                                       <span class="data-meta">Real-time Analytics</span>
-                                                   </div>
-                                               </div>
-                                           </div>
-                                       </div>
-                                   </div>
-
                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Ecosystem Section - Full Width Horizontal -->
+                        <div class="col-12" style="margin-top: 10px;">
+                            <div class="data-ecosystem-full-width" data-aos="fade-up" data-aos-delay="400">
+                                <div class="info-card data-section" style="background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 24px rgba(30, 58, 138, 0.3);">
+                                    <div class="card-header" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.2); padding: 12px 15px;">
+                                        <div class="card-icon" style="background: rgba(255,255,255,0.2); color: #ffff00; width: 35px; height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-server" style="font-size: 1rem;"></i>
+                                        </div>
+                                        <div class="card-title">
+                                            <h5 style="color: #ffff00; margin: 0; font-weight: 700; font-size: 1.1rem;">Data Ecosystem</h5>
+                                            <span class="card-subtitle" style="color: #ffff00; font-size: 0.8rem;"><i class="fas fa-database"></i> Real-time Processing</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-content" style="padding: 15px;">
+                                        <div class="data-sources-horizontal" style="display: flex; justify-content: space-between; gap: 10px;">
+                                            <div class="data-item" style="flex: 1; text-align: center; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 12px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);">
+                                                <div class="data-icon" style="margin-bottom: 6px;">
+                                                    <i class="fas fa-file-excel" style="font-size: 1.2rem; color: #ffff00;"></i>
+                                                </div>
+                                                <div class="data-info">
+                                                    <span class="data-name" style="display: block; font-weight: 600; margin-bottom: 2px; font-size: 0.85rem; color: #ffff00;">NISR Excel Reports</span>
+                                                    <span class="data-meta" style="font-size: 0.7rem; color: #ffff00;">2022-Q1 → 2025-Q1</span>
+                                                </div>
+                                            </div>
+                                            <div class="data-item" style="flex: 1; text-align: center; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 12px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);">
+                                                <div class="data-icon" style="margin-bottom: 6px;">
+                                                    <i class="fas fa-table" style="font-size: 1.2rem; color: #ffff00;"></i>
+                                                </div>
+                                                <div class="data-info">
+                                                    <span class="data-name" style="display: block; font-weight: 600; margin-bottom: 2px; font-size: 0.85rem; color: #ffff00;">13+ Data Sheets</span>
+                                                    <span class="data-meta" style="font-size: 0.7rem; color: #ffff00;">Annex Tables</span>
+                                                </div>
+                                            </div>
+                                            <div class="data-item" style="flex: 1; text-align: center; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 12px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);">
+                                                <div class="data-icon" style="margin-bottom: 6px;">
+                                                    <i class="fas fa-cogs" style="font-size: 1.2rem; color: #ffff00;"></i>
+                                                </div>
+                                                <div class="data-info">
+                                                    <span class="data-name" style="display: block; font-weight: 600; margin-bottom: 2px; font-size: 0.85rem; color: #ffff00;">AI Processing</span>
+                                                    <span class="data-meta" style="font-size: 0.7rem; color: #ffff00;">Real-time Analytics</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -386,9 +612,9 @@
 
             <!-- Modern Stats Cards -->
             <div class="container-fluid">
-                <div class="row g-4 mb-5" id="main-stats-cards">
+                <div class="row g-3 mb-4" id="main-stats-cards">
                     <div class="col-lg-3 col-md-6">
-                        <div class="modern-stats-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="100">
                             <div class="card-header">
                                 <div class="card-icon success">
                                     <i class="fas fa-arrow-trend-up"></i>
@@ -399,7 +625,7 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <h3 class="card-value" id="exports-value">$8.94B</h3>
+                                <h3 class="card-value counting-number" id="exports-value">$8.94B</h3>
                                 <p class="card-label">Total Exports</p>
                                 <div class="card-subtitle">2022-2025 Cumulative</div>
                             </div>
@@ -413,7 +639,7 @@
                     </div>
 
                     <div class="col-lg-3 col-md-6">
-                        <div class="modern-stats-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="200">
                             <div class="card-header">
                                 <div class="card-icon primary">
                                     <i class="fas fa-arrow-trend-down"></i>
@@ -424,7 +650,7 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <h3 class="card-value" id="imports-value">$20.26B</h3>
+                                <h3 class="card-value counting-number" id="imports-value">$20.26B</h3>
                                 <p class="card-label">Total Imports</p>
                                 <div class="card-subtitle">2022-2025 Cumulative</div>
                             </div>
@@ -438,7 +664,7 @@
                     </div>
 
                     <div class="col-lg-3 col-md-6">
-                        <div class="modern-stats-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="300">
                             <div class="card-header">
                                 <div class="card-icon warning">
                                     <i class="fas fa-exchange-alt"></i>
@@ -449,7 +675,7 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <h3 class="card-value" id="reexports-value">$1.24B</h3>
+                                <h3 class="card-value counting-number" id="reexports-value">$1.24B</h3>
                                 <p class="card-label">Re-exports</p>
                                 <div class="card-subtitle">Transit Trade Volume</div>
                             </div>
@@ -463,7 +689,7 @@
                     </div>
 
                     <div class="col-lg-3 col-md-6">
-                        <div class="modern-stats-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="400">
                             <div class="card-header">
                                 <div class="card-icon danger">
                                     <i class="fas fa-balance-scale"></i>
@@ -474,7 +700,7 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <h3 class="card-value" id="balance-value">-$11.32B</h3>
+                                <h3 class="card-value counting-number" id="balance-value">-$11.32B</h3>
                                 <p class="card-label">Trade Balance</p>
                                 <div class="card-subtitle">Export-Import Gap</div>
                             </div>
@@ -490,7 +716,7 @@
 
                 <!-- Modern Charts Section -->
                 <div class="row g-4 mb-5" id="main-charts">
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <div class="chart-card modern-chart-card" data-aos="fade-right" data-aos-delay="200">
                             <div class="chart-header">
                                 <div class="chart-title-section">
@@ -500,10 +726,20 @@
                                     <p class="chart-subtitle">Export and Import volume analysis over time</p>
                                 </div>
                                 <div class="chart-controls">
-                                    <div class="btn-group">
-                                        <button class="btn btn-outline-primary active" data-chart="quarterly">Quarterly</button>
-                                        <button class="btn btn-outline-primary" data-chart="yearly">Yearly</button>
+                                    <div class="chart-filters">
+                                        <label for="trade-region-filter" style="font-size: 0.75rem; font-weight: 600; color: #666; margin-bottom: 4px; display: block;">Filter by Region:</label>
+                                        <div style="display: flex; gap: 8px; align-items: center;">
+                                            <select id="trade-region-filter" class="form-select form-select-sm" onchange="filterTradeData()">
+                                                <option value="all">🌍 All Regions (Worldwide)</option>
+                                                <option value="eac">🇷🇼 EAC Countries (7 countries)</option>
+                                                <option value="world">🌐 World (Excl. EAC)</option>
+                                            </select>
+                                            <button class="btn btn-outline-secondary btn-sm" onclick="filterTradeData()" title="Apply Filter" style="padding: 4px 8px;">
+                                                <i class="fas fa-filter"></i>
+                                            </button>
+                                        </div>
                                     </div>
+                                    
                                     <button class="btn btn-success" onclick="refreshCharts()">
                                         <i class="fas fa-sync-alt me-1"></i>Refresh
                                     </button>
@@ -520,54 +756,75 @@
                                         <span>Export growth trending upward</span>
                                     </div>
                                 </div>
+                                <!-- Country Filter Display -->
+                                <div id="country-filter-display" class="country-filter-display" style="display: none; margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.95); border-radius: 8px; border: 1px solid rgba(0,0,0,0.1);">
+                                    <h6 style="margin-bottom: 10px; color: #333; font-weight: 600;">
+                                        <i class="fas fa-globe-africa me-2"></i>
+                                        <span id="filter-title">Filtered Countries</span>
+                                    </h6>
+                                    <div id="country-list" class="country-list" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="chart-card modern-chart-card" data-aos="fade-left" data-aos-delay="300">
-                            <div class="chart-header">
-                                <div class="chart-title-section">
-                                    <h3 class="chart-title">
-                                        <i class="fas fa-balance-scale me-2"></i>Trade Balance Analysis
-                                    </h3>
-                                    <p class="chart-subtitle">Net trade position and trends</p>
-                                </div>
-                                <div class="ai-badge">
-                                    <i class="fas fa-robot"></i>AI Analysis
-                                </div>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="trade-balance-chart" height="320"></canvas>
-                            </div>
-                            <div class="chart-footer">
-                                <div class="balance-indicator">
-                                    <span class="balance-status deficit">Current Deficit</span>
-                                    <span class="balance-value">-$11.32B</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Analytics Cards Row -->
+                <!-- New Analytics Charts Row -->
                 <div class="row g-4 mb-5" id="additional-analytics">
                     <div class="col-lg-6">
                         <div class="chart-card modern-chart-card" data-aos="fade-up" data-aos-delay="400">
                             <div class="chart-header">
                                 <div class="chart-title-section">
                                     <h3 class="chart-title">
-                                        <i class="fas fa-chart-pie me-2"></i>Export Distribution
+                                        <i class="fas fa-th-large me-2"></i>Country Trade Shares
                                     </h3>
-                                    <p class="chart-subtitle">Top export destinations by volume</p>
+                                    <p class="chart-subtitle">Interactive treemap showing country contributions to trade</p>
                                 </div>
-                                <div class="chart-badge">
-                                    <i class="fas fa-globe"></i>
-                                    20 Countries
+                                <div class="chart-controls">
+                                    <div class="chart-filters">
+                                        <select id="treemap-type-filter" class="form-select form-select-sm" onchange="updateTreemap()">
+                                            <option value="both">🌍 Both Exports & Imports</option>
+                                            <option value="exports">📤 Exports Only</option>
+                                            <option value="imports">📥 Imports Only</option>
+                                        </select>
+                                    </div>
+                                    <div class="chart-filters">
+                                        <select id="treemap-top-filter" class="form-select form-select-sm" onchange="updateTreemap()">
+                                            <option value="20">Top 20</option>
+                                            <option value="15">Top 15</option>
+                                            <option value="10">Top 10</option>
+                                            <option value="5">Top 5</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="chart-container">
-                                <canvas id="export-distribution-chart" height="280"></canvas>
+                                <div id="treemap-container" style="height: 280px; position: relative;">
+                                    <div id="treemap-chart" style="width: 100%; height: 100%;"></div>
+                                    <div id="treemap-loading" class="text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <p class="mt-2">Loading treemap...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-footer">
+                                <div class="treemap-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: linear-gradient(135deg, #e3f2fd 0%, #1976d2 100%);"></div>
+                                        <span>Exports</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: linear-gradient(135deg, #fff3e0 0%, #f57c00 100%);"></div>
+                                        <span>Imports</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: linear-gradient(135deg, #e8f5e8 0%, #388e3c 100%);"></div>
+                                        <span>Both</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -577,179 +834,141 @@
                             <div class="chart-header">
                                 <div class="chart-title-section">
                                     <h3 class="chart-title">
-                                        <i class="fas fa-chart-bar me-2"></i>Top Export Markets
+                                        <i class="fas fa-chart-bar me-2"></i>Quarterly Trade Balance
                                     </h3>
-                                    <p class="chart-subtitle">Leading export destinations by value (2022-2025)</p>
+                                    <p class="chart-subtitle">Deficit visualization by quarter</p>
                                 </div>
                                 <div class="chart-badge">
-                                    <i class="fas fa-globe"></i>
-                                    Top Markets
+                                    <i class="fas fa-calendar-alt"></i>
+                                    Quarterly View
                                 </div>
                             </div>
                             <div class="chart-container">
-                                <canvas id="commodity-performance-chart" height="280"></canvas>
+                                <canvas id="quarterly-balance-bar-chart" height="280"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Actions & Recent Activity -->
-                <div class="row g-4 mb-5">
-                    <div class="col-lg-8">
-                        <div class="chart-card modern-card" data-aos="fade-up" data-aos-delay="600">
+                <!-- Growth Rate Charts Row -->
+                <div class="row g-4 mb-5" id="growth-charts">
+                    <div class="col-lg-12">
+                        <div class="chart-card modern-chart-card" data-aos="fade-up" data-aos-delay="600">
                             <div class="chart-header">
                                 <div class="chart-title-section">
                                     <h3 class="chart-title">
-                                        <i class="fas fa-rocket me-2"></i>Quick Actions
+                                        <i class="fas fa-chart-line me-2"></i>Export & Import Growth Rates
                                     </h3>
-                                    <p class="chart-subtitle">Navigate to detailed analysis sections</p>
+                                    <p class="chart-subtitle">Quarter-over-quarter growth trends and volatility analysis</p>
+                                </div>
+                                <div class="chart-badge">
+                                    <i class="fas fa-percentage"></i>
+                                    QoQ Growth
                                 </div>
                             </div>
-                            <div class="quick-actions-grid">
-                                <a href="exports.html" class="quick-action-btn modern" data-aos="zoom-in" data-aos-delay="650">
-                                    <div class="action-icon">
-                                        <i class="fas fa-arrow-up"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <span class="action-title">Export Analysis</span>
-                                        <span class="action-desc">Detailed export trends & insights</span>
-                                    </div>
-                                    <div class="action-arrow">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </div>
-                                </a>
-                                <a href="imports.html" class="quick-action-btn modern" data-aos="zoom-in" data-aos-delay="700">
-                                    <div class="action-icon">
-                                        <i class="fas fa-arrow-down"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <span class="action-title">Import Analysis</span>
-                                        <span class="action-desc">Import patterns & sources</span>
-                                    </div>
-                                    <div class="action-arrow">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </div>
-                                </a>
-                                <a href="predictions.html" class="quick-action-btn modern" data-aos="zoom-in" data-aos-delay="750">
-                                    <div class="action-icon">
-                                        <i class="fas fa-robot"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <span class="action-title">AI Predictions</span>
-                                        <span class="action-desc">Machine learning forecasts</span>
-                                    </div>
-                                    <div class="action-arrow">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </div>
-                                </a>
-                                <a href="analytics.html" class="quick-action-btn modern" data-aos="zoom-in" data-aos-delay="800">
-                                    <div class="action-icon">
-                                        <i class="fas fa-chart-line"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <span class="action-title">Advanced Analytics</span>
-                                        <span class="action-desc">Deep statistical analysis</span>
-                                    </div>
-                                    <div class="action-arrow">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </div>
-                                </a>
-                                <a href="regional.html" class="quick-action-btn modern" data-aos="zoom-in" data-aos-delay="850">
-                                    <div class="action-icon">
-                                        <i class="fas fa-globe-africa"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <span class="action-title">Regional Analysis</span>
-                                        <span class="action-desc">Geographic trade patterns</span>
-                                    </div>
-                                    <div class="action-arrow">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </div>
-                                </a>
-                                <a href="commodities.html" class="quick-action-btn modern" data-aos="zoom-in" data-aos-delay="900">
-                                    <div class="action-icon">
-                                        <i class="fas fa-boxes"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <span class="action-title">Commodity Analysis</span>
-                                        <span class="action-desc">Product category insights</span>
-                                    </div>
-                                    <div class="action-arrow">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </div>
-                                </a>
+                            <div class="chart-container">
+                                <canvas id="growth-rate-chart" height="350"></canvas>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-lg-4">
-                        <div class="chart-card modern-card alert-bubble-system" data-aos="fade-up" data-aos-delay="600">
-                            <div class="alert-bubble-header">
-                                <div class="alert-bubble-title">
+                <!-- Commodity Donut Chart & Regional Trends -->
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-6">
+                        <div class="chart-card modern-chart-card" data-aos="fade-up" data-aos-delay="600">
+                            <div class="chart-header">
+                                <div class="chart-title-section">
                                     <h3 class="chart-title">
-                                        <i class="fas fa-bell me-2"></i>Live Alerts
+                                        <i class="fas fa-chart-pie me-2"></i>Commodity Shares
                                     </h3>
-                                    <p class="chart-subtitle">Real-time AI-powered notifications</p>
+                                    <p class="chart-subtitle">Top commodities by trade value and share percentage</p>
                                 </div>
-                                <div class="alert-bubble-controls">
-                                    <button class="btn btn-outline-primary btn-sm" onclick="refreshAlerts()">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Modern Animated Alert Bubbles -->
-                            <div class="alert-bubble-display" id="alert-bubble-display">
-                                <div class="bubble-animation-zone" id="alert-bubbles-container">
-                                    <!-- Animated bubbles will be dynamically inserted here -->
-                                </div>
-                                <div class="bubble-status" id="bubble-status">
-                                    <div class="status-indicator">
-                                        <span class="status-dot active"></span>
-                                        <span class="status-text">Monitoring Active</span>
+                                <div class="chart-controls">
+                                    <div class="chart-filters">
+                                        <select id="commodity-type-filter" class="form-select form-select-sm" onchange="updateCommodityChart()">
+                                            <option value="exports">📤 Exports</option>
+                                            <option value="imports">📥 Imports</option>
+                                            <option value="reexports">🔄 Re-exports</option>
+                                        </select>
+                                    </div>
+                                    <div class="chart-filters">
+                                        <select id="commodity-top-filter" class="form-select form-select-sm" onchange="updateCommodityChart()">
+                                            <option value="5">Top 5</option>
+                                            <option value="10">Top 10</option>
+                                            <option value="all">All Commodities</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Alert Summary Cards -->
-                            <div class="alert-stats" id="alert-stats">
-                                <div class="alert-stat-item">
-                                    <div class="alert-stat-dot high"></div>
-                                    <span class="alert-stat-count" id="high-count">0</span>
-                                    <span>High</span>
-                                </div>
-                                <div class="alert-stat-item">
-                                    <div class="alert-stat-dot medium"></div>
-                                    <span class="alert-stat-count" id="medium-count">0</span>
-                                    <span>Medium</span>
-                                </div>
-                                <div class="alert-stat-item">
-                                    <div class="alert-stat-dot low"></div>
-                                    <span class="alert-stat-count" id="low-count">0</span>
-                                    <span>Low</span>
-                                </div>
-                                <div class="alert-stat-item">
-                                    <span>Total: </span>
-                                    <span class="alert-stat-count" id="total-count">0</span>
-                                </div>
+                            <div class="chart-container">
+                                <canvas id="commodity-donut-chart" height="300"></canvas>
                             </div>
-
-                            <!-- Recent Alerts Preview -->
-                            <div class="alert-feed" id="recent-alerts-preview">
-                                <div class="alert-loading" id="alert-loading">
-                                    <div class="alert-loading-spinner"></div>
-                                    <span>Loading alerts...</span>
-                                </div>
-                                <div class="alert-empty" id="alert-empty" style="display: none;">
-                                    <div class="alert-empty-icon">
-                                        <i class="fas fa-bell-slash"></i>
-                                    </div>
-                                    <div class="alert-empty-title">No Active Alerts</div>
-                                    <div class="alert-empty-message">All systems operating normally. No alerts require attention at this time.</div>
+                            <div class="chart-footer">
+                                <div class="commodity-legend" id="commodity-legend">
+                                    <!-- Legend will be populated by JavaScript -->
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-lg-6">
+                        <div class="chart-card modern-chart-card" data-aos="fade-up" data-aos-delay="700">
+                            <div class="chart-header">
+                                <div class="chart-title-section">
+                                    <h3 class="chart-title">
+                                        <i class="fas fa-chart-line me-2"></i>Regional Trade Trends
+                                    </h3>
+                                    <p class="chart-subtitle">Multi-regional trade flow comparison over time</p>
+                                </div>
+                                <div class="chart-controls">
+                                    <div class="chart-filters">
+                                        <select id="regional-filter" class="form-select form-select-sm" onchange="updateRegionalChart()">
+                                            <option value="all">🌍 All Regions</option>
+                                            <option value="COMESA">🇰🇪 COMESA</option>
+                                            <option value="CEPGL">🇧🇮 CEPGL</option>
+                                            <option value="COMMON WEALTH">🇬🇧 COMMON WEALTH</option>
+                                            <option value="ECOWAS">🇳🇬 ECOWAS</option>
+                                            <option value="SADC">🇿🇦 SADC</option>
+                                            <option value="EU">🇪🇺 EU</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="regional-trends-chart" height="300"></canvas>
+                            </div>
+                            <div class="chart-footer">
+                                <div class="regional-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: #1e40af;"></div>
+                                        <span>COMESA</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: #ea580c;"></div>
+                                        <span>CEPGL</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: #16a34a;"></div>
+                                        <span>COMMON WEALTH</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: #dc2626;"></div>
+                                        <span>ECOWAS</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: #9333ea;"></div>
+                                        <span>SADC</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background: #0891b2;"></div>
+                                        <span>EU</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Market Intelligence Section -->
@@ -815,58 +1034,6 @@
     </main>
 
 
-    <!-- Live Alert Popup -->
-    <div class="alert-popup" id="alert-popup">
-        <div class="alert-popup-header">
-            <h3 class="alert-popup-title">
-                <i class="fas fa-bell"></i>
-                Live Alerts
-                <span class="alert-popup-badge" id="popup-alert-count">0</span>
-            </h3>
-            <button class="alert-popup-close" onclick="closeAlertPopup()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-
-        <!-- Alert Filters -->
-        <div class="alert-filters" id="alert-filters">
-            <button class="alert-filter-btn active" onclick="filterAlerts('all')">All</button>
-            <button class="alert-filter-btn" onclick="filterAlerts('high')">High</button>
-            <button class="alert-filter-btn" onclick="filterAlerts('medium')">Medium</button>
-            <button class="alert-filter-btn" onclick="filterAlerts('low')">Low</button>
-        </div>
-
-        <!-- Alert Feed -->
-        <div class="alert-feed" id="alert-popup-feed">
-            <div class="alert-loading" id="popup-alert-loading">
-                <div class="alert-loading-spinner"></div>
-                <span>Loading alerts...</span>
-            </div>
-            <div class="alert-empty" id="popup-alert-empty" style="display: none;">
-                <div class="alert-empty-icon">
-                    <i class="fas fa-bell-slash"></i>
-                </div>
-                <div class="alert-empty-title">No Alerts Found</div>
-                <div class="alert-empty-message">No alerts match the selected filter criteria.</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Alert Notification Toast -->
-    <div class="alert-toast" id="alert-toast">
-        <div class="alert-toast-content">
-            <div class="alert-toast-icon" id="toast-icon">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <div class="alert-toast-text">
-                <div class="alert-toast-title" id="toast-title">New Alert</div>
-                <div class="alert-toast-message" id="toast-message">A new alert has been generated</div>
-            </div>
-        </div>
-        <button class="alert-toast-close" onclick="closeAlertToast()">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
 
     <!-- Chatbox Backdrop -->
     <div class="chatbox-backdrop" id="chatbox-backdrop"></div>
@@ -1111,7 +1278,6 @@
     <!-- Custom JavaScript -->
     <script src="js/api.js"></script>
     <script src="js/charts.js"></script>
-    <script src="js/alerts.js"></script>
     <script src="js/main.js"></script>
     <script src="js/chatbox.js"></script>
     <!-- dashboard.js is integrated into main.js to prevent conflicts -->
@@ -1218,19 +1384,9 @@
                 }
             }, 500);
 
-            // Auto-show chatbox after a brief delay for better UX
-            setTimeout(() => {
-                const chatbox = document.getElementById('ai-chatbox');
-                const toggleBtn = document.getElementById('chatbox-toggle');
-
-                if (chatbox && toggleBtn && !chatbox.classList.contains('show')) {
-                    chatbox.style.transform = 'translateY(0)';
-                    chatbox.style.opacity = '1';
-                    chatbox.classList.add('show');
-                    toggleBtn.classList.add('hidden');
-                    console.log('✅ Chatbox initialized');
-                }
-            }, 3000);
+            // Chatbox will now only open when user clicks "AI Assistant" button
+            // Removed auto-show functionality for better user experience
+            console.log('✅ Chatbox ready - click "AI Assistant" to open');
 
             // Ensure all sections are visible
             setTimeout(() => {
@@ -1240,11 +1396,66 @@
             }, 1000);
         });
 
+        // Load dashboard data from processed JSON file
+        async function loadDashboardDataFromJSON() {
+            console.log('Loading dashboard data from JSON file...');
+
+            try {
+                const response = await fetch('dashboard_overview.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                // Update main stats cards
+                const overview = data.overview;
+                updateDashboardCard('exports-value', overview.total_exports.formatted);
+                updateDashboardCard('imports-value', overview.total_imports.formatted);
+                updateDashboardCard('balance-value', overview.trade_balance.formatted);
+                updateDashboardCard('total-trade-value', overview.total_trade.formatted);
+
+                // Update trend indicators
+                updateDashboardCard('exports-trend', `+${overview.total_exports.growth_rate.toFixed(1)}%`);
+                updateDashboardCard('imports-trend', `+${overview.total_imports.growth_rate.toFixed(1)}%`);
+
+                // Update trade balance status
+                const balanceElement = document.getElementById('balance-trend');
+                if (balanceElement) {
+                    balanceElement.textContent = overview.trade_balance.status === 'deficit' ? 'Deficit' : 'Surplus';
+                    balanceElement.className = overview.trade_balance.status === 'deficit' ? 'negative' : 'positive';
+                }
+
+                console.log('Dashboard populated with JSON data');
+                return data;
+
+            } catch (error) {
+                console.error('Error loading JSON data:', error);
+                // Fallback to old hardcoded values
+                updateDashboardCard('exports-value', '$8.94B');
+                updateDashboardCard('imports-value', '$20.26B');
+                updateDashboardCard('balance-value', '-$11.32B');
+                updateDashboardCard('total-trade-value', '$29.20B');
+                updateDashboardCard('export-growth', '+157.9%');
+                updateDashboardCard('active-partners', '134');
+                return null;
+            }
+        }
+
         // Fallback function to populate dashboard with available data
         function populateDashboardWithData() {
-            console.log('📊 Populating dashboard with available data...');
+            console.log('Populating dashboard with available data...');
 
-            // Fetch data from API endpoints and populate dashboard
+            // Try to load from JSON first
+            loadDashboardDataFromJSON().then(data => {
+                if (!data) {
+                    // If JSON fails, try API endpoints
+                    loadFromAPI();
+                }
+            });
+        }
+
+        // Load from API as secondary fallback
+        function loadFromAPI() {
             Promise.all([
                 fetch('http://localhost:3000/api/exports/quarterly').catch(() => ({ json: () => [] })),
                 fetch('http://localhost:3000/api/imports/quarterly').catch(() => ({ json: () => [] })),
@@ -1271,9 +1482,9 @@
                     updateDashboardCard('export-growth', '+157.9%');
                     updateDashboardCard('active-partners', '134');
 
-                    console.log('✅ Dashboard populated with API data');
+                    console.log('Dashboard populated with API data');
                 } catch (error) {
-                    console.error('❌ Error processing dashboard data:', error);
+                    console.error('Error processing dashboard data:', error);
                     // Use fallback values
                     updateDashboardCard('exports-value', '$8.94B');
                     updateDashboardCard('imports-value', '$20.26B');
@@ -1284,7 +1495,7 @@
                 }
             })
             .catch(error => {
-                console.error('❌ Error loading dashboard data:', error);
+                console.error('Error loading dashboard data:', error);
                 // Use fallback values
                 updateDashboardCard('exports-value', '$8.94B');
                 updateDashboardCard('imports-value', '$20.26B');
@@ -1540,10 +1751,33 @@
         }
 
         // Dashboard data loading function
-        function loadRealTradeData() {
-            console.log('📊 Loading real trade data for dashboard...');
+        async function loadRealTradeData() {
+            console.log('Loading real trade data for dashboard...');
 
-            // Fetch comprehensive data from multiple endpoints
+            try {
+                // Try to load from JSON file first
+                const response = await fetch('dashboard_overview.json');
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // Update main stats cards
+                    const overview = data.overview;
+                    updateDashboardCard('exports-value', overview.total_exports.formatted);
+                    updateDashboardCard('imports-value', overview.total_imports.formatted);
+                    updateDashboardCard('balance-value', overview.trade_balance.formatted);
+                    updateDashboardCard('active-partners', data.top_export_countries?.length + data.top_import_countries?.length || 134);
+
+                    // Update hero stats
+                    updateHeroStats(overview.total_trade.value, `+${overview.total_exports.growth_rate.toFixed(1)}%`, data.top_export_countries?.length + data.top_import_countries?.length || 134);
+
+                    console.log('Dashboard updated with JSON data');
+                    return true;
+                }
+            } catch (error) {
+                console.log('JSON data not available, trying API...');
+            }
+
+            // Fallback to API
             Promise.all([
                 fetch('http://localhost:3000/api/exports/quarterly').catch(() => ({ json: () => [] })),
                 fetch('http://localhost:3000/api/imports/quarterly').catch(() => ({ json: () => [] })),
@@ -1571,11 +1805,11 @@
                 // Update hero stats
                 updateHeroStats(totalExports + totalImports, '+157.9%', totalPartners || 134);
 
-                console.log('✅ Dashboard updated with real data');
+                console.log('Dashboard updated with API data');
                 return true;
             })
             .catch(error => {
-                console.error('❌ Error loading dashboard data:', error);
+                console.error('Error loading dashboard data:', error);
                 return false;
             });
         }
@@ -1672,19 +1906,25 @@
                 // Load data from processed JSON files
                 const chartData = await loadChartDataFromFiles();
 
-                // Trade Performance Chart
+                // Multi-Series Line Chart (Exports vs Imports Over Time)
                 await renderTradePerformanceChart(chartData);
 
-                // Trade Balance Chart
-                await renderTradeBalanceChart(chartData);
+                // Interactive Treemap
+                await renderTreemap(chartData);
 
-                // Export Distribution Chart
-                await renderExportDistributionChart(chartData);
+                // Commodity Donut Chart
+                await renderCommodityChart();
 
-                // Commodity Performance Chart
-                await renderCommodityPerformanceChart(chartData);
+                // Regional Trends Multi-Line Chart
+                await renderRegionalTrendsChart();
 
-                console.log('✅ All charts rendered with real data');
+                // Quarterly Trade Balance Bar Chart
+                await renderQuarterlyBalanceBarChart(chartData);
+
+                // Growth Rate Line Chart
+                await renderGrowthRateChart(chartData);
+
+                console.log('✅ All new charts rendered with real data');
             } catch (error) {
                 console.error('❌ Error rendering charts with real data:', error);
                 renderFallbackCharts();
@@ -1696,20 +1936,17 @@
             console.log('📊 Loading chart data from processed files...');
 
             try {
-                // Fetch data from local JSON files
-                const exportsResponse = await fetch('/data/processed/combined_exports_data.json');
-                const importsResponse = await fetch('/data/processed/combined_imports_data.json');
-                const commoditiesResponse = await fetch('/data/processed/combined_trade_balance_data.json');
+                // Fetch data from trade balance and growth analysis files
+                const tradeBalanceResponse = await fetch('data/processed/trade_balance_raw.json');
+                const growthAnalysisResponse = await fetch('data/processed/growth_analysis.json');
 
-                const exportsData = await exportsResponse.json();
-                const importsData = await importsResponse.json();
-                const balanceData = await commoditiesResponse.json();
+                const tradeBalanceData = await tradeBalanceResponse.json();
+                const growthAnalysisData = await growthAnalysisResponse.json();
 
                 console.log('✅ Chart data loaded from files');
                 return {
-                    exports: exportsData,
-                    imports: importsData,
-                    balance: balanceData
+                    tradeBalance: tradeBalanceData,
+                    growthAnalysis: growthAnalysisData
                 };
             } catch (error) {
                 console.error('❌ Error loading chart data from files:', error);
@@ -1740,24 +1977,24 @@
         // Get default chart data
         function getDefaultChartData() {
             return {
-                exports: [
-                    {quarter: '2024Q1', export_value: 431.61, destination_country: 'UAE'},
-                    {quarter: '2024Q2', export_value: 537.64, destination_country: 'UAE'},
-                    {quarter: '2024Q3', export_value: 667.00, destination_country: 'UAE'},
-                    {quarter: '2024Q4', export_value: 677.45, destination_country: 'UAE'}
+                tradeBalance: [
+                    {quarter: '2023Q1', export_value: 367.63, import_value: 904.33, trade_balance: -536.7},
+                    {quarter: '2023Q2', export_value: 453.5, import_value: 965.41, trade_balance: -511.91},
+                    {quarter: '2023Q3', export_value: 349.62, import_value: 1002.48, trade_balance: -652.86},
+                    {quarter: '2023Q4', export_value: 352.68, import_value: 948.9, trade_balance: -596.22},
+                    {quarter: '2024Q1', export_value: 401.18, import_value: 889.52, trade_balance: -488.34},
+                    {quarter: '2024Q2', export_value: 508.96, import_value: 1078.88, trade_balance: -569.92},
+                    {quarter: '2024Q3', export_value: 626.67, import_value: 1158.24, trade_balance: -531.57},
+                    {quarter: '2024Q4', export_value: 626.06, import_value: 1090.55, trade_balance: -464.49},
+                    {quarter: '2025Q1', export_value: 458.44, import_value: 869.79, trade_balance: -411.35}
                 ],
-                imports: [
-                    {quarter: '2024Q1', import_value: 1410.52, source_country: 'China'},
-                    {quarter: '2024Q2', import_value: 1568.97, source_country: 'China'},
-                    {quarter: '2024Q3', import_value: 1751.57, source_country: 'China'},
-                    {quarter: '2024Q4', import_value: 1629.39, source_country: 'China'}
-                ],
-                balance: [
-                    {quarter: '2024Q1', trade_balance: -978.91},
-                    {quarter: '2024Q2', trade_balance: -1031.33},
-                    {quarter: '2024Q3', trade_balance: -1084.57},
-                    {quarter: '2024Q4', trade_balance: -951.94}
-                ]
+                growthAnalysis: {
+                    qoq: {
+                        quarters: ['2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'],
+                        exports: [0.23357723798384247, -0.22906284454244763, 0.008752359704822386, 0.13751843030509242, 0.26865746049154987, 0.23127554228230113, -0.0009733990776645023, -0.26773791649362677],
+                        imports: [0.06754171596651656, 0.03839819351363675, -0.05344745032319851, -0.06257772157234692, 0.21287885601223147, 0.07355776360670314, -0.058442119077220654, -0.20242996653064968]
+                    }
+                }
             };
         }
 
@@ -1802,37 +2039,31 @@
             }
             console.log('✅ Chart.js is available');
 
-            // Process data for chart from actual loaded data
+            // Process data for chart from trade_balance_raw.json
             let labels = [];
             let exportValues = [];
             let importValues = [];
 
-            // Try to use real data from comprehensive_analysis.json
             try {
-                console.log('📊 Fetching comprehensive analysis data...');
-                const compResponse = await fetch('/data/processed/comprehensive_analysis.json');
-                const compData = await compResponse.json();
-                console.log('📊 Comprehensive data loaded:', compData ? 'success' : 'null');
+                console.log('📊 Processing trade balance data for exports vs imports chart...');
 
-                if (compData && compData.quarterly_aggregation) {
+                if (data && data.tradeBalance) {
                     // Sort data by quarter to ensure chronological order
-                    const exports = compData.quarterly_aggregation.exports.sort((a, b) => a.quarter.localeCompare(b.quarter));
-                    const imports = compData.quarterly_aggregation.imports.sort((a, b) => a.quarter.localeCompare(b.quarter));
+                    const sortedData = data.tradeBalance.sort((a, b) => a.quarter.localeCompare(b.quarter));
 
-                    labels = exports.map(d => d.quarter);
-                    exportValues = exports.map(d => parseFloat(d.export_value));
-                    importValues = imports.map(d => parseFloat(d.import_value));
+                    labels = sortedData.map(d => d.quarter);
+                    exportValues = sortedData.map(d => parseFloat(d.export_value));
+                    importValues = sortedData.map(d => parseFloat(d.import_value));
 
                     console.log('📊 Data extracted successfully:');
                     console.log('Labels:', labels);
                     console.log('Export values:', exportValues);
                     console.log('Import values:', importValues);
                 } else {
-                    console.warn('📊 No quarterly_aggregation in data');
-                    console.log('Available keys:', Object.keys(compData || {}));
+                    console.warn('📊 No trade balance data available');
                 }
             } catch (error) {
-                console.error('❌ Error loading comprehensive data:', error);
+                console.error('❌ Error processing trade balance data:', error);
                 console.warn('Using default data for chart');
 
                 // Fallback data
@@ -1931,8 +2162,9 @@
                                 text: 'Value (USD Million)'
                             },
                             ticks: {
+                                stepSize: 200,
                                 callback: function(value) {
-                                    return '$' + (value / 1000).toFixed(1) + 'B';
+                                    return '$' + value.toFixed(0) + 'M';
                                 }
                             }
                         }
@@ -1950,42 +2182,814 @@
             }
         }
 
-        // Render Trade Balance Chart
-        async function renderTradeBalanceChart(data) {
-            const canvas = document.getElementById('trade-balance-chart');
+        // Render Trade Balance Area Chart
+        async function renderTradeBalanceAreaChart(data) {
+            const canvas = document.getElementById('trade-balance-area-chart');
             if (!canvas) return;
-            
+
             // Destroy existing chart if it exists
-            if (indexChartRegistry['trade-balance-chart']) {
-                indexChartRegistry['trade-balance-chart'].destroy();
-                delete indexChartRegistry['trade-balance-chart'];
+            if (indexChartRegistry['trade-balance-area-chart']) {
+                indexChartRegistry['trade-balance-area-chart'].destroy();
+                delete indexChartRegistry['trade-balance-area-chart'];
             }
 
             const ctx = canvas.getContext('2d');
 
+            let labels = [];
+            let balanceValues = [];
+
+            try {
+                if (data && data.tradeBalance) {
+                    const sortedData = data.tradeBalance.sort((a, b) => a.quarter.localeCompare(b.quarter));
+                    labels = sortedData.map(d => d.quarter);
+                    balanceValues = sortedData.map(d => parseFloat(d.trade_balance));
+                }
+            } catch (error) {
+                console.error('Error processing trade balance data:', error);
+                // Fallback data
+                labels = ['2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'];
+                balanceValues = [-536.7, -511.91, -652.86, -596.22, -488.34, -569.92, -531.57, -464.49, -411.35];
+            }
+
             const chart = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
-                    labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024'],
+                    labels: labels,
                     datasets: [{
                         label: 'Trade Balance',
-                        data: [-978.91, -1031.33, -1084.57, -951.94],
-                        backgroundColor: ['#ef4444', '#ef4444', '#ef4444', '#ef4444']
+                        data: balanceValues,
+                        borderColor: '#ef4444',
+                        backgroundColor: function(context) {
+                            const chart = context.chart;
+                            const {ctx, chartArea} = chart;
+                            if (!chartArea) return null;
+                            const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                            gradient.addColorStop(0, 'rgba(239, 68, 68, 0.3)');
+                            gradient.addColorStop(1, 'rgba(239, 68, 68, 0.1)');
+                            return gradient;
+                        },
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#ef4444',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Trade Balance: $' + context.parsed.y.toFixed(1) + 'M';
+                                }
+                            }
+                        }
+                    },
                     scales: {
+                        x: {
+                            display: true,
+                            title: { display: true, text: 'Quarter' }
+                        },
                         y: {
-                            ticks: { callback: function(value) { return '$' + (value / 1000).toFixed(1) + 'B'; } }
+                            display: true,
+                            title: { display: true, text: 'Trade Balance (USD Million)' },
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 200,
+                                callback: function(value) {
+                                    return '$' + value.toFixed(0) + 'M';
+                                }
+                            }
                         }
                     }
                 }
             });
 
-            indexChartRegistry['trade-balance-chart'] = chart;
+            indexChartRegistry['trade-balance-area-chart'] = chart;
+        }
+
+        // Render Quarterly Trade Balance Bar Chart
+        async function renderQuarterlyBalanceBarChart(data) {
+            const canvas = document.getElementById('quarterly-balance-bar-chart');
+            if (!canvas) return;
+
+            // Destroy existing chart if it exists
+            if (indexChartRegistry['quarterly-balance-bar-chart']) {
+                indexChartRegistry['quarterly-balance-bar-chart'].destroy();
+                delete indexChartRegistry['quarterly-balance-bar-chart'];
+            }
+
+            const ctx = canvas.getContext('2d');
+
+            let labels = [];
+            let balanceValues = [];
+
+            try {
+                if (data && data.tradeBalance) {
+                    const sortedData = data.tradeBalance.sort((a, b) => a.quarter.localeCompare(b.quarter));
+                    labels = sortedData.map(d => d.quarter);
+                    balanceValues = sortedData.map(d => parseFloat(d.trade_balance));
+                }
+            } catch (error) {
+                console.error('Error processing trade balance data:', error);
+                // Fallback data
+                labels = ['2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'];
+                balanceValues = [-536.7, -511.91, -652.86, -596.22, -488.34, -569.92, -531.57, -464.49, -411.35];
+            }
+
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Trade Balance',
+                        data: balanceValues,
+                        backgroundColor: balanceValues.map(value => value < 0 ? '#ef4444' : '#10b981'),
+                        borderColor: balanceValues.map(value => value < 0 ? '#dc2626' : '#059669'),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Trade Balance: $' + context.parsed.y.toFixed(1) + 'M';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: { display: true, text: 'Quarter' }
+                        },
+                        y: {
+                            display: true,
+                            title: { display: true, text: 'Trade Balance (USD Million)' },
+                            ticks: {
+                                stepSize: 200,
+                                callback: function(value) {
+                                    return '$' + value.toFixed(0) + 'M';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            indexChartRegistry['quarterly-balance-bar-chart'] = chart;
+        }
+
+        // Render Growth Rate Line Chart
+        async function renderGrowthRateChart(data) {
+            const canvas = document.getElementById('growth-rate-chart');
+            if (!canvas) return;
+
+            // Destroy existing chart if it exists
+            if (indexChartRegistry['growth-rate-chart']) {
+                indexChartRegistry['growth-rate-chart'].destroy();
+                delete indexChartRegistry['growth-rate-chart'];
+            }
+
+            const ctx = canvas.getContext('2d');
+
+            let labels = [];
+            let exportGrowth = [];
+            let importGrowth = [];
+
+            try {
+                if (data && data.growthAnalysis && data.growthAnalysis.qoq) {
+                    labels = data.growthAnalysis.qoq.quarters;
+                    exportGrowth = data.growthAnalysis.qoq.exports.map(g => g * 100); // Convert to percentage
+                    importGrowth = data.growthAnalysis.qoq.imports.map(g => g * 100); // Convert to percentage
+                }
+            } catch (error) {
+                console.error('Error processing growth analysis data:', error);
+                // Fallback data
+                labels = ['2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'];
+                exportGrowth = [23.4, -22.9, 0.9, 13.8, 26.9, 23.1, -0.1, -26.8];
+                importGrowth = [6.7, 3.8, -5.3, -6.3, 21.3, 7.4, -5.8, -20.2];
+            }
+
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Export Growth (%)',
+                        data: exportGrowth,
+                        borderColor: '#00A1F1',
+                        backgroundColor: 'rgba(0, 161, 241, 0.1)',
+                        fill: false,
+                        tension: 0.4,
+                        pointBackgroundColor: '#00A1F1',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }, {
+                        label: 'Import Growth (%)',
+                        data: importGrowth,
+                        borderColor: '#FCDD09',
+                        backgroundColor: 'rgba(252, 221, 9, 0.1)',
+                        fill: false,
+                        tension: 0.4,
+                        pointBackgroundColor: '#FCDD09',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: { usePointStyle: true, padding: 20 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: { display: true, text: 'Quarter' }
+                        },
+                        y: {
+                            display: true,
+                            title: { display: true, text: 'Growth Rate (%)' },
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toFixed(1) + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            indexChartRegistry['growth-rate-chart'] = chart;
+        }
+
+        // Render Interactive Treemap
+        async function renderTreemap(data) {
+            console.log('🌳 Rendering interactive treemap...');
+
+            const container = document.getElementById('treemap-container');
+            const chartDiv = document.getElementById('treemap-chart');
+            const loadingDiv = document.getElementById('treemap-loading');
+
+            if (!container || !chartDiv) {
+                console.error('❌ Treemap container not found');
+                return;
+            }
+
+            // Show loading
+            if (loadingDiv) loadingDiv.style.display = 'block';
+            chartDiv.innerHTML = '';
+
+            try {
+                let treemapData = [];
+
+                // Load share analysis data
+                const shareResponse = await fetch('data/processed/share_analysis.json');
+                const shareData = await shareResponse.json();
+
+                if (shareData && shareData.share_analysis && shareData.share_analysis.country_share) {
+                    const typeFilter = document.getElementById('treemap-type-filter')?.value || 'both';
+                    const topFilter = parseInt(document.getElementById('treemap-top-filter')?.value || '20');
+
+                    // Process data based on filters
+                    if (typeFilter === 'exports' || typeFilter === 'both') {
+                        const exports = shareData.share_analysis.country_share.exports;
+                        Object.entries(exports).forEach(([country, data]) => {
+                            if (country !== 'Total Estimates' && data.share_percentage > 0) {
+                                treemapData.push({
+                                    country: country,
+                                    value: data.value,
+                                    percentage: data.share_percentage,
+                                    type: 'exports'
+                                });
+                            }
+                        });
+                    }
+
+                    if (typeFilter === 'imports' || typeFilter === 'both') {
+                        const imports = shareData.share_analysis.country_share.imports;
+                        Object.entries(imports).forEach(([country, data]) => {
+                            if (country !== 'Total Estimates' && data.share_percentage > 0) {
+                                // Check if country already exists (for both mode)
+                                const existingIndex = treemapData.findIndex(item => item.country === country);
+                                if (existingIndex >= 0) {
+                                    // Combine exports and imports
+                                    treemapData[existingIndex].value += data.value;
+                                    treemapData[existingIndex].percentage += data.share_percentage;
+                                    treemapData[existingIndex].type = 'both';
+                                } else {
+                                    treemapData.push({
+                                        country: country,
+                                        value: data.value,
+                                        percentage: data.share_percentage,
+                                        type: 'imports'
+                                    });
+                                }
+                            }
+                        });
+                    }
+
+                    // Sort by value and limit to top N
+                    treemapData.sort((a, b) => b.value - a.value);
+                    treemapData = treemapData.slice(0, topFilter);
+
+                    // Create treemap layout
+                    await createTreemapLayout(chartDiv, treemapData);
+                }
+
+            } catch (error) {
+                console.error('❌ Error rendering treemap:', error);
+                chartDiv.innerHTML = '<div class="text-center text-muted">Error loading treemap data</div>';
+            } finally {
+                // Hide loading
+                if (loadingDiv) loadingDiv.style.display = 'none';
+            }
+        }
+
+        // Create treemap layout using CSS Grid for perfect containment
+        async function createTreemapLayout(container, data) {
+            // Clear existing content
+            container.innerHTML = '';
+
+            // Sort data by value (largest first)
+            data.sort((a, b) => b.value - a.value);
+
+            // Calculate grid dimensions based on data length
+            const gridSize = Math.ceil(Math.sqrt(data.length));
+            const totalItems = data.length;
+
+            // Create CSS Grid container
+            container.style.display = 'grid';
+            container.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+            container.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
+            container.style.gap = '2px';
+            container.style.width = '100%';
+            container.style.height = '100%';
+
+            // Create grid cells
+            data.forEach((item, index) => {
+                const gridItem = document.createElement('div');
+                gridItem.className = `treemap-grid-item ${item.type}`;
+                gridItem.style.position = 'relative';
+                gridItem.style.overflow = 'hidden';
+                gridItem.style.borderRadius = '6px';
+                gridItem.style.cursor = 'pointer';
+                gridItem.style.transition = 'all 0.3s ease';
+
+                // Calculate span based on value (larger values get more space)
+                const maxValue = Math.max(...data.map(d => d.value));
+                const proportion = item.value / maxValue;
+
+                // Determine grid span (1-3 cells based on proportion)
+                let colSpan = 1;
+                let rowSpan = 1;
+
+                if (proportion > 0.7) {
+                    colSpan = 2;
+                    rowSpan = 2;
+                } else if (proportion > 0.4) {
+                    colSpan = 2;
+                    rowSpan = 1;
+                } else if (proportion > 0.2) {
+                    colSpan = 1;
+                    rowSpan = 2;
+                }
+
+                // Ensure spans don't exceed grid bounds
+                const maxCol = gridSize - ((index % gridSize) + colSpan - 1) % gridSize;
+                const maxRow = gridSize - (Math.floor(index / gridSize) + rowSpan - 1) % gridSize;
+
+                colSpan = Math.min(colSpan, maxCol);
+                rowSpan = Math.min(rowSpan, maxRow);
+
+                gridItem.style.gridColumn = `span ${colSpan}`;
+                gridItem.style.gridRow = `span ${rowSpan}`;
+
+                // Color based on type and intensity based on percentage
+                let baseColor;
+                if (item.type === 'exports') {
+                    baseColor = '#1976d2'; // Blue for exports
+                } else if (item.type === 'imports') {
+                    baseColor = '#f57c00'; // Orange for imports
+                } else {
+                    baseColor = '#388e3c'; // Green for both
+                }
+
+                // Intensity based on percentage (darker for higher percentages)
+                const intensity = Math.min(1, item.percentage / 20); // Max intensity at 20%
+                gridItem.style.background = `linear-gradient(135deg, ${baseColor}${Math.round(30 + intensity * 40).toString(16).padStart(2, '0')}, ${baseColor}${Math.round(60 + intensity * 30).toString(16).padStart(2, '0')})`;
+
+                // Add content
+                const fontSize = Math.max(11, Math.min(16, (colSpan * rowSpan * 12)));
+                gridItem.innerHTML = `
+                    <div class="treemap-country" style="font-size: ${fontSize}px; font-weight: 600; color: #1e40af; text-shadow: 0 1px 2px rgba(255,255,255,0.8); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        ${item.country}
+                    </div>
+                    <div class="treemap-value" style="font-size: ${fontSize - 2}px; color: #1e3a8a; text-shadow: 0 1px 2px rgba(255,255,255,0.6);">
+                        $${formatNumber(item.value)}M
+                    </div>
+                    <div class="treemap-percentage" style="font-size: ${fontSize - 4}px; color: #1e3a8a; text-shadow: 0 1px 2px rgba(255,255,255,0.6);">
+                        ${item.percentage.toFixed(1)}%
+                    </div>
+                `;
+
+                // Add hover effect
+                gridItem.onmouseover = () => {
+                    gridItem.style.transform = 'scale(1.02)';
+                    gridItem.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+                    gridItem.style.zIndex = '10';
+                };
+
+                gridItem.onmouseout = () => {
+                    gridItem.style.transform = 'scale(1)';
+                    gridItem.style.boxShadow = 'none';
+                    gridItem.style.zIndex = '1';
+                };
+
+                // Add click handler
+                gridItem.onclick = () => {
+                    showToast(`${item.country}: $${formatNumber(item.value)}M (${item.percentage.toFixed(1)}% of trade)`, 'info', 3000);
+                };
+
+                container.appendChild(gridItem);
+            });
+        }
+
+        // Update treemap when filters change
+        function updateTreemap() {
+            console.log('🔄 Updating treemap with new filters...');
+            renderTreemap();
+        }
+
+        // Render Commodity Donut Chart
+        async function renderCommodityChart() {
+            console.log('🥧 Rendering commodity donut chart...');
+
+            const canvas = document.getElementById('commodity-donut-chart');
+            if (!canvas) {
+                console.error('❌ Commodity donut canvas not found');
+                return;
+            }
+
+            // Destroy existing chart if it exists
+            if (indexChartRegistry['commodity-donut-chart']) {
+                indexChartRegistry['commodity-donut-chart'].destroy();
+                delete indexChartRegistry['commodity-donut-chart'];
+            }
+
+            const ctx = canvas.getContext('2d');
+
+            try {
+                // Load commodity data
+                const response = await fetch('data/processed/commodity_summary.json');
+                const data = await response.json();
+
+                const typeFilter = document.getElementById('commodity-type-filter')?.value || 'exports';
+                const topFilter = document.getElementById('commodity-top-filter')?.value || '5';
+
+                let commodities = [];
+                let totalValue = 0;
+
+                // Get data based on type filter
+                switch(typeFilter) {
+                    case 'exports':
+                        commodities = data.top_exports_commodities || [];
+                        totalValue = data.total_exports_value || 0;
+                        break;
+                    case 'imports':
+                        commodities = data.top_imports_commodities || [];
+                        totalValue = data.total_imports_value || 0;
+                        break;
+                    case 'reexports':
+                        commodities = data.top_reexports_commodities || [];
+                        totalValue = data.total_reexports_value || 0;
+                        break;
+                }
+
+                // Apply top filter
+                if (topFilter !== 'all') {
+                    const limit = parseInt(topFilter);
+                    commodities = commodities.slice(0, limit);
+                }
+
+                // Prepare chart data
+                const labels = commodities.map(item => item.description);
+                const values = commodities.map(item => item.value);
+                const percentages = commodities.map(item => item.share);
+
+                // Generate colors for donut slices
+                const colors = [
+                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                    '#FF9F40', '#FF6384', '#C9CBCF', '#4BC0C0', '#FF6384'
+                ];
+
+                const chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: colors.slice(0, commodities.length),
+                            borderColor: colors.slice(0, commodities.length).map(color => color + 'DD'),
+                            borderWidth: 2,
+                            hoverBorderWidth: 3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '60%', // Creates the donut hole
+                        plugins: {
+                            legend: {
+                                display: false // We'll use custom legend
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = context.parsed;
+                                        const percentage = percentages[context.dataIndex];
+                                        return `${context.label}: $${formatNumber(value)}M (${percentage.toFixed(1)}%)`;
+                                    }
+                                },
+                                backgroundColor: 'rgba(0,0,0,0.8)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff'
+                            }
+                        }
+                    }
+                });
+
+                indexChartRegistry['commodity-donut-chart'] = chart;
+
+                // Create custom legend
+                createCommodityLegend(commodities, colors);
+
+                console.log('✅ Commodity donut chart rendered');
+
+            } catch (error) {
+                console.error('❌ Error rendering commodity chart:', error);
+                // Fallback chart
+                const chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Loading...', 'Please wait'],
+                        datasets: [{
+                            data: [50, 50],
+                            backgroundColor: ['#e5e7eb', '#f3f4f6']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '60%'
+                    }
+                });
+                indexChartRegistry['commodity-donut-chart'] = chart;
+            }
+        }
+
+        // Create custom legend for commodity chart
+        function createCommodityLegend(commodities, colors) {
+            const legendContainer = document.getElementById('commodity-legend');
+            if (!legendContainer) return;
+
+            legendContainer.innerHTML = '';
+
+            commodities.forEach((commodity, index) => {
+                const legendItem = document.createElement('div');
+                legendItem.className = 'commodity-legend-item';
+                legendItem.innerHTML = `
+                    <div class="commodity-legend-color" style="background: ${colors[index]}"></div>
+                    <span>${commodity.description}</span>
+                `;
+                legendContainer.appendChild(legendItem);
+            });
+        }
+
+        // Update commodity chart when filters change
+        function updateCommodityChart() {
+            console.log('🔄 Updating commodity chart with new filters...');
+            renderCommodityChart();
+        }
+
+        // Update regional chart when filters change
+        function updateRegionalChart() {
+            console.log('🔄 Updating regional chart with new filters...');
+            renderRegionalTrendsChart();
+        }
+
+        // Update regional legend dynamically
+        function updateRegionalLegend(filteredRegions, regionColors) {
+            const legendContainer = document.querySelector('.regional-legend');
+            if (!legendContainer) {
+                console.error('❌ Regional legend container not found');
+                return;
+            }
+
+            // Clear existing legend items
+            legendContainer.innerHTML = '';
+
+            // Add legend items for each filtered region
+            filteredRegions.forEach(region => {
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.innerHTML = `
+                    <div class="legend-color" style="background: ${regionColors[region.regional_block] || '#666'};"></div>
+                    <span>${region.regional_block}</span>
+                `;
+                legendContainer.appendChild(legendItem);
+            });
+
+            console.log('✅ Regional legend updated with', filteredRegions.length, 'regions');
+        }
+
+        // Render Regional Trends Multi-Line Chart
+        async function renderRegionalTrendsChart() {
+            console.log('📈 Rendering regional trends multi-line chart...');
+
+            const canvas = document.getElementById('regional-trends-chart');
+            if (!canvas) {
+                console.error('❌ Regional trends canvas not found');
+                return;
+            }
+
+            // Destroy existing chart if it exists
+            if (indexChartRegistry['regional-trends-chart']) {
+                indexChartRegistry['regional-trends-chart'].destroy();
+                delete indexChartRegistry['regional-trends-chart'];
+            }
+
+            const ctx = canvas.getContext('2d');
+
+            try {
+                // Load regional trends data
+                const response = await fetch('data/processed/regional_trends.json');
+                const data = await response.json();
+
+                if (!data.regional_trends) {
+                    throw new Error('No regional trends data found');
+                }
+
+                // Get filter selection
+                const regionFilter = document.getElementById('regional-filter')?.value || 'all';
+                console.log('🎯 Regional filter selected:', regionFilter);
+
+                // Prepare datasets for each region
+                const regionColors = {
+                    'COMESA': '#1e40af',      // Dark Blue
+                    'CEPGL': '#ea580c',       // Orange
+                    'COMMON WEALTH': '#16a34a', // Green
+                    'ECOWAS': '#dc2626',      // Red
+                    'SADC': '#9333ea',        // Purple
+                    'EU': '#0891b2'           // Teal
+                };
+
+                let filteredRegions = data.regional_trends;
+                if (regionFilter !== 'all') {
+                    filteredRegions = data.regional_trends.filter(region => region.regional_block === regionFilter);
+                    console.log('🔍 Filtered regions:', filteredRegions.length, 'regions found for', regionFilter);
+                    console.log('📊 Filtered region data:', filteredRegions);
+                } else {
+                    console.log('🌍 Showing all regions:', data.regional_trends.length);
+                }
+
+                const datasets = filteredRegions.map(region => {
+                    // Filter out the "Flow \\ Period" entry and get valid periods
+                    const validPeriods = region.periods.filter(p => p.period !== 'Flow \\ Period');
+                    const labels = validPeriods.map(p => p.period);
+                    const values = validPeriods.map(p => p.value);
+
+                    return {
+                        label: region.regional_block,
+                        data: values,
+                        borderColor: regionColors[region.regional_block] || '#666',
+                        backgroundColor: regionColors[region.regional_block] + '20',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointBackgroundColor: regionColors[region.regional_block],
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 3,
+                        pointHoverRadius: 5
+                    };
+                });
+
+                // Get unique periods for x-axis (excluding "Flow \\ Period")
+                // Use periods from filtered regions only
+                const periods = [...new Set(
+                    filteredRegions.flatMap(region =>
+                        region.periods
+                            .filter(p => p.period !== 'Flow \\ Period')
+                            .map(p => p.period)
+                    )
+                )].sort();
+
+                console.log('📊 Creating chart with periods:', periods);
+                console.log('📈 Creating chart with datasets:', datasets.length, 'datasets');
+
+                const chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: periods,
+                        datasets: datasets
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: {
+                                display: false // Using custom legend in footer
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.8)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.dataset.label}: $${context.parsed.y.toFixed(2)}M`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Quarter'
+                                }
+                            },
+                            y: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Trade Value (USD Million)'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value.toFixed(1) + 'M';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                indexChartRegistry['regional-trends-chart'] = chart;
+
+                // Update the legend dynamically
+                updateRegionalLegend(filteredRegions, regionColors);
+
+                console.log('✅ Regional trends chart rendered with', datasets.length, 'lines');
+
+            } catch (error) {
+                console.error('❌ Error rendering regional trends chart:', error);
+                // Fallback chart
+                const chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['2023Q1', '2023Q2', '2023Q3', '2023Q4'],
+                        datasets: [{
+                            label: 'Loading...',
+                            data: [0, 0, 0, 0],
+                            borderColor: '#e5e7eb',
+                            backgroundColor: '#e5e7eb20'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                indexChartRegistry['regional-trends-chart'] = chart;
+            }
         }
 
         // Render Export Distribution Chart
@@ -2104,7 +3108,10 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         y: {
-                            ticks: { callback: function(value) { return '$' + (value / 1000).toFixed(1) + 'B'; } }
+                            ticks: {
+                                stepSize: 200,
+                                callback: function(value) { return '$' + value.toFixed(0) + 'M'; }
+                            }
                         }
                     }
                 }
@@ -2123,11 +3130,13 @@
                 return;
             }
 
-            // Use the new rendering functions
+            // Use the new rendering functions with default data
             renderTradePerformanceChart(getDefaultChartData());
-            renderTradeBalanceChart(getDefaultChartData());
-            renderExportDistributionChart(getDefaultChartData());
-            renderCommodityPerformanceChart(getDefaultChartData());
+            renderTreemap(getDefaultChartData());
+            renderCommodityChart();
+            renderRegionalTrendsChart();
+            renderQuarterlyBalanceBarChart(getDefaultChartData());
+            renderGrowthRateChart(getDefaultChartData());
 
             console.log('✅ Fallback charts rendered');
         }
@@ -2457,8 +3466,9 @@
                                     text: 'Value (USD Million)'
                                 },
                                 ticks: {
+                                    stepSize: 200,
                                     callback: function(value) {
-                                        return '$' + (value / 1000).toFixed(1) + 'B';
+                                        return '$' + value.toFixed(0) + 'M';
                                     }
                                 }
                             }
@@ -2497,6 +3507,384 @@
             }
         }
 
+        // Toast notification function
+        function showToast(message, type = 'info', duration = 3000) {
+            // Remove existing toast if present
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast-notification toast-${type}`;
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                font-size: 14px;
+                max-width: 300px;
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: all 0.3s ease;
+            `;
+
+            toast.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            document.body.appendChild(toast);
+
+            // Animate in
+            setTimeout(() => {
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateY(0)';
+            }, 10);
+
+            // Auto remove
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-20px)';
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+
+        // Global variable to track selected country
+        let selectedCountry = null;
+
+        // Filter trade data based on region selection
+        async function filterTradeData() {
+            const filterSelect = document.getElementById('trade-region-filter');
+            if (!filterSelect) {
+                console.error('❌ Filter select element not found');
+                return;
+            }
+
+            const selectedRegion = filterSelect.value;
+            console.log('🔄 Filtering trade data for region:', selectedRegion);
+
+            // Reset selected country when changing region filter
+            selectedCountry = null;
+
+            // Update chart subtitle to reflect current filter
+            const chartSubtitle = document.querySelector('#trade-performance-chart').closest('.chart-card').querySelector('.chart-subtitle');
+            const filterDisplay = document.getElementById('country-filter-display');
+            const filterTitle = document.getElementById('filter-title');
+            const countryList = document.getElementById('country-list');
+
+            if (chartSubtitle) {
+                switch(selectedRegion) {
+                    case 'eac':
+                        chartSubtitle.textContent = 'Export and Import volume analysis for EAC countries';
+                        break;
+                    case 'world':
+                        chartSubtitle.textContent = 'Export and Import volume analysis (excluding EAC countries)';
+                        break;
+                    default:
+                        chartSubtitle.textContent = 'Export and Import volume analysis over time';
+                }
+            }
+
+            // Load and display countries based on filter
+            try {
+                if (selectedRegion === 'eac') {
+                    // Load EAC countries
+                    const response = await fetch('data/processed/eac_countries_simple.json');
+                    const eacData = await response.json();
+
+                    if (filterDisplay && filterTitle && countryList) {
+                        filterTitle.textContent = 'EAC Countries Included';
+                        countryList.innerHTML = eacData.countries.map(country =>
+                            `<span class="country-tag eac-country" data-country="${country}" onclick="selectCountry('${country}')" style="background: #e3f2fd; color: #1976d2; padding: 4px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; border: 1px solid #bbdefb; cursor: pointer; transition: all 0.2s ease;">
+                                <i class="fas fa-map-marker-alt me-1"></i>${country}
+                            </span>`
+                        ).join('');
+                        filterDisplay.style.display = 'block';
+                    }
+
+                    showToast(`Showing trade data for ${eacData.countries.length} EAC countries`, 'info', 3000);
+
+                } else if (selectedRegion === 'world') {
+                    // Load EAC countries to exclude them
+                    const response = await fetch('data/processed/eac_countries_simple.json');
+                    const eacData = await response.json();
+
+                    // For demo purposes, show major trading partners excluding EAC
+                    const majorPartners = [
+                        'United Arab Emirates', 'China', 'Luxembourg', 'United Kingdom',
+                        'Pakistan', 'Hong Kong', 'USA', 'India', 'Saudi Arabia', 'Turkey'
+                    ];
+
+                    if (filterDisplay && filterTitle && countryList) {
+                        filterTitle.textContent = 'World Countries (Excl. EAC)';
+                        countryList.innerHTML = majorPartners.map(country =>
+                            `<span class="country-tag" data-country="${country}" onclick="selectCountry('${country}')" style="background: #f3e5f5; color: #7b1fa2; padding: 4px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; border: 1px solid #ce93d8; cursor: pointer; transition: all 0.2s ease;">
+                                <i class="fas fa-globe me-1"></i>${country}
+                            </span>`
+                        ).join('');
+                        filterDisplay.style.display = 'block';
+                    }
+
+                    showToast(`Showing trade data for world countries (excluding ${eacData.countries.length} EAC countries)`, 'info', 3000);
+
+                } else {
+                    // All regions - hide the country display
+                    if (filterDisplay) {
+                        filterDisplay.style.display = 'none';
+                    }
+                    showToast('Showing all trade data (worldwide)', 'info', 2000);
+                }
+
+            } catch (error) {
+                console.error('Error loading country data:', error);
+                showToast('Error loading country filter data', 'error', 3000);
+            }
+        }
+
+        // Select a specific country and update charts
+        async function selectCountry(countryName) {
+            console.log('🎯 Selecting country:', countryName);
+            selectedCountry = countryName;
+
+            // Highlight selected country tag
+            const countryTags = document.querySelectorAll('.country-tag');
+            countryTags.forEach(tag => {
+                if (tag.getAttribute('data-country') === countryName) {
+                    tag.style.background = '#1976d2';
+                    tag.style.color = 'white';
+                    tag.style.borderColor = '#0d47a1';
+                    tag.style.transform = 'scale(1.05)';
+                } else {
+                    // Reset other tags
+                    if (tag.classList.contains('eac-country')) {
+                        tag.style.background = '#e3f2fd';
+                        tag.style.color = '#1976d2';
+                        tag.style.borderColor = '#bbdefb';
+                    } else {
+                        tag.style.background = '#f3e5f5';
+                        tag.style.color = '#7b1fa2';
+                        tag.style.borderColor = '#ce93d8';
+                    }
+                    tag.style.transform = 'scale(1)';
+                }
+            });
+
+            try {
+                // Load export and import data for the selected country
+                const [exportsResponse, importsResponse] = await Promise.all([
+                    fetch('data/processed/exports_data.json'),
+                    fetch('data/processed/imports_data.json')
+                ]);
+
+                const exportsData = await exportsResponse.json();
+                const importsData = await importsResponse.json();
+
+                // Filter data for the selected country
+                const countryExports = exportsData.filter(item => item.destination_country === countryName);
+                const countryImports = importsData.filter(item => item.source_country === countryName);
+
+                console.log(`📊 Found ${countryExports.length} export records and ${countryImports.length} import records for ${countryName}`);
+
+                // Update the Trade Performance chart with country-specific data
+                await updateTradePerformanceChartForCountry(countryName, countryExports, countryImports);
+
+                // Update chart title
+                const chartTitle = document.querySelector('#trade-performance-chart').closest('.chart-card').querySelector('.chart-title');
+                if (chartTitle) {
+                    chartTitle.innerHTML = `<i class="fas fa-chart-bar me-2"></i>Trade with ${countryName}`;
+                }
+
+                showToast(`Showing trade data for ${countryName}`, 'success', 2000);
+
+            } catch (error) {
+                console.error('Error loading country-specific data:', error);
+                showToast('Error loading data for selected country', 'error', 3000);
+            }
+        }
+
+        // Update Trade Performance chart for a specific country
+        async function updateTradePerformanceChartForCountry(countryName, exportsData, importsData) {
+            console.log('🔄 Updating chart for country:', countryName);
+
+            const canvas = document.getElementById('trade-performance-chart');
+            if (!canvas) return;
+
+            // Destroy existing chart
+            if (indexChartRegistry['trade-performance-chart']) {
+                indexChartRegistry['trade-performance-chart'].destroy();
+                delete indexChartRegistry['trade-performance-chart'];
+            }
+
+            const ctx = canvas.getContext('2d');
+
+            // Process data for the selected country
+            const quarters = ['2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'];
+
+            const exportValues = quarters.map(quarter => {
+                const record = exportsData.find(item => item.quarter === quarter);
+                return record ? parseFloat(record.export_value) : 0;
+            });
+
+            const importValues = quarters.map(quarter => {
+                const record = importsData.find(item => item.quarter === quarter);
+                return record ? parseFloat(record.import_value) : 0;
+            });
+
+            console.log('📊 Export values:', exportValues);
+            console.log('📊 Import values:', importValues);
+
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: quarters,
+                    datasets: [{
+                        label: `Exports to ${countryName}`,
+                        data: exportValues,
+                        borderColor: '#00A1F1',
+                        backgroundColor: 'rgba(0, 161, 241, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#00A1F1',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }, {
+                        label: `Imports from ${countryName}`,
+                        data: importValues,
+                        borderColor: '#FCDD09',
+                        backgroundColor: 'rgba(252, 221, 9, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#FCDD09',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': $' + context.parsed.y.toFixed(1) + 'M';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Quarter'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Value (USD Million)'
+                            },
+                            ticks: {
+                                stepSize: 200,
+                                callback: function(value) {
+                                    return '$' + value.toFixed(0) + 'M';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            indexChartRegistry['trade-performance-chart'] = chart;
+            console.log('✅ Chart updated for country:', countryName);
+        }
+
+        // Counting Animation Function
+        function animateCountingNumbers() {
+            const countingElements = document.querySelectorAll('.counting-number');
+
+            countingElements.forEach(element => {
+                // Extract target value from current text content
+                const currentText = element.textContent.trim();
+                const isNegative = currentText.startsWith('-');
+                const cleanText = currentText.replace(/[-$BMK]/g, '');
+                const targetValue = parseFloat(cleanText) || 0;
+                const absTarget = Math.abs(targetValue);
+
+                const duration = 2000; // 2 seconds
+                const startValue = 0;
+                const startTime = performance.now();
+
+                function updateNumber(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    // Easing function for smooth animation
+                    const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                    const currentValue = startValue + (absTarget - startValue) * easeOutQuart;
+
+                    // Format as currency in millions
+                    let formattedValue;
+                    formattedValue = `$${currentValue.toFixed(0)}M`;
+
+                    // Add negative sign if needed
+                    if (isNegative) {
+                        formattedValue = '-' + formattedValue;
+                    }
+
+                    element.textContent = formattedValue;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateNumber);
+                    } else {
+                        // Set final value to match original loaded data
+                        element.textContent = currentText;
+                    }
+                }
+
+                // Start animation when element comes into view
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Store original value before animation
+                            const originalValue = element.textContent;
+                            requestAnimationFrame(updateNumber);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                observer.observe(element);
+            });
+        }
+
         // Make functions globally available
         window.toggleChatbox = toggleChatbox;
         window.minimizeChatbox = minimizeChatbox;
@@ -2512,6 +3900,12 @@
         window.attachFile = attachFile;
         window.voiceInput = voiceInput;
         window.createImmediateChart = createImmediateChart;
+        window.filterTradeData = filterTradeData;
+        window.selectCountry = selectCountry;
+        window.animateCountingNumbers = animateCountingNumbers;
+        window.updateTreemap = updateTreemap;
+        window.updateCommodityChart = updateCommodityChart;
+        window.updateRegionalChart = updateRegionalChart;
 
         // Load real data from database on page load
         document.addEventListener('DOMContentLoaded', async function() {
@@ -2530,6 +3924,15 @@
                 console.log('✅ Status indicator found and updated');
             } else {
                 console.error('❌ Status indicator not found');
+            }
+
+            // Check if filter element exists
+            const filterEl = document.getElementById('trade-region-filter');
+            if (filterEl) {
+                console.log('✅ Filter dropdown found and ready');
+                console.log('📊 Filter options:', filterEl.options.length);
+            } else {
+                console.error('❌ Filter dropdown not found');
             }
 
             // Quick test chart creation
@@ -2552,6 +3955,11 @@
                 console.error('❌ Error loading real data:', error);
                 showToast('Error loading data', 'error', 3000);
             }
+
+            // Initialize counting animation after data loads
+            setTimeout(() => {
+                animateCountingNumbers();
+            }, 500);
         });
     </script>
 

@@ -1,0 +1,92 @@
+{
+  "trade_balance": {
+    "quarterly_balance": [
+      {
+        "quarter": "2023Q1",
+        "exports": 367.63,
+        "imports": 904.33,
+        "trade_balance": -536.7,
+        "deficit": true,
+        "deficit_amount": 536.7
+      },
+      {
+        "quarter": "2023Q2",
+        "exports": 453.5,
+        "imports": 965.41,
+        "trade_balance": -511.91,
+        "deficit": true,
+        "deficit_amount": 511.91
+      },
+      {
+        "quarter": "2023Q3",
+        "exports": 349.62,
+        "imports": 1002.48,
+        "trade_balance": -652.86,
+        "deficit": true,
+        "deficit_amount": 652.86
+      },
+      {
+        "quarter": "2023Q4",
+        "exports": 352.68,
+        "imports": 948.9,
+        "trade_balance": -596.22,
+        "deficit": true,
+        "deficit_amount": 596.22
+      },
+      {
+        "quarter": "2024Q1",
+        "exports": 401.18,
+        "imports": 889.52,
+        "trade_balance": -488.34,
+        "deficit": true,
+        "deficit_amount": 488.34
+      },
+      {
+        "quarter": "2024Q2",
+        "exports": 508.96,
+        "imports": 1078.88,
+        "trade_balance": -569.92,
+        "deficit": true,
+        "deficit_amount": 569.92
+      },
+      {
+        "quarter": "2024Q3",
+        "exports": 626.67,
+        "imports": 1158.24,
+        "trade_balance": -531.57,
+        "deficit": true,
+        "deficit_amount": 531.57
+      },
+      {
+        "quarter": "2024Q4",
+        "exports": 626.06,
+        "imports": 1090.55,
+        "trade_balance": -464.49,
+        "deficit": true,
+        "deficit_amount": 464.49
+      },
+      {
+        "quarter": "2025Q1",
+        "exports": 458.44,
+        "imports": 869.79,
+        "trade_balance": -411.35,
+        "deficit": true,
+        "deficit_amount": 411.35
+      }
+    ],
+    "deficit_drivers": {
+      "average_deficit": 529.2622222222222,
+      "maximum_deficit": 652.86,
+      "quarters_in_deficit": 9,
+      "total_deficit_periods": 9,
+      "deficit_percentage": 100.0
+    },
+    "commodity_contributions": {},
+    "regional_contributions": {},
+    "insights": [
+      "Trade deficit persists in 9 out of 9 quarters (100.0%)",
+      "Average quarterly deficit: $529",
+      "Maximum quarterly deficit: $653"
+    ]
+  }
+}

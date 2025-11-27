@@ -55,8 +55,8 @@ class AIPredictionsEngine {
             const data = await response.json();
             
             this.aiStatus = {
-                available: data.ai_available || false,
-                model: data.model_name || 'DeepSeek',
+                available: data.ai_configured || false,
+                model: data.model || 'DeepSeek',
                 provider: data.provider || 'OpenRouter'
             };
 
@@ -71,31 +71,49 @@ class AIPredictionsEngine {
     }
 
     updateAIStatusDisplay() {
-        const statusEl = document.getElementById('ai-status-badge');
-        const modelEl = document.getElementById('ai-model-name');
-        
-        if (statusEl) {
-            if (this.aiStatus.available) {
-                statusEl.innerHTML = '<i class="fas fa-check-circle me-2"></i>AI Available';
-                statusEl.className = 'ai-status-badge available';
-            } else {
-                statusEl.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i>AI Unavailable';
+        try {
+            const statusEl = document.getElementById('ai-status-badge');
+            const modelEl = document.getElementById('ai-model-name');
+
+            if (statusEl) {
+                if (this.aiStatus.available) {
+                    statusEl.innerHTML = '<i class="fas fa-check-circle me-2"></i>AI Available';
+                    statusEl.className = 'ai-status-badge available';
+                } else {
+                    statusEl.innerHTML = '<i class="fas fa-times-circle me-2"></i>AI Unavailable';
+                    statusEl.className = 'ai-status-badge unavailable';
+                }
+            }
+
+            if (modelEl) {
+                const provider = this.aiStatus.provider || 'Unknown';
+                const model = this.aiStatus.model || 'Unknown';
+                modelEl.textContent = `${provider} - ${model}`;
+            }
+        } catch (error) {
+            console.error('Error updating AI status display:', error);
+            // Fallback display
+            const statusEl = document.getElementById('ai-status-badge');
+            if (statusEl) {
+                statusEl.innerHTML = '<i class="fas fa-question-circle me-2"></i>Status Unknown';
                 statusEl.className = 'ai-status-badge unavailable';
             }
-        }
-        
-        if (modelEl) {
-            modelEl.textContent = `${this.aiStatus.provider} - ${this.aiStatus.model}`;
         }
     }
 
     async loadTradeData() {
         try {
             console.log('📊 Loading trade data for AI analysis...');
-            
+
             const [timeSeriesRes, comprehensiveRes] = await Promise.all([
-                fetch('/data/processed/enhanced_time_series_analysis_20251009_181029.json'),
-                fetch('/data/processed/comprehensive_trade_analysis_20251009_181031.json')
+                fetch('/api/analytics/time-series').catch(err => {
+                    console.warn('Time series API failed:', err);
+                    return { json: () => ({ time_series: { exports_trend: {}, imports_trend: {}, forecast_next_4_quarters: { exports: { forecast_values: [] }, imports: { forecast_values: [] } } } }) };
+                }),
+                fetch('/api/analytics/comprehensive').catch(err => {
+                    console.warn('Comprehensive API failed:', err);
+                    return { json: () => ({ summary: {}, quarterly_aggregation: { exports: [], imports: [] }, country_aggregation: { export_destinations: [], import_sources: [] }, trade_balance_analysis: { summary: {} } }) };
+                })
             ]);
 
             this.currentAnalysis = {
@@ -104,9 +122,27 @@ class AIPredictionsEngine {
             };
 
             console.log('✅ Trade data loaded for AI context');
-            
+
         } catch (error) {
             console.error('❌ Error loading trade data:', error);
+            // Set fallback data if API fails
+            this.currentAnalysis = {
+                timeSeries: {
+                    time_series: {
+                        exports_trend: { slope: 0, r_squared: 0 },
+                        forecast_next_4_quarters: {
+                            exports: { forecast_values: [0, 0, 0, 0], model_fit: { aic: 0, bic: 0 } },
+                            imports: { forecast_values: [0, 0, 0, 0], model_fit: { aic: 0, bic: 0 } }
+                        }
+                    }
+                },
+                comprehensive: {
+                    summary: { total_records_extracted: 0, countries_found: [] },
+                    quarterly_aggregation: { exports: [], imports: [] },
+                    country_aggregation: { export_destinations: [], import_sources: [] },
+                    trade_balance_analysis: { summary: { overall_balance: 0, quarters_analyzed: 0 } }
+                }
+            };
         }
     }
 
@@ -129,7 +165,7 @@ class AIPredictionsEngine {
         }
 
         // Quick action buttons
-        const quickActions = document.querySelectorAll('.quick-action-btn');
+        const quickActions = document.querySelectorAll('.quick-action-item');
         quickActions.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const action = btn.dataset.action;
@@ -168,67 +204,157 @@ class AIPredictionsEngine {
     }
 
     renderAIInsights() {
-        const container = document.getElementById('ai-insights-container');
-        if (!container || !this.currentAnalysis) return;
+        try {
+            const container = document.getElementById('ai-insights-container');
+            if (!container || !this.currentAnalysis) {
+                console.warn('AI insights container or analysis data not available');
+                return;
+            }
 
-        const ts = this.currentAnalysis.timeSeries;
-        const comp = this.currentAnalysis.comprehensive;
+            const ts = this.currentAnalysis.timeSeries;
+            const comp = this.currentAnalysis.comprehensive;
 
-        let html = '<div class="insights-grid">';
+            let html = '<div class="insights-grid">';
 
-        // Insight 1: Export Trend
-        const exportTrend = ts.exports_analysis?.statistical_analysis?.trend_analysis;
-        if (exportTrend) {
-            html += this.createInsightCard(
-                'Export Trend Analysis',
-                'trending-up',
-                `Exports are ${exportTrend.trend_direction} with ${(exportTrend.trend_strength * 100).toFixed(1)}% strength`,
-                exportTrend.significant === 'True' ? 'success' : 'warning',
-                'AI detected a ' + exportTrend.trend_direction + ' pattern in export performance.'
-            );
+            // Insight 1: Export Trend
+            try {
+                const exportTrend = ts?.time_series?.exports_trend;
+                if (exportTrend && typeof exportTrend.slope === 'number') {
+                    const slope = exportTrend.slope;
+                    const isPositive = slope > 0;
+                    html += this.createInsightCard(
+                        'Export Trend Analysis',
+                        isPositive ? 'trending-up' : 'trending-down',
+                        `${isPositive ? 'Increasing' : 'Decreasing'} trend`,
+                        isPositive ? 'success' : 'warning',
+                        `Export trend shows ${isPositive ? 'positive' : 'negative'} slope of ${slope.toFixed(2)} with R² of ${(exportTrend.r_squared * 100 || 0).toFixed(1)}%`
+                    );
+                } else {
+                    html += this.createInsightCard(
+                        'Export Trend Analysis',
+                        'chart-line',
+                        'Data Unavailable',
+                        'secondary',
+                        'Export trend analysis requires time series data.'
+                    );
+                }
+            } catch (error) {
+                console.error('Error rendering export trend insight:', error);
+                html += this.createInsightCard(
+                    'Export Trend Analysis',
+                    'exclamation-triangle',
+                    'Error Loading',
+                    'warning',
+                    'Unable to load export trend data.'
+                );
+            }
+
+            // Insight 2: Trade Balance Analysis
+            try {
+                const tradeBalance = comp?.trade_balance_analysis?.summary;
+                if (tradeBalance && typeof tradeBalance.overall_balance === 'number') {
+                    const isDeficit = tradeBalance.overall_balance < 0;
+                    html += this.createInsightCard(
+                        'Trade Balance',
+                        'balance-scale',
+                        `${isDeficit ? 'Deficit' : 'Surplus'}: $${Math.abs(tradeBalance.overall_balance).toFixed(0)}M`,
+                        isDeficit ? 'danger' : 'success',
+                        `Overall trade balance shows ${isDeficit ? 'deficit' : 'surplus'} across ${tradeBalance.quarters_analyzed || 0} quarters analyzed.`
+                    );
+                } else {
+                    html += this.createInsightCard(
+                        'Trade Balance',
+                        'balance-scale',
+                        'Data Unavailable',
+                        'secondary',
+                        'Trade balance analysis requires comprehensive data.'
+                    );
+                }
+            } catch (error) {
+                console.error('Error rendering trade balance insight:', error);
+                html += this.createInsightCard(
+                    'Trade Balance',
+                    'exclamation-triangle',
+                    'Error Loading',
+                    'warning',
+                    'Unable to load trade balance data.'
+                );
+            }
+
+            // Insight 3: Forecast Analysis
+            try {
+                const exportForecast = ts?.time_series?.forecast_next_4_quarters?.exports;
+                if (exportForecast?.forecast_values && Array.isArray(exportForecast.forecast_values) && exportForecast.forecast_values.length > 0) {
+                    const avgForecast = exportForecast.forecast_values.reduce((a, b) => a + b, 0) / exportForecast.forecast_values.length;
+                    html += this.createInsightCard(
+                        'AI Forecast',
+                        'crystal-ball',
+                        `$${avgForecast.toFixed(2)}M Average`,
+                        'info',
+                        `AI forecasts ${exportForecast.forecast_values.length} quarters ahead with AIC: ${exportForecast.model_fit?.aic?.toFixed(2) || 'N/A'}`
+                    );
+                } else {
+                    html += this.createInsightCard(
+                        'AI Forecast',
+                        'crystal-ball',
+                        'Data Unavailable',
+                        'secondary',
+                        'Forecast analysis requires time series forecasting data.'
+                    );
+                }
+            } catch (error) {
+                console.error('Error rendering forecast insight:', error);
+                html += this.createInsightCard(
+                    'AI Forecast',
+                    'exclamation-triangle',
+                    'Error Loading',
+                    'warning',
+                    'Unable to load forecast data.'
+                );
+            }
+
+            // Insight 4: Data Coverage
+            try {
+                const summary = comp?.summary;
+                if (summary) {
+                    const countries = summary.countries_found ? summary.countries_found.length : 0;
+                    const records = summary.total_records_extracted || 0;
+                    html += this.createInsightCard(
+                        'Data Coverage',
+                        'database',
+                        `${countries} Countries, ${records} Records`,
+                        'primary',
+                        `Analysis covers ${summary.total_files_processed || 0} files with comprehensive trade data.`
+                    );
+                } else {
+                    html += this.createInsightCard(
+                        'Data Coverage',
+                        'database',
+                        'Data Unavailable',
+                        'secondary',
+                        'Data coverage information requires summary statistics.'
+                    );
+                }
+            } catch (error) {
+                console.error('Error rendering data coverage insight:', error);
+                html += this.createInsightCard(
+                    'Data Coverage',
+                    'exclamation-triangle',
+                    'Error Loading',
+                    'warning',
+                    'Unable to load data coverage information.'
+                );
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        } catch (error) {
+            console.error('Critical error in renderAIInsights:', error);
+            const container = document.getElementById('ai-insights-container');
+            if (container) {
+                container.innerHTML = '<div class="alert alert-danger">Error loading AI insights. Please refresh the page.</div>';
+            }
         }
-
-        // Insight 2: Risk Assessment
-        const riskAssessment = comp.key_insights?.risk_assessment;
-        if (riskAssessment) {
-            html += this.createInsightCard(
-                'Risk Assessment',
-                'shield-alt',
-                `${riskAssessment.overall_risk_level} Risk Level`,
-                riskAssessment.overall_risk_level === 'High' ? 'danger' : 'warning',
-                riskAssessment.risk_factors[0] || 'Analyzing risk factors...'
-            );
-        }
-
-        // Insight 3: Forecast Confidence
-        const exportForecast = ts.exports_analysis?.forecasts?.exponential_smoothing;
-        if (exportForecast) {
-            const avgForecast = exportForecast.forecast_values.reduce((a, b) => a + b, 0) / 
-                               exportForecast.forecast_values.length;
-            html += this.createInsightCard(
-                'Forecast Prediction',
-                'crystal-ball',
-                `$${avgForecast.toFixed(2)}M Average`,
-                'info',
-                `AI forecasts ${exportForecast.forecast_values.length} quarters ahead with exponential smoothing.`
-            );
-        }
-
-        // Insight 4: Recommendations
-        const recommendations = comp.recommendations || [];
-        if (recommendations.length > 0) {
-            const highPriority = recommendations.filter(r => r.priority === 'high').length;
-            html += this.createInsightCard(
-                'AI Recommendations',
-                'lightbulb',
-                `${recommendations.length} Strategic Insights`,
-                'primary',
-                `${highPriority} high-priority recommendations identified.`
-            );
-        }
-
-        html += '</div>';
-        container.innerHTML = html;
     }
 
     createInsightCard(title, icon, value, colorClass, description) {
@@ -247,41 +373,94 @@ class AIPredictionsEngine {
     }
 
     renderPredictionCards() {
-        const container = document.getElementById('prediction-cards-container');
-        if (!container || !this.currentAnalysis) return;
+        try {
+            const container = document.getElementById('prediction-cards-container');
+            if (!container || !this.currentAnalysis) {
+                console.warn('Prediction cards container or analysis data not available');
+                return;
+            }
 
-        const ts = this.currentAnalysis.timeSeries;
-        
-        let html = '<div class="prediction-cards-grid">';
+            const ts = this.currentAnalysis.timeSeries;
 
-        // Export Predictions
-        const exportForecast = ts.exports_analysis?.forecasts?.exponential_smoothing;
-        if (exportForecast) {
-            html += this.createPredictionCard(
-                'Exports Forecast',
-                'arrow-trend-up',
-                exportForecast.forecast_values,
-                ['2025Q2', '2025Q3', '2025Q4', '2026Q1'],
-                'success',
-                `AIC: ${exportForecast.model_fit.aic.toFixed(2)}, BIC: ${exportForecast.model_fit.bic.toFixed(2)}`
-            );
+            let html = '<div class="prediction-cards-grid">';
+
+            // Export Predictions
+            try {
+                const exportForecast = ts?.time_series?.forecast_next_4_quarters?.exports;
+                if (exportForecast?.forecast_values && Array.isArray(exportForecast.forecast_values) && exportForecast.forecast_values.length > 0) {
+                    html += this.createPredictionCard(
+                        'Exports Forecast',
+                        'arrow-trend-up',
+                        exportForecast.forecast_values,
+                        ['2025Q2', '2025Q3', '2025Q4', '2026Q1'],
+                        'success',
+                        `AIC: ${exportForecast.model_fit?.aic?.toFixed(2) || 'N/A'}, BIC: ${exportForecast.model_fit?.bic?.toFixed(2) || 'N/A'}`
+                    );
+                } else {
+                    html += this.createPredictionCard(
+                        'Exports Forecast',
+                        'arrow-trend-up',
+                        [0, 0, 0, 0],
+                        ['2025Q2', '2025Q3', '2025Q4', '2026Q1'],
+                        'secondary',
+                        'Forecast data unavailable'
+                    );
+                }
+            } catch (error) {
+                console.error('Error rendering export forecast card:', error);
+                html += this.createPredictionCard(
+                    'Exports Forecast',
+                    'exclamation-triangle',
+                    [0, 0, 0, 0],
+                    ['2025Q2', '2025Q3', '2025Q4', '2026Q1'],
+                    'warning',
+                    'Error loading forecast data'
+                );
+            }
+
+            // Import Predictions
+            try {
+                const importForecast = ts?.time_series?.forecast_next_4_quarters?.imports;
+                if (importForecast?.forecast_values && Array.isArray(importForecast.forecast_values) && importForecast.forecast_values.length > 0) {
+                    html += this.createPredictionCard(
+                        'Imports Forecast',
+                        'arrow-trend-down',
+                        importForecast.forecast_values,
+                        ['2025Q2', '2025Q3', '2025Q4', '2026Q1'],
+                        'primary',
+                        `AIC: ${importForecast.model_fit?.aic?.toFixed(2) || 'N/A'}, BIC: ${importForecast.model_fit?.bic?.toFixed(2) || 'N/A'}`
+                    );
+                } else {
+                    html += this.createPredictionCard(
+                        'Imports Forecast',
+                        'arrow-trend-down',
+                        [0, 0, 0, 0],
+                        ['2025Q2', '2025Q3', '2025Q4', '2026Q1'],
+                        'secondary',
+                        'Forecast data unavailable'
+                    );
+                }
+            } catch (error) {
+                console.error('Error rendering import forecast card:', error);
+                html += this.createPredictionCard(
+                    'Imports Forecast',
+                    'exclamation-triangle',
+                    [0, 0, 0, 0],
+                    ['2025Q2', '2025Q3', '2025Q4', '2026Q1'],
+                    'warning',
+                    'Error loading forecast data'
+                );
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        } catch (error) {
+            console.error('Critical error in renderPredictionCards:', error);
+            const container = document.getElementById('prediction-cards-container');
+            if (container) {
+                container.innerHTML = '<div class="alert alert-danger">Error loading prediction cards. Please refresh the page.</div>';
+            }
         }
-
-        // Import Predictions
-        const importForecast = ts.imports_analysis?.forecasts?.exponential_smoothing;
-        if (importForecast) {
-            html += this.createPredictionCard(
-                'Imports Forecast',
-                'arrow-trend-down',
-                importForecast.forecast_values,
-                ['2025Q2', '2025Q3', '2025Q4', '2026Q1'],
-                'primary',
-                `AIC: ${importForecast.model_fit.aic.toFixed(2)}, BIC: ${importForecast.model_fit.bic.toFixed(2)}`
-            );
-        }
-
-        html += '</div>';
-        container.innerHTML = html;
     }
 
     createPredictionCard(title, icon, values, periods, colorClass, modelInfo) {
@@ -336,16 +515,20 @@ class AIPredictionsEngine {
 
         const ctx = canvas.getContext('2d');
         const ts = this.currentAnalysis.timeSeries;
+        const comp = this.currentAnalysis.comprehensive;
 
-        // Historical data
-        const historicalQuarters = ['2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'];
-        const historicalExports = [402.14, 484.74, 388.11, 399.11, 431.61, 537.64, 667.00, 677.45, 480.82];
-        const historicalImports = [1476.51, 1571.09, 1581.81, 1486.93, 1410.52, 1568.97, 1751.57, 1629.39, 1379.05];
+        // Get historical data from comprehensive analysis
+        const quarterlyExports = comp.quarterly_aggregation?.exports || [];
+        const quarterlyImports = comp.quarterly_aggregation?.imports || [];
+
+        const historicalQuarters = quarterlyExports.map(item => item.quarter);
+        const historicalExports = quarterlyExports.map(item => item.export_value);
+        const historicalImports = quarterlyImports.map(item => item.import_value);
 
         // Forecast data
         const forecastQuarters = ['2025Q2', '2025Q3', '2025Q4', '2026Q1'];
-        const exportForecast = ts.exports_analysis?.forecasts?.exponential_smoothing?.forecast_values || [];
-        const importForecast = ts.imports_analysis?.forecasts?.exponential_smoothing?.forecast_values || [];
+        const exportForecast = ts.time_series?.forecast_next_4_quarters?.exports?.forecast_values || [];
+        const importForecast = ts.time_series?.forecast_next_4_quarters?.imports?.forecast_values || [];
 
         // Combine
         const allQuarters = [...historicalQuarters, ...forecastQuarters];
@@ -368,7 +551,7 @@ class AIPredictionsEngine {
                     borderWidth: 3,
                     tension: 0.4,
                     pointRadius: 6,
-                    pointBackgroundColor: allQuarters.map((_, i) => 
+                    pointBackgroundColor: allQuarters.map((_, i) =>
                         i >= historicalQuarters.length ? '#ffc107' : '#28a745'
                     ),
                     segment: {
@@ -382,7 +565,7 @@ class AIPredictionsEngine {
                     borderWidth: 3,
                     tension: 0.4,
                     pointRadius: 6,
-                    pointBackgroundColor: allQuarters.map((_, i) => 
+                    pointBackgroundColor: allQuarters.map((_, i) =>
                         i >= historicalQuarters.length ? '#ffc107' : '#007bff'
                     ),
                     segment: {
@@ -502,10 +685,25 @@ class AIPredictionsEngine {
 
         const ctx = canvas.getContext('2d');
         const ts = this.currentAnalysis.timeSeries;
+        const comp = this.currentAnalysis.comprehensive;
 
-        // Volatility comparison
-        const exportVol = ts.exports_analysis?.statistical_analysis?.volatility_analysis;
-        const importVol = ts.imports_analysis?.statistical_analysis?.volatility_analysis;
+        // Get trend data from time series
+        const exportTrend = ts.time_series?.exports_trend;
+        const importTrend = ts.time_series?.imports_trend;
+
+        // Get quarterly data for volatility calculation
+        const quarterlyExports = comp.quarterly_aggregation?.exports || [];
+        const quarterlyImports = comp.quarterly_aggregation?.imports || [];
+
+        // Calculate basic statistics
+        const exportValues = quarterlyExports.map(item => item.export_value);
+        const importValues = quarterlyImports.map(item => item.import_value);
+
+        const exportVolatility = this.calculateVolatility(exportValues);
+        const importVolatility = this.calculateVolatility(importValues);
+
+        const exportMean = exportValues.reduce((a, b) => a + b, 0) / exportValues.length;
+        const importMean = importValues.reduce((a, b) => a + b, 0) / importValues.length;
 
         if (this.charts.trendProjection) {
             this.charts.trendProjection.destroy();
@@ -514,27 +712,27 @@ class AIPredictionsEngine {
         this.charts.trendProjection = new Chart(ctx, {
             type: 'radar',
             data: {
-                labels: ['Volatility', 'Mean Return', 'Max Return', 'Min Return (abs)', 'Positive Periods'],
+                labels: ['Trend Strength', 'R² Value', 'Slope', 'Mean Value', 'Data Points'],
                 datasets: [{
-                    label: 'Exports Risk Profile',
+                    label: 'Exports Analysis',
                     data: [
-                        exportVol.volatility / 10,
-                        exportVol.mean_return,
-                        exportVol.max_return / 10,
-                        Math.abs(exportVol.min_return),
-                        exportVol.positive_returns * 10
+                        exportTrend ? Math.abs(exportTrend.slope) * 10 : 0,
+                        exportTrend ? exportTrend.r_squared * 100 : 0,
+                        exportTrend ? Math.abs(exportTrend.slope) : 0,
+                        exportMean / 100,
+                        exportValues.length
                     ],
                     borderColor: '#28a745',
                     backgroundColor: 'rgba(40, 167, 69, 0.2)',
                     borderWidth: 2
                 }, {
-                    label: 'Imports Risk Profile',
+                    label: 'Imports Analysis',
                     data: [
-                        importVol.volatility / 10,
-                        importVol.mean_return / 10,
-                        importVol.max_return / 50,
-                        Math.abs(importVol.min_return),
-                        importVol.positive_returns * 10
+                        importTrend ? Math.abs(importTrend.slope) * 10 : 0,
+                        importTrend ? importTrend.r_squared * 100 : 0,
+                        importTrend ? Math.abs(importTrend.slope) : 0,
+                        importMean / 100,
+                        importValues.length
                     ],
                     borderColor: '#007bff',
                     backgroundColor: 'rgba(0, 123, 255, 0.2)',
@@ -547,30 +745,50 @@ class AIPredictionsEngine {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Risk & Return Profile Comparison',
+                        text: 'Trade Trend Analysis Comparison',
                         font: { size: 16, weight: 'bold' }
                     }
                 },
                 scales: {
                     r: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index) {
+                                const labels = ['Trend Strength', 'R² Value', 'Slope', 'Mean Value', 'Data Points'];
+                                if (labels[index] === 'R² Value') return value + '%';
+                                if (labels[index] === 'Mean Value') return '$' + (value * 100) + 'M';
+                                return value;
+                            }
+                        }
                     }
                 }
             }
         });
     }
 
+    calculateVolatility(values) {
+        if (values.length < 2) return 0;
+        const mean = values.reduce((a, b) => a + b, 0) / values.length;
+        const squaredDiffs = values.map(value => Math.pow(value - mean, 2));
+        const variance = squaredDiffs.reduce((a, b) => a + b, 0) / values.length;
+        return Math.sqrt(variance);
+    }
+
     renderTradeOverviewChart() {
         const canvas = document.getElementById('trade-overview-chart');
-        if (!canvas) return;
+        if (!canvas || !this.currentAnalysis) return;
 
         const ctx = canvas.getContext('2d');
+        const comp = this.currentAnalysis.comprehensive;
 
-        // Sample data - in real implementation, this would come from processed data
-        const quarters = ['2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'];
-        const exports = [402.14, 484.74, 388.11, 399.11, 431.61, 537.64, 667.00, 677.45, 480.82];
-        const imports = [1476.51, 1571.09, 1581.81, 1486.93, 1410.52, 1568.97, 1751.57, 1629.39, 1379.05];
-        const balance = exports.map((exp, i) => exp - imports[i]);
+        // Get data from comprehensive analysis
+        const quarterlyExports = comp.quarterly_aggregation?.exports || [];
+        const quarterlyImports = comp.quarterly_aggregation?.imports || [];
+
+        const quarters = quarterlyExports.map(item => item.quarter);
+        const exports = quarterlyExports.map(item => item.export_value);
+        const imports = quarterlyImports.map(item => item.import_value);
+        const balance = exports.map((exp, i) => exp - (imports[i] || 0));
 
         if (this.charts.tradeOverview) {
             this.charts.tradeOverview.destroy();
@@ -718,26 +936,26 @@ class AIPredictionsEngine {
 
     renderCommodityAnalysisChart() {
         const canvas = document.getElementById('commodity-analysis-chart');
-        if (!canvas) return;
+        if (!canvas || !this.currentAnalysis) return;
 
         const ctx = canvas.getContext('2d');
+        const comp = this.currentAnalysis.comprehensive;
 
-        // Top 5 export and import commodities
-        const exportCommodities = ['Other Commodities', 'Food & Animals', 'Crude Materials', 'Manufactured Goods', 'Oils & Fats'];
-        const exportValues = [438.15, 103.12, 58.76, 34.87, 23.40];
-        const importCommodities = ['Machinery', 'Other Commodities', 'Food & Animals', 'Manufactured Goods', 'Minerals & Fuels'];
-        const importValues = [238.86, 396.16, 234.57, 215.13, 190.53];
+        // Get top export destinations as proxy for commodities
+        const topExports = comp.country_aggregation?.export_destinations?.slice(0, 5) || [];
+        const exportLabels = topExports.map(item => item.destination_country);
+        const exportValues = topExports.map(item => item.export_value);
 
         if (this.charts.commodityAnalysis) {
             this.charts.commodityAnalysis.destroy();
         }
 
         this.charts.commodityAnalysis = new Chart(ctx, {
-            type: 'horizontalBar',
+            type: 'bar',
             data: {
-                labels: exportCommodities,
+                labels: exportLabels,
                 datasets: [{
-                    label: 'Top Export Commodities (US$ Million)',
+                    label: 'Top Export Destinations (US$ Million)',
                     data: exportValues,
                     backgroundColor: 'rgba(40, 167, 69, 0.8)',
                     borderColor: '#28a745',
@@ -751,7 +969,7 @@ class AIPredictionsEngine {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Top Export Commodities Q1 2025',
+                        text: 'Top Export Destinations by Value',
                         font: { size: 14, weight: 'bold' }
                     }
                 },
@@ -770,14 +988,19 @@ class AIPredictionsEngine {
 
     renderRegionalDistributionChart() {
         const canvas = document.getElementById('regional-distribution-chart');
-        if (!canvas) return;
+        if (!canvas || !this.currentAnalysis) return;
 
         const ctx = canvas.getContext('2d');
+        const comp = this.currentAnalysis.comprehensive;
 
-        // Regional distribution data
-        const regions = ['Africa', 'Europe', 'Asia', 'Americas', 'Oceania'];
-        const exportShares = [75.5, 11.15, 67.52, 0.65, 0.09];
-        const importShares = [34.65, 11.66, 51.10, 2.12, 0.47];
+        // Get top countries and group by region (simplified)
+        const topExports = comp.country_aggregation?.export_destinations?.slice(0, 8) || [];
+        const topImports = comp.country_aggregation?.import_sources?.slice(0, 8) || [];
+
+        // Simplified regional grouping
+        const regions = ['Middle East', 'Africa', 'Asia', 'Europe', 'Other'];
+        const exportShares = this.calculateRegionalShares(topExports, regions);
+        const importShares = this.calculateRegionalShares(topImports, regions);
 
         if (this.charts.regionalDistribution) {
             this.charts.regionalDistribution.destroy();
@@ -788,14 +1011,14 @@ class AIPredictionsEngine {
             data: {
                 labels: regions,
                 datasets: [{
-                    label: 'Export Regional Distribution (%)',
+                    label: 'Export Distribution by Value',
                     data: exportShares,
                     borderColor: '#28a745',
                     backgroundColor: 'rgba(40, 167, 69, 0.2)',
                     borderWidth: 2,
                     pointRadius: 4
                 }, {
-                    label: 'Import Regional Distribution (%)',
+                    label: 'Import Distribution by Value',
                     data: importShares,
                     borderColor: '#007bff',
                     backgroundColor: 'rgba(0, 123, 255, 0.2)',
@@ -809,7 +1032,7 @@ class AIPredictionsEngine {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Regional Trade Distribution',
+                        text: 'Regional Trade Distribution by Top Partners',
                         font: { size: 14, weight: 'bold' }
                     }
                 },
@@ -817,7 +1040,7 @@ class AIPredictionsEngine {
                     r: {
                         beginAtZero: true,
                         ticks: {
-                            callback: (value) => value + '%'
+                            callback: (value) => '$' + value.toFixed(0) + 'M'
                         }
                     }
                 }
@@ -825,17 +1048,38 @@ class AIPredictionsEngine {
         });
     }
 
+    calculateRegionalShares(countries, regions) {
+        const regionalMap = {
+            'Middle East': ['United Arab Emirates'],
+            'Africa': ['Democratic Republic of the Congo', 'Tanzania', 'Kenya', 'Uganda', 'South Africa', 'Egypt'],
+            'Asia': ['China', 'India', 'Pakistan', 'Thailand', 'Malaysia', 'Japan'],
+            'Europe': ['United Kingdom', 'Germany', 'Netherlands', 'Belgium', 'France'],
+            'Other': []
+        };
+
+        const shares = regions.map(region => {
+            const regionCountries = regionalMap[region] || [];
+            const total = countries
+                .filter(country => regionCountries.includes(country.destination_country || country.source_country))
+                .reduce((sum, country) => sum + (country.export_value || country.import_value || 0), 0);
+            return total;
+        });
+
+        return shares;
+    }
+
     renderForecastVisualization() {
         const canvas = document.getElementById('forecast-visualization');
-        if (!canvas) return;
+        if (!canvas || !this.currentAnalysis) return;
 
         const ctx = canvas.getContext('2d');
+        const ts = this.currentAnalysis.timeSeries;
 
-        // Forecast data
+        // Get forecast data
         const periods = ['2025Q2', '2025Q3', '2025Q4', '2026Q1'];
-        const exportForecast = [2.41, 2.41, 2.41, 2.41];
-        const importForecast = [27.22, 27.22, 27.22, 27.22];
-        const balanceForecast = [-24.81, -24.81, -24.81, -24.81];
+        const exportForecast = ts.time_series?.forecast_next_4_quarters?.exports?.forecast_values || [];
+        const importForecast = ts.time_series?.forecast_next_4_quarters?.imports?.forecast_values || [];
+        const balanceForecast = exportForecast.map((exp, i) => exp - (importForecast[i] || 0));
 
         if (this.charts.forecastVisualization) {
             this.charts.forecastVisualization.destroy();
@@ -886,7 +1130,7 @@ class AIPredictionsEngine {
                     tooltip: {
                         callbacks: {
                             label: (context) => {
-                                return `${context.dataset.label}: ${context.parsed.y.toFixed(2)}M`;
+                                return `${context.dataset.label}: $${context.parsed.y.toFixed(2)}M`;
                             }
                         }
                     }
@@ -907,18 +1151,7 @@ class AIPredictionsEngine {
         if (!messagesContainer) return;
 
         const welcomeMsg = this.createAIMessage(
-            `🇷🇼 **Rwanda Trade Intelligence Assistant** 🤖\n\n` +
-            `Hello! I am an advanced analytical system built for the NISR Hackathon 2025.\n\n` +
-            `**My Capabilities:**\n` +
-            `• **Evidence-Based Analysis**: Using processed JSON data and raw NISR Excel datasets\n` +
-            `• **Structured Intelligence**: Providing Executive Summaries, Key Insights, and Policy Recommendations\n` +
-            `• **Comprehensive Coverage**: Exports, Imports, Commodities, Regional Trade, Forecasts\n` +
-            `• **Policy-Relevant Insights**: Actionable recommendations for decision-makers\n\n` +
-            `**Available Data Sources:**\n` +
-            `• Processed trade data (analysis_report.json, commodity_summary.json, etc.)\n` +
-            `• Raw NISR Excel datasets (2025Q1 Trade Report)\n` +
-            `• Official NISR PDF reports and contextual information\n\n` +
-            `Ask me any question about Rwanda's trade environment and receive structured, evidence-based analysis!`
+            `Hello! I'm your AI Trade Intelligence Assistant. Ask me anything about Rwanda's trade data.`
         );
 
         messagesContainer.appendChild(welcomeMsg);
