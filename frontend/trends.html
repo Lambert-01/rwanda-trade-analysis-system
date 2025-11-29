@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trends Analysis | TradeScope</title>
+
+    <!-- Meta Tags -->
+    <meta name="description" content="Advanced time series trends analysis for Rwanda's trade data with forecasting and growth insights">
+    <meta name="keywords" content="Rwanda, trends, time series, forecasting, growth analysis, exports, imports, NISR">
+    <meta name="author" content="TradeScope - AI Enhanced">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+
+    <!-- External Libraries CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/analytics.css">
+</head>
+<body>
+    <!-- Modern Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="assets/images/NISR.png" alt="NISR Logo" class="nisr-logo">
+                <h3>TradeScope</h3>
+                <span class="ai-badge"></span>
+            </div>
+        </div>
+
+        <div class="sidebar-menu">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link" data-page="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="exports.html" class="nav-link" data-page="exports">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Exports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="imports.html" class="nav-link" data-page="imports">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Imports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="predictions.html" class="nav-link" data-page="predictions">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Predictions</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html" class="nav-link" data-page="analytics">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Advanced Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="commodities.html" class="nav-link" data-page="commodities">
+                        <i class="fas fa-boxes"></i>
+                        <span>Commodities</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="trends.html" class="nav-link active" data-page="trends">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Trends</span>
+                        <div class="nav-indicator"></div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="regional.html" class="nav-link" data-page="regional">
+                        <i class="fas fa-globe-africa"></i>
+                        <span>Regional Analysis</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-details">
+                    <span class="user-name">Trade Analyst</span>
+                    <span class="user-role">NISR Dashboard</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- Top Header Bar -->
+    <header class="top-header">
+        <div class="header-left">
+            <button class="sidebar-toggle" id="sidebar-toggle" title="Toggle Navigation Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="page-title">
+                <h1>Trends Analysis</h1>
+                <p>Time series analysis and forecasting insights</p>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="header-actions">
+                <button class="btn btn-refresh" onclick="location.reload()" title="Refresh Data">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <div class="time-display">
+                    <i class="fas fa-clock"></i>
+                    <span id="current-time">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-screen">
+            <div class="spinner-container">
+                <div class="spinner"></div>
+                <p class="loading-text">Loading Trends Data...</p>
+                <small class="text-muted">Analyzing time series patterns...</small>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="trends-hero">
+            <div class="container-fluid text-center">
+                <h1><i class="fas fa-chart-line me-3"></i>Advanced Trends Analysis</h1>
+                <p>Comprehensive time series analysis with forecasting and growth insights (2023-2025)</p>
+            </div>
+        </section>
+
+        <!-- Key Metrics -->
+        <section class="container-fluid mb-4">
+            <div class="trends-metrics-grid">
+                <div class="trends-metric-card growth">
+                    <div class="metric-icon">
+                        <i class="fas fa-arrow-trend-up"></i>
+                    </div>
+                    <div class="metric-label">Export Growth Rate</div>
+                    <div class="metric-value" id="export-growth-rate">+12.5%</div>
+                    <div class="metric-detail">
+                        CAGR: <strong id="export-cagr">+15.2%</strong><br>
+                        <span class="trend-indicator positive">Strong Growth</span>
+                    </div>
+                </div>
+
+                <div class="trends-metric-card volatility">
+                    <div class="metric-icon">
+                        <i class="fas fa-wave-square"></i>
+                    </div>
+                    <div class="metric-label">Trade Volatility</div>
+                    <div class="metric-value" id="trade-volatility">Medium</div>
+                    <div class="metric-detail">
+                        Coefficient: <strong id="volatility-coeff">0.23</strong><br>
+                        <span class="stability-indicator">Stable Trends</span>
+                    </div>
+                </div>
+
+                <div class="trends-metric-card forecast">
+                    <div class="metric-icon">
+                        <i class="fas fa-crystal-ball"></i>
+                    </div>
+                    <div class="metric-label">Next Quarter Forecast</div>
+                    <div class="metric-value" id="next-quarter-forecast">$485M</div>
+                    <div class="metric-detail">
+                        Confidence: <strong id="forecast-confidence">87%</strong><br>
+                        <span class="forecast-indicator">High Accuracy</span>
+                    </div>
+                </div>
+
+                <div class="trends-metric-card seasonality">
+                    <div class="metric-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="metric-label">Seasonal Pattern</div>
+                    <div class="metric-value" id="seasonal-pattern">Q4 Peak</div>
+                    <div class="metric-detail">
+                        Strength: <strong id="seasonal-strength">0.78</strong><br>
+                        <span class="season-indicator">Strong Seasonal</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analysis Tabs -->
+        <section class="container-fluid mb-5">
+            <ul class="nav nav-tabs" id="trendsTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="time-series-tab" data-bs-toggle="tab" data-bs-target="#time-series-analysis" type="button" role="tab" aria-controls="time-series-analysis" aria-selected="true">
+                        <i class="fas fa-chart-line me-2"></i>Time Series Analysis
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="growth-analysis-tab" data-bs-toggle="tab" data-bs-target="#growth-analysis" type="button" role="tab" aria-controls="growth-analysis" aria-selected="false">
+                        <i class="fas fa-percentage me-2"></i>Growth Analysis
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="forecasting-tab" data-bs-toggle="tab" data-bs-target="#forecasting-analysis" type="button" role="tab" aria-controls="forecasting-analysis" aria-selected="false">
+                        <i class="fas fa-robot me-2"></i>Forecasting
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="correlation-tab" data-bs-toggle="tab" data-bs-target="#correlation-analysis" type="button" role="tab" aria-controls="correlation-analysis" aria-selected="false">
+                        <i class="fas fa-link me-2"></i>Correlations
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-4" id="trendsTabsContent">
+                <!-- Time Series Analysis Tab -->
+                <div class="tab-pane fade show active" id="time-series-analysis" role="tabpanel" aria-labelledby="time-series-tab">
+                    <div class="charts-grid">
+                        <div class="chart-card full-width">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-chart-area me-2"></i>Trade Performance Trends
+                                </h3>
+                                <p class="chart-subtitle">Multi-year time series with trend lines and seasonal decomposition</p>
+                            </div>
+                            <div class="chart-container tall">
+                                <canvas id="time-series-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-wave-square me-2"></i>Seasonal Decomposition
+                                </h3>
+                                <p class="chart-subtitle">Trend, seasonal, and residual components</p>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="seasonal-decomposition-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-chart-bar me-2"></i>Volatility Analysis
+                                </h3>
+                                <p class="chart-subtitle">Quarterly volatility and stability metrics</p>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="volatility-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Growth Analysis Tab -->
+                <div class="tab-pane fade" id="growth-analysis" role="tabpanel" aria-labelledby="growth-analysis-tab">
+                    <div class="charts-grid">
+                        <div class="chart-card full-width">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-percentage me-2"></i>Quarter-over-Quarter Growth Rates
+                                </h3>
+                                <p class="chart-subtitle">QoQ and YoY growth analysis with CAGR calculations</p>
+                            </div>
+                            <div class="chart-container tall">
+                                <canvas id="growth-rates-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-trophy me-2"></i>Top Growth Commodities
+                                </h3>
+                                <p class="chart-subtitle">Highest growth SITC sections</p>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="top-growth-commodities-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-balance-scale me-2"></i>Trade Balance Trends
+                                </h3>
+                                <p class="chart-subtitle">Deficit/surplus evolution over time</p>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="balance-trends-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forecasting Tab -->
+                <div class="tab-pane fade" id="forecasting-analysis" role="tabpanel" aria-labelledby="forecasting-tab">
+                    <div class="charts-grid">
+                        <div class="chart-card full-width">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-robot me-2"></i>AI-Powered Forecasting
+                                </h3>
+                                <p class="chart-subtitle">Next 4 quarters prediction with confidence intervals</p>
+                            </div>
+                            <div class="chart-container tall">
+                                <canvas id="forecasting-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-bullseye me-2"></i>Forecast Accuracy
+                                </h3>
+                                <p class="chart-subtitle">Model performance and confidence metrics</p>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="forecast-accuracy-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-lightbulb me-2"></i>Forecast Insights
+                                </h3>
+                                <p class="chart-subtitle">Key predictions and recommendations</p>
+                            </div>
+                            <div class="forecast-insights" id="forecast-insights">
+                                <div class="insight-item">
+                                    <i class="fas fa-arrow-trend-up text-success"></i>
+                                    <div class="insight-content">
+                                        <h5>Export Growth Expected</h5>
+                                        <p>Strong upward trend projected for next quarter</p>
+                                    </div>
+                                </div>
+                                <div class="insight-item">
+                                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                                    <div class="insight-content">
+                                        <h5>Import Pressure</h5>
+                                        <p>Rising import costs may impact trade balance</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Correlation Analysis Tab -->
+                <div class="tab-pane fade" id="correlation-analysis" role="tabpanel" aria-labelledby="correlation-tab">
+                    <div class="charts-grid">
+                        <div class="chart-card full-width">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-link me-2"></i>Trade Variables Correlation Matrix
+                                </h3>
+                                <p class="chart-subtitle">Relationships between exports, imports, and trade balance</p>
+                            </div>
+                            <div class="chart-container tall">
+                                <canvas id="correlation-heatmap"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-chart-scatter me-2"></i>Scatter Plot Analysis
+                                </h3>
+                                <p class="chart-subtitle">Exports vs Imports relationship</p>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="scatter-plot-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-network-wired me-2"></i>Dependency Network
+                                </h3>
+                                <p class="chart-subtitle">Key trade relationships and dependencies</p>
+                            </div>
+                            <div class="correlation-insights" id="correlation-insights">
+                                <div class="correlation-item">
+                                    <div class="correlation-strength strong">
+                                        <i class="fas fa-link"></i>
+                                        <span>Strong</span>
+                                    </div>
+                                    <div class="correlation-detail">
+                                        <strong>Exports ↔ Imports:</strong> 0.87 correlation
+                                        <br><small>Synchronized trade growth patterns</small>
+                                    </div>
+                                </div>
+                                <div class="correlation-item">
+                                    <div class="correlation-strength moderate">
+                                        <i class="fas fa-link"></i>
+                                        <span>Moderate</span>
+                                    </div>
+                                    <div class="correlation-detail">
+                                        <strong>Balance ↔ Growth:</strong> -0.65 correlation
+                                        <br><small>Deficit increases with slower growth</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistical Summary -->
+        <section class="container-fluid mb-5">
+            <h2 class="section-title">
+                <i class="fas fa-calculator me-2"></i>Statistical Summary
+            </h2>
+            <p class="section-subtitle">Key statistical metrics and trend analysis results</p>
+
+            <div class="stats-summary-grid">
+                <div class="stats-card">
+                    <h4>Trend Analysis</h4>
+                    <div class="stat-metric">
+                        <span class="stat-label">Export Trend:</span>
+                        <span class="stat-value positive" id="export-trend">+2.3% quarterly</span>
+                    </div>
+                    <div class="stat-metric">
+                        <span class="stat-label">Import Trend:</span>
+                        <span class="stat-value negative" id="import-trend">+1.8% quarterly</span>
+                    </div>
+                    <div class="stat-metric">
+                        <span class="stat-label">R² (Goodness of Fit):</span>
+                        <span class="stat-value" id="r-squared">0.89</span>
+                    </div>
+                </div>
+
+                <div class="stats-card">
+                    <h4>Volatility Metrics</h4>
+                    <div class="stat-metric">
+                        <span class="stat-label">Export Volatility:</span>
+                        <span class="stat-value" id="export-volatility">12.4%</span>
+                    </div>
+                    <div class="stat-metric">
+                        <span class="stat-label">Import Volatility:</span>
+                        <span class="stat-value" id="import-volatility">8.7%</span>
+                    </div>
+                    <div class="stat-metric">
+                        <span class="stat-label">Stability Index:</span>
+                        <span class="stat-value positive" id="stability-index">High</span>
+                    </div>
+                </div>
+
+                <div class="stats-card">
+                    <h4>Forecast Performance</h4>
+                    <div class="stat-metric">
+                        <span class="stat-label">MAPE:</span>
+                        <span class="stat-value" id="forecast-mape">4.2%</span>
+                    </div>
+                    <div class="stat-metric">
+                        <span class="stat-label">Confidence Interval:</span>
+                        <span class="stat-value" id="confidence-interval">±8.5%</span>
+                    </div>
+                    <div class="stat-metric">
+                        <span class="stat-label">Model Accuracy:</span>
+                        <span class="stat-value positive" id="model-accuracy">92.3%</span>
+                    </div>
+                </div>
+
+                <div class="stats-card">
+                    <h4>Seasonal Patterns</h4>
+                    <div class="stat-metric">
+                        <span class="stat-label">Peak Quarter:</span>
+                        <span class="stat-value" id="peak-quarter">Q4</span>
+                    </div>
+                    <div class="stat-metric">
+                        <span class="stat-label">Seasonal Strength:</span>
+                        <span class="stat-value" id="seasonal-strength">0.76</span>
+                    </div>
+                    <div class="stat-metric">
+                        <span class="stat-label">Cyclical Pattern:</span>
+                        <span class="stat-value" id="cyclical-pattern">Yearly</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- External Libraries JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/trends.js"></script>
+
+    <!-- Initialize Time Display and Sidebar -->
+    <script>
+        // Update time display
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+            const dateString = now.toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric'
+            });
+            const el = document.getElementById('current-time');
+            if (el) {
+                el.textContent = `${dateString}, ${timeString}`;
+            }
+        }
+
+        updateTime();
+        setInterval(updateTime, 60000);
+
+        // Sidebar toggle functionality
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        if (sidebarToggle && sidebar && sidebarOverlay) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+                sidebarOverlay.classList.toggle('active');
+            });
+
+            sidebarOverlay.addEventListener('click', function() {
+                sidebar.classList.remove('collapsed');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

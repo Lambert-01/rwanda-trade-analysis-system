@@ -1,0 +1,1614 @@
+{
+  "metadata": {
+    "generated_at": "2025-11-29T19:32:28.846684",
+    "data_source": "../data/raw/2025Q1_Trade_report_annexTables.xlsx",
+    "forecast_periods": 4,
+    "model_version": "1.0"
+  },
+  "overall_predictions": {
+    "exports": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        942.5837677421948,
+        369.1079681991979,
+        718.0154116715639,
+        505.73722276205103
+      ],
+      "method": "ensemble",
+      "confidence": 85,
+      "historical_avg": 293.85310693145664,
+      "last_value": 0.0
+    },
+    "imports": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        19579.576297538286,
+        192.20927357763867,
+        19389.253908757735,
+        380.66330077890234
+      ],
+      "method": "ensemble",
+      "confidence": 85,
+      "historical_avg": 3928.7948519885676,
+      "last_value": 0.0
+    },
+    "re_exports": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        -7901.021477505927,
+        -0.22783170623642945,
+        -7900.793652369383,
+        -0.4556502732757508
+      ],
+      "method": "ensemble",
+      "confidence": 85,
+      "historical_avg": -1552.1169700607334,
+      "last_value": 0.0
+    },
+    "total_trade": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "method": "ensemble",
+      "confidence": 85,
+      "historical_avg": 0.0,
+      "last_value": 0.0
+    },
+    "trade_balance": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "method": "ensemble",
+      "confidence": 85,
+      "historical_avg": 0.0,
+      "last_value": 0.0
+    },
+    "trade_balance_calculated": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        -18636.99252979609,
+        176.89869462155923,
+        -18671.23849708617,
+        125.0739219831487
+      ],
+      "method": "derived",
+      "confidence": 85
+    }
+  },
+  "eac_predictions": {
+    "exports": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        392.4363792133506,
+        408.28126818445213,
+        415.6312292925602,
+        419.0406522547045
+      ],
+      "method": "ensemble",
+      "confidence": 85,
+      "historical_avg": 432.144180318646,
+      "last_value": 358.278306427145
+    },
+    "imports": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        151.0364110862744,
+        155.38816736040798,
+        156.25165905500344,
+        156.4229962944227
+      ],
+      "method": "ensemble",
+      "confidence": 85,
+      "historical_avg": 157.39759258581446,
+      "last_value": 129.104778404697
+    },
+    "re_exports": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        608.4263397146257,
+        629.9631454764033,
+        638.9310779875868,
+        642.6653278301459
+      ],
+      "method": "ensemble",
+      "confidence": 85,
+      "historical_avg": 656.4719179698704,
+      "last_value": 556.70494218603
+    },
+    "total_trade": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        -179.1535032948018,
+        -188.94695525800304,
+        -193.91600162843127,
+        -196.4372190627173
+      ],
+      "method": "ensemble",
+      "confidence": 85,
+      "historical_avg": -207.8164426674211,
+      "last_value": -159.85167066826
+    },
+    "trade_balance": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "method": "ensemble",
+      "confidence": 85,
+      "historical_avg": 0.0,
+      "last_value": 0.0
+    },
+    "trade_balance_calculated": {
+      "quarters": [
+        "2025Q2",
+        "2025Q3",
+        "2025Q4",
+        "2026Q1"
+      ],
+      "values": [
+        241.39996812707622,
+        252.89310082404415,
+        259.3795702375568,
+        262.6176559602818
+      ],
+      "method": "derived",
+      "confidence": 85
+    }
+  },
+  "country_predictions": {
+    "exports": {
+      "United Arab Emirates": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          415.2718729437905,
+          437.008055445562,
+          458.74423794733343,
+          480.4804204491048
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 2759.318643914403,
+        "last_value": 288.749924910146
+      },
+      "Congo, The Democratic Republic Of": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          65.9717562566822,
+          68.75615985270446,
+          71.5405634487267,
+          74.32496704474894
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 468.4476444891387,
+        "last_value": 54.9557918827469
+      },
+      "China": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          22.40243829697488,
+          22.63372916936777,
+          22.865020041760655,
+          23.09631091415354
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 191.213855415094,
+        "last_value": 23.4481209905534
+      },
+      "Luxembourg": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          17.711809086178437,
+          19.397972249608607,
+          21.084135413038776,
+          22.770298576468946
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 83.52893942124831,
+        "last_value": 11.979704451952
+      },
+      "United Kingdom": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          8.740686798439626,
+          8.665572422390651,
+          8.590458046341675,
+          8.5153436702927
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 82.04632810816057,
+        "last_value": 9.26239292802537
+      }
+    },
+    "imports": {
+      "Tanzania, United Republic Of": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          221.0702146196564,
+          223.2735485516934,
+          225.4768824837304,
+          227.6802164157674
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 1890.481904635243,
+        "last_value": 151.30106335018
+      },
+      "Kenya": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          207.265417545788,
+          219.00522080899256,
+          230.7450240721971,
+          242.4848273354017
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 1337.0976110678869,
+        "last_value": 135.34651134854
+      },
+      "India": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          96.17391218173286,
+          87.22074401523614,
+          78.2675758487394,
+          69.31440768224267
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 1268.457777127949,
+        "last_value": 115.651790359661
+      },
+      "United Arab Emirates": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          92.05340861244534,
+          92.76559248721163,
+          93.47777636197793,
+          94.18996023674423
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 796.4324031475248,
+        "last_value": 81.0882353181712
+      },
+      "Cameroon": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          94.86246127716522,
+          99.47236582716671,
+          104.0822703771682,
+          108.6921749271697
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 646.3164467444202,
+        "last_value": 58.6111689031914
+      }
+    },
+    "reexports": {
+      "Congo, The Democratic Republic Of": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          156.31092122730954,
+          156.8949670619798,
+          157.47901289665006,
+          158.0630587313203
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 1380.516228485625,
+        "last_value": 127.136637819215
+      },
+      "Burundi": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          1.0652680592623818,
+          0.7960030980904871,
+          0.5267381369185928,
+          0.2574731757466986
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 21.704335786096703,
+        "last_value": 0.394985569820351
+      },
+      "Ethiopia": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          2.786061396096196,
+          2.878206574101081,
+          2.970351752105966,
+          3.062496930110851
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 20.92801955464594,
+        "last_value": 2.52423886651647
+      },
+      "United Arab Emirates": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          1.5475661703823387,
+          1.4390223716675679,
+          1.330478572952797,
+          1.2219347742380262
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 18.812566475605742,
+        "last_value": 1.76905687720343
+      },
+      "Uganda": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0.621254954525166,
+          0.5563003415663801,
+          0.4913457286075943,
+          0.4263911156488084
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 8.514252173871862,
+        "last_value": 0.829930204004353
+      }
+    }
+  },
+  "commodity_predictions": {
+    "exports": {
+      "Other commodities & transactions, n.e.s": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          409.0043063585317,
+          432.20551220329475,
+          455.40671804805777,
+          478.60792389282085
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 2636.984494212449,
+        "last_value": 276.311671047685,
+        "section": "9"
+      },
+      "Food and live animals": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          88.1466104229984,
+          87.80673854986448,
+          87.46686667673055,
+          87.12699480359662
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 808.6137280980128,
+        "last_value": 82.5544956771615,
+        "section": "0"
+      },
+      "Crude materials, inedible, except fuels": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          60.62897638911004,
+          60.946096316938295,
+          61.263216244766554,
+          61.58033617259481
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 531.390390749719,
+        "last_value": 60.1689671627969,
+        "section": "2"
+      },
+      "Manufactured goods classified chiefly by material": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          33.89219793077921,
+          34.628347636108906,
+          35.3644973414386,
+          36.100647046768295
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 271.9030446371768,
+        "last_value": 32.2460836284898,
+        "section": "6"
+      },
+      "Miscellaneous manufactured articles": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          8.045020405669398,
+          8.172116579268426,
+          8.299212752867458,
+          8.426308926466486
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 66.68585583906824,
+        "last_value": 5.70277947117893,
+        "section": "8"
+      }
+    },
+    "imports": {
+      "Other commodities & transactions, n.e.s": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          362.6022328565651,
+          376.7794922525619,
+          390.9567516485587,
+          405.13401104455545
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 2625.443422889231,
+        "last_value": 188.305725263239,
+        "section": "9"
+      },
+      "Machinery and transport equipment": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          267.32259345185673,
+          264.85276026402903,
+          262.38292707620127,
+          259.9130938883735
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 2517.04583451896,
+        "last_value": 305.459036108597,
+        "section": "7"
+      },
+      "Food and live animals": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          213.22728689458518,
+          208.00364847084052,
+          202.78001004709586,
+          197.5563716233512
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 2154.109311119777,
+        "last_value": 203.565452023726,
+        "section": "0"
+      },
+      "Manufactured goods classified chiefly by material": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          192.54154973228833,
+          190.0651344802806,
+          187.58871922827285,
+          185.11230397626514
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 1844.312633930943,
+        "last_value": 191.113299673861,
+        "section": "6"
+      },
+      "Mineral fuels, lubricants and related materials": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          193.75058395115917,
+          196.16099571024588,
+          198.57140746933257,
+          200.98181922841928
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 1635.286726401532,
+        "last_value": 178.01,
+        "section": "3"
+      }
+    },
+    "reexports": {
+      "Food and live animals": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          47.52774237116945,
+          46.55269942043677,
+          45.57765646970408,
+          44.60261351897139
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 471.6266141234964,
+        "last_value": 42.327868699157,
+        "section": "0"
+      },
+      "Mineral fuels, lubricants and related materials": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          46.45263285557947,
+          47.70764167253752,
+          48.96265048949557,
+          50.217659306453626
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 361.598298937103,
+        "last_value": 34.3513046513785,
+        "section": "3"
+      },
+      "Manufactured goods classified chiefly by material": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          17.939317860159417,
+          18.104800930819525,
+          18.270284001479638,
+          18.43576707213975
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 154.0071225617297,
+        "last_value": 14.270731743624,
+        "section": "6"
+      },
+      "Animals and vegetable oils, fats & waxes": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          5.702713921655304,
+          4.391919124168508,
+          3.081124326681712,
+          1.7703295291949175
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 110.31019118180359,
+        "last_value": 4.22447883574007,
+        "section": "4"
+      },
+      "Machinery and transport equipment": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          10.135136996831832,
+          10.14398368356672,
+          10.152830370301608,
+          10.161677057036496
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 90.81813206841657,
+        "last_value": 8.88166983385208,
+        "section": "7"
+      }
+    }
+  },
+  "regional_predictions": {
+    "CEPGL": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          79.24597542448927,
+          85.34083744660143,
+          91.43569946871358,
+          97.53056149082573
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 438.9449878253568,
+        "last_value": 74.5885415284784
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          79.24597542448927,
+          85.34083744660143,
+          91.43569946871358,
+          97.53056149082573
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 438.9449878253568,
+        "last_value": 74.5885415284784
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          79.24597542448927,
+          85.34083744660143,
+          91.43569946871358,
+          97.53056149082573
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 438.9449878253568,
+        "last_value": 74.5885415284784
+      },
+      "total_trade": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          79.24597542448927,
+          85.34083744660143,
+          91.43569946871358,
+          97.53056149082573
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 438.9449878253568,
+        "last_value": 74.5885415284784
+      }
+    },
+    "COMESA": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          93.50248669516245,
+          99.96547729762153,
+          106.42846790008065,
+          112.89145850253973
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 550.6878031458031,
+        "last_value": 90.0951460778718
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          93.50248669516245,
+          99.96547729762153,
+          106.42846790008065,
+          112.89145850253973
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 550.6878031458031,
+        "last_value": 90.0951460778718
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          93.50248669516245,
+          99.96547729762153,
+          106.42846790008065,
+          112.89145850253973
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 550.6878031458031,
+        "last_value": 90.0951460778718
+      },
+      "total_trade": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          93.50248669516245,
+          99.96547729762153,
+          106.42846790008065,
+          112.89145850253973
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 550.6878031458031,
+        "last_value": 90.0951460778718
+      }
+    },
+    "COMMON WEALTH": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          40.894814658387176,
+          42.777196331868424,
+          44.65957800534967,
+          46.54195967883092
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 283.3461566188285,
+        "last_value": 38.9394652322679
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          40.894814658387176,
+          42.777196331868424,
+          44.65957800534967,
+          46.54195967883092
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 283.3461566188285,
+        "last_value": 38.9394652322679
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          40.894814658387176,
+          42.777196331868424,
+          44.65957800534967,
+          46.54195967883092
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 283.3461566188285,
+        "last_value": 38.9394652322679
+      },
+      "total_trade": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          40.894814658387176,
+          42.777196331868424,
+          44.65957800534967,
+          46.54195967883092
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 283.3461566188285,
+        "last_value": 38.9394652322679
+      }
+    },
+    "ECOWAS": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0.29317301531090295,
+          0.29159573845567277,
+          0.2900184616004426,
+          0.2884411847452124
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 2.7095345962834863,
+        "last_value": 0.316643694049844
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0.29317301531090295,
+          0.29159573845567277,
+          0.2900184616004426,
+          0.2884411847452124
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 2.7095345962834863,
+        "last_value": 0.316643694049844
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0.29317301531090295,
+          0.29159573845567277,
+          0.2900184616004426,
+          0.2884411847452124
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 2.7095345962834863,
+        "last_value": 0.316643694049844
+      },
+      "total_trade": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0.29317301531090295,
+          0.29159573845567277,
+          0.2900184616004426,
+          0.2884411847452124
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 2.7095345962834863,
+        "last_value": 0.316643694049844
+      }
+    },
+    "SADC": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          79.07160150388444,
+          85.26177457885329,
+          91.45194765382215,
+          97.642120728791
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 433.08662516136127,
+        "last_value": 74.7168230361627
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          79.07160150388444,
+          85.26177457885329,
+          91.45194765382215,
+          97.642120728791
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 433.08662516136127,
+        "last_value": 74.7168230361627
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          79.07160150388444,
+          85.26177457885329,
+          91.45194765382215,
+          97.642120728791
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 433.08662516136127,
+        "last_value": 74.7168230361627
+      },
+      "total_trade": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          79.07160150388444,
+          85.26177457885329,
+          91.45194765382215,
+          97.642120728791
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 433.08662516136127,
+        "last_value": 74.7168230361627
+      }
+    },
+    "EU": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          47.38666675988929,
+          51.70267769523291,
+          56.01868863057653,
+          60.334699565920154
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 232.2595087485406,
+        "last_value": 42.1108664549101
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          47.38666675988929,
+          51.70267769523291,
+          56.01868863057653,
+          60.334699565920154
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 232.2595087485406,
+        "last_value": 42.1108664549101
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          47.38666675988929,
+          51.70267769523291,
+          56.01868863057653,
+          60.334699565920154
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 232.2595087485406,
+        "last_value": 42.1108664549101
+      },
+      "total_trade": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          47.38666675988929,
+          51.70267769523291,
+          56.01868863057653,
+          60.334699565920154
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 232.2595087485406,
+        "last_value": 42.1108664549101
+      }
+    },
+    "*Major revisions  include Domestic exports destination of Tea and Coffee": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 0.0,
+        "last_value": 0.0
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 0.0,
+        "last_value": 0.0
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 0.0,
+        "last_value": 0.0
+      },
+      "total_trade": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 0.0,
+        "last_value": 0.0
+      }
+    }
+  },
+  "continental_predictions": {
+    "Flow": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 0.0,
+        "last_value": 0.0
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 0.0,
+        "last_value": 0.0
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 0.0,
+        "last_value": 0.0
+      }
+    },
+    "Exports": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          747.5612586433695,
+          808.4555991729209,
+          869.3499397024723,
+          930.2442802320238
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 3987.8060039605107,
+        "last_value": 677.446204990726
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          747.5612586433695,
+          808.4555991729209,
+          869.3499397024723,
+          930.2442802320238
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 3987.8060039605107,
+        "last_value": 677.446204990726
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          747.5612586433695,
+          808.4555991729209,
+          869.3499397024723,
+          930.2442802320238
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 3987.8060039605107,
+        "last_value": 677.446204990726
+      }
+    },
+    "Imports": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          1983.5781708847064,
+          2103.0314698978686,
+          2222.484768911031,
+          2341.938067924193
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 12476.80508237006,
+        "last_value": 1629.38978408896
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          1983.5781708847064,
+          2103.0314698978686,
+          2222.484768911031,
+          2341.938067924193
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 12476.80508237006,
+        "last_value": 1629.38978408896
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          1983.5781708847064,
+          2103.0314698978686,
+          2222.484768911031,
+          2341.938067924193
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 12476.80508237006,
+        "last_value": 1629.38978408896
+      }
+    },
+    "Re-Exports": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          216.91540124716624,
+          230.46871725854425,
+          244.0220332699223,
+          257.5753492813003
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 1342.339390712486,
+        "last_value": 177.287093614268
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          216.91540124716624,
+          230.46871725854425,
+          244.0220332699223,
+          257.5753492813003
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 1342.339390712486,
+        "last_value": 177.287093614268
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          216.91540124716624,
+          230.46871725854425,
+          244.0220332699223,
+          257.5753492813003
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 1342.339390712486,
+        "last_value": 177.287093614268
+      }
+    },
+    "Source: NISR": {
+      "exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 0.0,
+        "last_value": 0.0
+      },
+      "imports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 0.0,
+        "last_value": 0.0
+      },
+      "re_exports": {
+        "quarters": [
+          "2025Q2",
+          "2025Q3",
+          "2025Q4",
+          "2026Q1"
+        ],
+        "values": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "method": "linear_trend",
+        "confidence": 65,
+        "historical_total": 0.0,
+        "last_value": 0.0
+      }
+    }
+  },
+  "insights": {
+    "overall_trends": [
+      "EAC trade predictions generated",
+      "Top export destination: United Arab Emirates"
+    ],
+    "risks": [
+      "Trade deficit expected: $18,637"
+    ],
+    "opportunities": [],
+    "key_metrics": {
+      "next_quarter_export": 942.5837677421948,
+      "next_quarter_import": 19579.576297538286,
+      "next_quarter_balance": -18636.99252979609,
+      "balance_type": "deficit"
+    }
+  },
+  "recommendations": []
+}
