@@ -930,7 +930,7 @@ function setChartAriaLabels() {
     const charts = document.querySelectorAll('canvas');
     charts.forEach(canvas => {
         canvas.setAttribute('role', 'img');
-        canvas.setAttribute('aria-label', 'Data chart for Rwanda Trade analytic system');
+        canvas.setAttribute('aria-label', 'Data chart for Tradescope');
         canvas.setAttribute('tabindex', '0');
     });
 }

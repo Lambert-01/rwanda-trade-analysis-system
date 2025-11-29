@@ -354,7 +354,7 @@ router.get('/summary', async (req, res) => {
 
 /**
  * @route   GET /api/imports/ai-analysis
- * @desc    Get AI-powered import analysis
+ * @desc    Get  import analysis
  * @access  Public
  */
 router.get('/ai-analysis', async (req, res) => {

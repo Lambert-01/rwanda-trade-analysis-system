@@ -77,21 +77,19 @@ class CommoditiesAnalyzer {
     }
 
     getQuarterlyValues(item) {
-        // Extract quarterly values from the item (columns with quarter names like 2023Q1, 2024Q2, etc.)
+        // Extract quarterly values from the quarterly_values object
         const values = [];
-        const quarterKeys = Object.keys(item).filter(key =>
-            key.match(/^\d{4}Q[1-4]$/) // Matches pattern like 2023Q1, 2024Q2, etc.
-        );
+        const quarterlyValues = item.quarterly_values || {};
 
         // Sort quarters chronologically
-        quarterKeys.sort((a, b) => {
+        const quarterKeys = Object.keys(quarterlyValues).sort((a, b) => {
             const [aYear, aQ] = [parseInt(a.substring(0, 4)), parseInt(a.substring(5))];
             const [bYear, bQ] = [parseInt(b.substring(0, 4)), parseInt(b.substring(5))];
             return aYear === bYear ? aQ - bQ : aYear - bYear;
         });
 
         quarterKeys.forEach(key => {
-            values.push(parseFloat(item[key]) || 0);
+            values.push(parseFloat(quarterlyValues[key]) || 0);
         });
 
         return values;
@@ -99,18 +97,18 @@ class CommoditiesAnalyzer {
 
     getLatestValue(item) {
         // Use the pre-calculated latest_value from the processed data
-        return parseFloat(item['latest_value']) || 0;
+        return parseFloat(item.latest_value) || 0;
     }
 
     getSharePercent(item) {
-        return parseFloat(item['share_percentage']) || 0;
+        return parseFloat(item.share_percentage) || 0;
     }
 
     getGrowthRates(item) {
         // Use the calculated growth rates from the processed data
         return {
-            qoq: parseFloat(item['qoq_growth']) || 0,  // Quarter-over-quarter
-            yoy: parseFloat(item['yoy_growth']) || 0   // Year-over-year
+            qoq: parseFloat(item.qoq_growth) || 0,  // Quarter-over-quarter
+            yoy: parseFloat(item.yoy_growth) || 0   // Year-over-year
         };
     }
 
@@ -517,11 +515,11 @@ class CommoditiesAnalyzer {
 
         // Calculate quarterly totals for exports and imports
         const exportTotals = this.quarters.map(quarter => {
-            return this.data.exports.reduce((sum, item) => sum + (parseFloat(item[quarter]) || 0), 0);
+            return this.data.exports.reduce((sum, item) => sum + (parseFloat(item.quarterly_values?.[quarter]) || 0), 0);
         });
 
         const importTotals = this.quarters.map(quarter => {
-            return this.data.imports.reduce((sum, item) => sum + (parseFloat(item[quarter]) || 0), 0);
+            return this.data.imports.reduce((sum, item) => sum + (parseFloat(item.quarterly_values?.[quarter]) || 0), 0);
         });
 
         this.charts.comparisonTrends = new Chart(ctx, {
@@ -846,8 +844,8 @@ class CommoditiesAnalyzer {
 
         // Calculate trade balance by quarter
         const balances = this.quarters.map(quarter => {
-            const exports = this.data.exports.reduce((sum, item) => sum + (parseFloat(item[quarter]) || 0), 0);
-            const imports = this.data.imports.reduce((sum, item) => sum + (parseFloat(item[quarter]) || 0), 0);
+            const exports = this.data.exports.reduce((sum, item) => sum + (parseFloat(item.quarterly_values?.[quarter]) || 0), 0);
+            const imports = this.data.imports.reduce((sum, item) => sum + (parseFloat(item.quarterly_values?.[quarter]) || 0), 0);
             return exports - imports;
         });
 

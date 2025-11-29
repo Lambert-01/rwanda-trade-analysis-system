@@ -6,7 +6,7 @@
     <title>Advanced Analytics | Rwanda Trade Intelligence Platform</title>
 
     <!-- Meta Tags -->
-    <meta name="description" content="Advanced statistical analysis and AI-powered forecasting for Rwanda's trade data">
+    <meta name="description" content="Advanced statistical analysis and  forecasting for Rwanda's trade data">
     <meta name="keywords" content="Rwanda, analytics, trade intelligence, forecasting, AI, statistics, NISR">
     <meta name="author" content="Rwanda Trade Intelligence Platform">
 
@@ -28,10 +28,16 @@
         /* Enhanced Analytics Styles */
         .analytics-hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 2rem 0;
+            padding: 0 0 1rem 0;
             color: white;
             position: relative;
             overflow: hidden;
+            margin-top: -1rem;
+        }
+
+        .top-header {
+            margin-bottom: 0;
+            border-bottom: none;
         }
 
         /* Custom Modal Styles */
@@ -76,20 +82,23 @@
 
         .analytics-metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin: 0.75rem 0;
+            justify-items: center;
         }
 
         .metric-card {
             background: white;
-            border-radius: 16px;
-            padding: 2rem;
+            border-radius: 10px;
+            padding: 1rem;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             border: 1px solid rgba(0,0,0,0.05);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            width: 100%;
+            max-width: 240px;
         }
 
         .metric-card:hover {
@@ -115,13 +124,13 @@
         }
 
         .metric-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
         }
 
         .metric-trend {
@@ -129,6 +138,21 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 0.875rem;
+        }
+
+        .metric-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .metric-value {
+            font-size: 1.5rem !important;
+            margin-bottom: 0.25rem !important;
+        }
+
+        .metric-label {
+            font-size: 0.875rem !important;
         }
 
         .analysis-section {
@@ -372,6 +396,28 @@
             background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
         }
 
+        /* Markdown formatting styles */
+        .bullet-point {
+            display: block;
+            margin-left: 1rem;
+            color: #6b7280;
+        }
+
+        .insight-content h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #2563eb;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.25rem;
+        }
+
+        .insight-content strong {
+            color: #1f2937;
+            font-weight: 600;
+        }
+
         @media (max-width: 768px) {
             .analytics-metrics-grid {
                 grid-template-columns: 1fr;
@@ -394,7 +440,7 @@
             <div class="logo-container">
                 <img src="assets/images/NISR.png" alt="NISR Logo" class="nisr-logo">
                 <h3>Rwanda Trade Intelligence Platform</h3>
-                <span class="ai-badge">AI-Powered</span>
+                <span class="ai-badge"></span>
             </div>
         </div>
 
@@ -470,7 +516,7 @@
             </button>
             <div class="page-title">
                 <h1>Advanced Analytics Dashboard</h1>
-                <p>Comprehensive statistical analysis & AI-powered insights</p>
+                <p>Comprehensive statistical analysis &  insights</p>
             </div>
         </div>
 
@@ -510,14 +556,14 @@
                             Advanced Trade Analytics
                         </h1>
                         <p class="mb-3 small text-white">
-                            Professional statistical analysis, forecasting, and AI-powered insights for Rwanda's trade intelligence
+                            Professional statistical analysis, forecasting, and  insights for Rwanda's trade intelligence
                         </p>
                         <div class="d-flex justify-content-center gap-2 flex-wrap">
                             <span class="badge bg-white text-primary px-2 py-1 small">
                                 <i class="fas fa-brain me-1"></i>6 Analysis Methods
                             </span>
                             <span class="badge bg-white text-success px-2 py-1 small">
-                                <i class="fas fa-robot me-1"></i>AI-Powered
+                                <i class="fas fa-robot me-1"></i>
                             </span>
                             <span class="badge bg-white text-warning px-2 py-1 small">
                                 <i class="fas fa-chart-bar me-1"></i>Real-time Data
@@ -597,7 +643,7 @@
                     </div>
                     <div class="flex-grow-1">
                         <h2 class="h3 mb-1">Trade Forecasting (Next 4 Quarters)</h2>
-                        <p class="text-muted mb-0">AI-powered predictions for Rwanda's trade future</p>
+                        <p class="text-muted mb-0"> predictions for Rwanda's trade future</p>
                     </div>
                     <button class="btn btn-outline-warning btn-sm explanation-btn" onclick="showExplanation('forecasting')" title="Understanding Trade Forecasting">
                         <i class="fas fa-info-circle me-1"></i>Explain
@@ -891,7 +937,7 @@
                         <i class="fas fa-robot"></i>
                     </div>
                     <div>
-                        <h2 class="h3 mb-1">AI-Powered Strategic Recommendations</h2>
+                        <h2 class="h3 mb-1"> Strategic Recommendations</h2>
                         <p class="text-muted mb-0">Data-driven insights for policymakers and trade strategists</p>
                     </div>
                 </div>
@@ -952,7 +998,7 @@
                                 <h6 class="text-primary mb-3" style="color: black !important;">
                                     <i class="fas fa-robot me-2"></i>AI-Generated Insights
                                 </h6>
-                                <p class="text-muted small">Powered by Hugging Face - providing intelligent analysis of Rwanda's trade data</p>
+                                <p class="text-muted small">Powered by xai-grok fast 4.1 - providing intelligent analysis of Rwanda's trade data</p>
                                 <div class="insights-list" id="insightsList"></div>
                                 <div class="mt-4 p-3 bg-light rounded" id="insightsFooter">
                                     <small class="text-muted">
@@ -2064,6 +2110,27 @@
             if (insightsDisplay) insightsDisplay.classList.add('d-none');
         }
 
+        // Simple markdown to HTML converter
+        function markdownToHtml(markdown) {
+            if (!markdown) return '';
+
+            let html = markdown;
+
+            // Convert headers (### Header -> <h4>Header</h4>)
+            html = html.replace(/^### (.+)$/gm, '<h4 class="text-primary mt-3 mb-2">$1</h4>');
+
+            // Convert bold text (**text** -> <strong>text</strong>)
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            // Convert bullet points (- item -> • item)
+            html = html.replace(/^- (.+)$/gm, '<span class="bullet-point">• $1</span><br>');
+
+            // Convert line breaks
+            html = html.replace(/\n/g, '<br>');
+
+            return html;
+        }
+
         // Generate AI insights when button is clicked
         async function generateAIInsights() {
             const generateBtn = document.getElementById('generateInsightBtn');
@@ -2077,16 +2144,38 @@
             // Get current section from modal title or URL/state
             const modalTitle = document.getElementById('explanationModalLabel');
             let currentSection = 'time-series'; // default
+            let sectionData = null;
 
             if (modalTitle) {
                 const titleText = modalTitle.textContent.toLowerCase();
-                if (titleText.includes('time series')) currentSection = 'time-series';
-                else if (titleText.includes('forecasting')) currentSection = 'forecasting';
-                else if (titleText.includes('growth')) currentSection = 'growth';
-                else if (titleText.includes('share')) currentSection = 'share';
-                else if (titleText.includes('hhi')) currentSection = 'hhi';
-                else if (titleText.includes('balance')) currentSection = 'balance';
-                else if (titleText.includes('correlation')) currentSection = 'correlation';
+                if (titleText.includes('time series')) {
+                    currentSection = 'time-series';
+                    sectionData = analyticsData.timeSeries;
+                }
+                else if (titleText.includes('forecasting')) {
+                    currentSection = 'forecasting';
+                    sectionData = analyticsData.timeSeries; // Forecasting data is in timeSeries
+                }
+                else if (titleText.includes('growth')) {
+                    currentSection = 'growth';
+                    sectionData = analyticsData.growth;
+                }
+                else if (titleText.includes('share')) {
+                    currentSection = 'share';
+                    sectionData = analyticsData.share;
+                }
+                else if (titleText.includes('hhi')) {
+                    currentSection = 'hhi';
+                    sectionData = analyticsData.hhi;
+                }
+                else if (titleText.includes('balance')) {
+                    currentSection = 'balance';
+                    sectionData = analyticsData.tradeBalance;
+                }
+                else if (titleText.includes('correlation')) {
+                    currentSection = 'correlation';
+                    sectionData = analyticsData.correlations;
+                }
             }
 
             try {
@@ -2097,8 +2186,17 @@
                 if (loadingSubtext) loadingSubtext.classList.remove('d-none');
                 if (insightsDisplay) insightsDisplay.classList.add('d-none');
 
-                // Fetch AI insights from the API
-                const response = await fetch('/api/analytics/ai-insights/' + currentSection);
+                // Fetch AI insights from the API with section data
+                const response = await fetch('/api/analytics/ai-insights/' + currentSection, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        sectionData: sectionData,
+                        section: currentSection
+                    })
+                });
                 const data = await response.json();
 
                 if ((data.success && data.insights) || (!data.success && data.insights)) {
@@ -2107,7 +2205,7 @@
                     const insightsHtml = insightsArray.map(insight =>
                         '<div class="insight-item mb-3">' +
                             '<div class="insight-icon"><i class="fas fa-lightbulb"></i></div>' +
-                            '<div class="insight-content"><p class="mb-0">' + insight + '</p></div>' +
+                            '<div class="insight-content"><p class="mb-0">' + markdownToHtml(insight) + '</p></div>' +
                         '</div>'
                     ).join('');
 

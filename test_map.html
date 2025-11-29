@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rwanda Export Markets - Interactive Map</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
+        .navbar { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .main-content { padding: 2rem 0; }
+        .map-card { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        .map-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; }
+        .map-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .map-subtitle { font-size: 1.1rem; opacity: 0.9; }
+        #test-map { height: 600px; border: none; }
+        .info-card { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+        .feature-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+        .feature-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; }
+        .feature-icon { width: 40px; height: 40px; border-radius: 50%; background: #28a745; color: white; display: flex; align-items: center; justify-content: center; }
+        .feature-text { flex: 1; }
+        .footer { background: #343a40; color: white; padding: 2rem 0; margin-top: 3rem; }
+        .footer-content { text-align: center; }
+        .back-btn { margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fas fa-globe-africa me-2"></i>
+                Rwanda Trade Analytics
+            </a>
+            <a href="exports.html" class="btn btn-light back-btn">
+                <i class="fas fa-arrow-left me-2"></i>Back to Exports
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Header Section -->
+            <div class="map-header text-center">
+                <h1 class="map-title">
+                    <i class="fas fa-map-marked-alt me-3"></i>
+                    Rwanda Export Markets
+                </h1>
+                <p class="map-subtitle">Interactive World Map Visualization</p>
+            </div>
+
+            <!-- Features Info -->
+            <div class="info-card">
+                <h3 class="mb-4 text-center">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    Map Features & Capabilities
+                </h3>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h6 class="mb-1">Interactive World Map</h6>
+                            <p class="mb-0 text-muted">Leaflet-powered interactive map with smooth navigation</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h6 class="mb-1">Country Markers</h6>
+                            <p class="mb-0 text-muted">Precise markers placed on country coordinates</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h6 class="mb-1">Color-Coded Markets</h6>
+                            <p class="mb-0 text-muted">Marker colors based on market share percentage</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h6 class="mb-1">Size-Scaled Volume</h6>
+                            <p class="mb-0 text-muted">Marker sizes proportional to export volumes</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h6 class="mb-1">Detailed Popups</h6>
+                            <p class="mb-0 text-muted">Rich country information with quarterly data tables</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h6 class="mb-1">Quarterly Trends</h6>
+                            <p class="mb-0 text-muted">Time-series data visualization in popup tables</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h6 class="mb-1">Interactive Legend</h6>
+                            <p class="mb-0 text-muted">Color legend explaining market share categories</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h6 class="mb-1">Real-time Data</h6>
+                            <p class="mb-0 text-muted">Dynamic loading from processed JSON data</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Container -->
+            <div class="map-card">
+                <div id="test-map"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <h5>Rwanda Trade Analytics System</h5>
+                <p class="mb-2">Comprehensive analysis of Rwanda's export destinations and trade performance</p>
+                <small class="text-muted">© 2025 Rwanda National Institute of Statistics and Research (NISR)</small>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <script>
+        // Load real data from the JSON file
+        let testData = null;
+
+        async function loadTestData() {
+            try {
+                console.log('Loading test data from JSON file...');
+                const response = await fetch('data/processed/country_exports_analysis.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                testData = await response.json();
+                console.log('✅ Test data loaded successfully:', testData.countries.length, 'countries');
+                initializeTestMap();
+            } catch (error) {
+                console.error('❌ Error loading test data:', error);
+                // Fallback to hardcoded data
+                testData = {
+                    "countries": [
+                        {
+                            "country": "United Arab Emirates",
+                            "quarterly_values": {
+                                "2023Q1": 211.595476809125,
+                                "2023Q2": 321.566735189851,
+                                "2023Q3": 203.485996869734,
+                                "2023Q4": 215.066388887803,
+                                "2024Q1": 268.672714690944,
+                                "2024Q2": 360.61973692744,
+                                "2024Q3": 447.012999916496,
+                                "2024Q4": 442.548669712864,
+                                "2025Q1": 288.749924910146
+                            },
+                            "total_exports": 2759.318643914403,
+                            "average_exports": 306.59096043493366,
+                            "max_exports": 447.012999916496,
+                            "quarters_active": 9,
+                            "growth_rate": 0.03514627167175899,
+                            "share_percentage": 61.74878696139754
+                        },
+                        {
+                            "country": "China",
+                            "quarterly_values": {
+                                "2023Q1": 21.4901049438301,
+                                "2023Q2": 19.4292221272393,
+                                "2023Q3": 23.4162930338246,
+                                "2023Q4": 19.1028561963308,
+                                "2024Q1": 17.7477313276392,
+                                "2024Q2": 23.3178690669575,
+                                "2024Q3": 22.8343454507368,
+                                "2024Q4": 20.4273122779823,
+                                "2025Q1": 23.4481209905534
+                            },
+                            "total_exports": 191.213855415094,
+                            "average_exports": 21.245983935010443,
+                            "max_exports": 23.4481209905534,
+                            "quarters_active": 9,
+                            "growth_rate": 0.009735727864946142,
+                            "share_percentage": 4.27903593089352
+                        }
+                    ]
+                };
+                console.log('Using fallback test data');
+                initializeTestMap();
+            }
+        }
+
+        // Country coordinates lookup
+        function getCountryCoordinates(countryName) {
+            const countryCoords = {
+                'United Arab Emirates': { lat: 23.4241, lng: 53.8478 },
+                'China': { lat: 35.8617, lng: 104.1954 },
+                'United Kingdom': { lat: 55.3781, lng: -3.4360 },
+                'Hong Kong': { lat: 22.3193, lng: 114.1694 },
+                'Luxembourg': { lat: 49.8153, lng: 6.1296 },
+                'Pakistan': { lat: 30.3753, lng: 69.3451 },
+                'India': { lat: 20.5937, lng: 78.9629 },
+                'Uganda': { lat: 1.3733, lng: 32.2903 },
+                'United States': { lat: 39.8283, lng: -98.5795 },
+                'Netherlands': { lat: 52.1326, lng: 5.2913 },
+                'Singapore': { lat: 1.3521, lng: 103.8198 },
+                'South Sudan': { lat: 6.8770, lng: 31.3070 },
+                'Belgium': { lat: 50.5039, lng: 4.4699 },
+                'Congo': { lat: -0.2280, lng: 15.8277 },
+                'Ethiopia': { lat: 9.1450, lng: 40.4897 },
+                'Germany': { lat: 51.1657, lng: 10.4515 },
+                'Thailand': { lat: 15.8700, lng: 100.9925 },
+                'Egypt': { lat: 26.0975, lng: 30.0127 },
+                'Burundi': { lat: -3.3731, lng: 29.9189 },
+                'South Africa': { lat: -30.5595, lng: 22.9375 },
+                'Japan': { lat: 36.2048, lng: 138.2529 },
+                'Cameroon': { lat: 7.3697, lng: 12.3547 },
+                'France': { lat: 46.2276, lng: 2.2137 },
+                'Saudi Arabia': { lat: 23.8859, lng: 45.0792 },
+                'Russia': { lat: 61.5240, lng: 105.3188 },
+                'Burkina Faso': { lat: 12.2383, lng: -1.5616 },
+                'Malaysia': { lat: 4.2105, lng: 101.9758 },
+                'Greece': { lat: 39.0742, lng: 21.8243 },
+                'Ghana': { lat: 7.9465, lng: -1.0232 },
+                'Qatar': { lat: 25.3548, lng: 51.1839 },
+                'Sudan': { lat: 12.8628, lng: 30.2176 },
+                'Zambia': { lat: -13.1339, lng: 27.8493 },
+                'Tanzania': { lat: -6.3728, lng: 34.8922 },
+                'Kenya': { lat: -0.0236, lng: 37.9062 },
+                'Turkey': { lat: 38.9637, lng: 35.2433 },
+                'Italy': { lat: 41.8719, lng: 12.5674 },
+                'Brazil': { lat: -14.2350, lng: -51.9253 },
+                'Kazakhstan': { lat: 48.0196, lng: 66.9237 },
+                'Ireland': { lat: 53.4129, lng: -8.2439 }
+            };
+            return countryCoords[countryName] || { lat: 0, lng: 0 };
+        }
+
+        // Initialize map
+        const map = L.map('test-map').setView([20, 0], 2);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Initialize the test map
+        function initializeTestMap() {
+            console.log('🗺️ Initializing test map...');
+
+            // Render markers
+            const maxExports = Math.max(...testData.countries.map(c => c.total_exports));
+            const minSize = 15;
+            const maxSize = 40;
+
+            testData.countries.forEach(country => {
+            const coords = getCountryCoordinates(country.country);
+
+            if (coords.lat === 0 && coords.lng === 0) {
+                console.warn(`No coordinates for ${country.country}`);
+                return;
+            }
+
+            // Calculate marker size
+            const size = minSize + (country.total_exports / maxExports) * (maxSize - minSize);
+
+            // Determine color
+            let color;
+            if (country.share_percentage >= 20) {
+                color = '#dc3545'; // Red
+            } else if (country.share_percentage >= 5) {
+                color = '#fd7e14'; // Orange
+            } else {
+                color = '#007bff'; // Blue
+            }
+
+            // Create marker
+            const markerIcon = L.divIcon({
+                className: 'custom-marker',
+                html: `<div style="
+                    width: ${size}px;
+                    height: ${size}px;
+                    background-color: ${color};
+                    border: 2px solid white;
+                    border-radius: 50%;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-size: ${Math.max(10, size * 0.4)}px;
+                    font-weight: bold;
+                ">${Math.round(country.share_percentage)}%</div>`,
+                iconSize: [size, size],
+                iconAnchor: [size/2, size/2]
+            });
+
+            // Create popup content
+            const formatNumber = (num) => {
+                if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
+                if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
+                if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K';
+                return num.toFixed(2);
+            };
+
+            const quarterlyRows = Object.entries(country.quarterly_values)
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([quarter, value]) => `
+                    <tr>
+                        <td style="padding: 4px 8px; border-bottom: 1px solid #eee;">${quarter}</td>
+                        <td style="padding: 4px 8px; border-bottom: 1px solid #eee; text-align: right;">$${formatNumber(value)}</td>
+                    </tr>
+                `).join('');
+
+            const popupContent = `
+                <div style="font-family: Arial, sans-serif; max-width: 350px;">
+                    <h4 style="margin: 0 0 12px 0; color: #1a365d; font-size: 16px; font-weight: 600;">
+                        ${country.country}
+                    </h4>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+                        <div style="background: #f8fafc; padding: 8px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 14px; font-weight: 600; color: #059669;">$${formatNumber(country.total_exports)}</div>
+                            <div style="font-size: 11px; color: #64748b;">Total Exports</div>
+                        </div>
+                        <div style="background: #f8fafc; padding: 8px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 14px; font-weight: 600; color: #059669;">$${formatNumber(country.average_exports)}</div>
+                            <div style="font-size: 11px; color: #64748b;">Average</div>
+                        </div>
+                        <div style="background: #f8fafc; padding: 8px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 14px; font-weight: 600; color: #059669;">$${formatNumber(country.max_exports)}</div>
+                            <div style="font-size: 11px; color: #64748b;">Max Quarterly</div>
+                        </div>
+                        <div style="background: #f8fafc; padding: 8px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 14px; font-weight: 600; color: ${country.growth_rate >= 0 ? '#059669' : '#dc3545'};">${(country.growth_rate * 100).toFixed(1)}%</div>
+                            <div style="font-size: 11px; color: #64748b;">Growth Rate</div>
+                        </div>
+                    </div>
+
+                    <div style="background: #f8fafc; padding: 8px; border-radius: 6px; margin-bottom: 12px; text-align: center;">
+                        <div style="font-size: 14px; font-weight: 600; color: #7c3aed;">${country.share_percentage.toFixed(2)}%</div>
+                        <div style="font-size: 11px; color: #64748b;">Market Share</div>
+                    </div>
+
+                    <div style="margin-bottom: 8px;">
+                        <h5 style="margin: 0 0 8px 0; font-size: 13px; font-weight: 600; color: #374151;">Quarterly Exports</h5>
+                        <div style="max-height: 150px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 4px;">
+                            <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                                <thead style="background: #f9fafb; position: sticky; top: 0;">
+                                    <tr>
+                                        <th style="padding: 6px 8px; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb;">Quarter</th>
+                                        <th style="padding: 6px 8px; text-align: right; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb;">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${quarterlyRows}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="font-size: 11px; color: #6b7280; text-align: center; margin-top: 8px;">
+                        Active quarters: ${country.quarters_active}
+                    </div>
+                </div>
+            `;
+
+            const marker = L.marker([coords.lat, coords.lng], { icon: markerIcon });
+            marker.bindPopup(popupContent, { maxWidth: 400, className: 'country-popup' });
+            marker.addTo(map);
+        });
+
+        // Add legend
+        const legend = L.control({ position: 'bottomright' });
+        legend.onAdd = function(map) {
+            const div = L.DomUtil.create('div', 'world-map-legend');
+            div.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 12px;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    font-family: Arial, sans-serif;
+                    font-size: 12px;
+                    line-height: 1.4;
+                ">
+                    <h4 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #1a365d;">Market Share</h4>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 12px; height: 12px; background: #dc3545; border-radius: 50%; border: 1px solid white;"></div>
+                            <span>≥ 20% (High)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 12px; height: 12px; background: #fd7e14; border-radius: 50%; border: 1px solid white;"></div>
+                            <span>5-19% (Medium)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 12px; height: 12px; background: #007bff; border-radius: 50%; border: 1px solid white;"></div>
+                            <span>< 5% (Low)</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #6b7280;">
+                        Circle size = Export volume
+                    </div>
+                </div>
+            `;
+            return div;
+        };
+        legend.addTo(map);
+
+            console.log('✅ Test interactive world map loaded successfully!');
+            console.log('📍 Markers placed for:', testData.countries.map(c => c.country));
+        }
+
+        // Load the test data when page loads
+        loadTestData();
+    </script>
+</body>
+</html>

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rwanda trade analysis system| AI-Powered Trade Analytics</title>
+    <title>TradeScope |  Trade Analytics</title>
 
     <!-- Meta Tags -->
-    <meta name="description" content="Advanced Rwanda trade analytics with AI-powered insights, interactive visualizations, and comprehensive data analysis">
+    <meta name="description" content="TradeScope - Advanced Rwanda trade analytics with  insights, interactive visualizations, and comprehensive data analysis">
     <meta name="keywords" content="Rwanda, exports, imports, trade, NISR, AI, analytics, visualization, forecasting">
-    <meta name="author" content="Rwanda trade analysis system- AI Enhanced">
+    <meta name="author" content="TradeScope - AI Enhanced">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
@@ -338,6 +338,124 @@
             border-radius: 2px;
         }
 
+        /* Chatbox Message Styles */
+        .message {
+            display: flex;
+            width: 100%;
+            margin-bottom: 8px;
+            align-items: flex-start;
+        }
+
+        .message-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-text {
+            width: 100%;
+            display: block;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            padding: 6px 10px;
+            border-radius: 12px;
+            word-wrap: break-word;
+        }
+
+        .message.user-message .message-text {
+            background: linear-gradient(135deg, #00A1F1, #0077CC);
+            color: white;
+            margin-left: auto;
+            max-width: 80%;
+        }
+
+        .message.ai-message .message-text {
+            background: #f1f5f9;
+            color: #334155;
+            max-width: 85%;
+        }
+
+        .message-time {
+            margin-top: 2px;
+            font-size: 0.6rem;
+            color: #94a3b8;
+        }
+
+        .message.user-message .message-time {
+            text-align: right;
+        }
+
+        .message.ai-message .message-time {
+            text-align: left;
+        }
+
+        /* Typing Animation */
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #94a3b8;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        /* AI Header and List Styles */
+        .ai-header {
+            font-size: 0.8rem !important;
+            font-weight: 600 !important;
+            margin: 4px 0 2px 0 !important;
+            color: #1e40af !important;
+        }
+
+        .ai-bullet {
+            font-size: 0.7rem !important;
+            line-height: 1.3 !important;
+            margin-bottom: 2px !important;
+            padding-left: 8px !important;
+            position: relative !important;
+        }
+
+        .ai-list {
+            margin: 4px 0 !important;
+            padding-left: 12px !important;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .charts-grid {
@@ -370,6 +488,22 @@
             .modern-stats-card.compact .card-value {
                 font-size: 1.2rem;
             }
+
+            /* Chatbox responsive */
+            .message-text {
+                font-size: 0.7rem !important;
+                padding: 5px 8px !important;
+            }
+
+            .message-avatar {
+                width: 20px !important;
+                height: 20px !important;
+                font-size: 0.6rem !important;
+            }
+
+            .message-time {
+                font-size: 0.55rem !important;
+            }
         }
     </style>
 </head>
@@ -379,8 +513,8 @@
         <div class="sidebar-header">
             <div class="logo-container">
                 <img src="assets/images/NISR.png" alt="NISR Logo" class="nisr-logo">
-                <h3>Rwanda Trade analytic system</h3>
-                <span class="ai-badge">AI-Powered</span>
+                <h3>TradeScope</h3>
+                <span class="ai-badge"></span>
             </div>
         </div>
 
@@ -444,7 +578,7 @@
             </div>
             <div class="sidebar-footer-compact">
                 <div class="footer-info">
-                    <span class="footer-copyright">© 2025 Rwanda Trade analytic system</span>
+                    <span class="footer-copyright">© 2025 TradeScope</span>
                     <span class="footer-meta">Data: NISR | Updated: 2025-10-10</span>
                 </div>
             </div>
@@ -487,7 +621,7 @@
                 <div class="spinner"></div>
                 <p class="loading-text">Loading Rwanda Trade Data...</p>
                 <div class="mt-3">
-                    <small class="text-white-50">Initializing AI-powered analytics...</small>
+                    <small class="text-white-50">Initializing  analytics...</small>
                 </div>
             </div>
         </div>
@@ -505,11 +639,11 @@
                                     <div class="hero-main-title">
                                         <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 8px;">
                                             <i class="fas fa-globe-africa text-primary me-2"></i>
-                                            AI-Powered Trade Analytics to Transform Rwanda's Trade</h1>
+                                             Trade Analytics to Transform Rwanda's Trade</h1>
                                     </div>
                                     <p class="hero-subtitle" style="font-size: 1rem; margin-bottom: 0;">
                                         <i class="fas fa-rocket text-primary"></i>
-                                        Advanced AI-driven insights for strategic trade decisions
+                                        Unlock meaningful insights that illuminate Rwanda’s trade patterns and strategic growth.
                                     </p>
                                 </div>
                             </div>
@@ -517,93 +651,6 @@
 
                         <div class="col-lg-4">
                             <div class="hero-visual">
-                               <!-- Organized Information Grid -->
-                               <div class="info-grid" data-aos="fade-left" data-aos-delay="300">
-                                   <!-- Team Section - Compact Version -->
-                                   <div class="info-card team-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 24px rgba(102, 126, 234, 0.3); max-height: 280px;">
-                                       <div class="card-header" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 12px;">
-                                           <div class="card-icon" style="background: rgba(255,255,255,0.2); color: white; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
-                                               <i class="fas fa-users-cog"></i>
-                                           </div>
-                                           <div class="card-title">
-                                               <h6 style="color: white; margin: 0; font-weight: 700; font-size: 0.9rem;">Team Codabytes</h6>
-                                               <span class="card-subtitle" style="color: rgba(255,255,255,0.8); font-size: 0.65rem;"><i class="fas fa-graduation-cap"></i> Undergraduates</span>
-                                           </div>
-                                       </div>
-                                       <div class="card-content" style="padding: 10px;">
-                                           <div class="team-members-compact">
-                                               <div class="member-compact" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 8px; margin-bottom: 6px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);">
-                                                   <div class="member-icon" style="background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
-                                                       <i class="fas fa-user-graduate"></i>
-                                                   </div>
-                                                   <div class="member-info" style="margin-left: 8px; flex: 1;">
-                                                       <span class="member-name" style="color: white; font-weight: 600; font-size: 0.75rem; display: block; margin-bottom: 1px; line-height: 1.1;">Lambert NDACYAYISABA</span>
-                                                       <span class="member-role" style="color: rgba(255,255,255,0.8); font-size: 0.6rem; display: block; margin-bottom: 1px; line-height: 1;">Applied Mathematician</span>
-                                                       <span class="member-skill" style="color: rgba(255,255,255,0.9); font-size: 0.55rem; background: rgba(255,255,255,0.2); padding: 1px 4px; border-radius: 6px; display: inline-block;">Data Scientist</span>
-                                                   </div>
-                                               </div>
-                                               <div class="member-compact" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 8px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);">
-                                                   <div class="member-icon" style="background: linear-gradient(45deg, #4ecdc4, #44a08d); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
-                                                       <i class="fas fa-user-tie"></i>
-                                                   </div>
-                                                   <div class="member-info" style="margin-left: 8px; flex: 1;">
-                                                       <span class="member-name" style="color: white; font-weight: 600; font-size: 0.75rem; display: block; margin-bottom: 1px; line-height: 1.1;">Derrick RUTAGANIRA</span>
-                                                       <span class="member-role" style="color: rgba(255,255,255,0.8); font-size: 0.6rem; display: block; margin-bottom: 1px; line-height: 1;">Software Engineer</span>
-                                                       <span class="member-skill" style="color: rgba(255,255,255,0.9); font-size: 0.55rem; background: rgba(255,255,255,0.2); padding: 1px 4px; border-radius: 6px; display: inline-block;">Full Stack Dev</span>
-                                                   </div>
-                                               </div>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div>
-                            </div>
-                        </div>
-
-                        <!-- Data Ecosystem Section - Full Width Horizontal -->
-                        <div class="col-12" style="margin-top: 10px;">
-                            <div class="data-ecosystem-full-width" data-aos="fade-up" data-aos-delay="400">
-                                <div class="info-card data-section" style="background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 24px rgba(30, 58, 138, 0.3);">
-                                    <div class="card-header" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.2); padding: 12px 15px;">
-                                        <div class="card-icon" style="background: rgba(255,255,255,0.2); color: #ffff00; width: 35px; height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                                            <i class="fas fa-server" style="font-size: 1rem;"></i>
-                                        </div>
-                                        <div class="card-title">
-                                            <h5 style="color: #ffff00; margin: 0; font-weight: 700; font-size: 1.1rem;">Data Ecosystem</h5>
-                                            <span class="card-subtitle" style="color: #ffff00; font-size: 0.8rem;"><i class="fas fa-database"></i> Real-time Processing</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-content" style="padding: 15px;">
-                                        <div class="data-sources-horizontal" style="display: flex; justify-content: space-between; gap: 10px;">
-                                            <div class="data-item" style="flex: 1; text-align: center; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 12px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);">
-                                                <div class="data-icon" style="margin-bottom: 6px;">
-                                                    <i class="fas fa-file-excel" style="font-size: 1.2rem; color: #ffff00;"></i>
-                                                </div>
-                                                <div class="data-info">
-                                                    <span class="data-name" style="display: block; font-weight: 600; margin-bottom: 2px; font-size: 0.85rem; color: #ffff00;">NISR Excel Reports</span>
-                                                    <span class="data-meta" style="font-size: 0.7rem; color: #ffff00;">2022-Q1 → 2025-Q1</span>
-                                                </div>
-                                            </div>
-                                            <div class="data-item" style="flex: 1; text-align: center; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 12px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);">
-                                                <div class="data-icon" style="margin-bottom: 6px;">
-                                                    <i class="fas fa-table" style="font-size: 1.2rem; color: #ffff00;"></i>
-                                                </div>
-                                                <div class="data-info">
-                                                    <span class="data-name" style="display: block; font-weight: 600; margin-bottom: 2px; font-size: 0.85rem; color: #ffff00;">13+ Data Sheets</span>
-                                                    <span class="data-meta" style="font-size: 0.7rem; color: #ffff00;">Annex Tables</span>
-                                                </div>
-                                            </div>
-                                            <div class="data-item" style="flex: 1; text-align: center; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 12px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);">
-                                                <div class="data-icon" style="margin-bottom: 6px;">
-                                                    <i class="fas fa-cogs" style="font-size: 1.2rem; color: #ffff00;"></i>
-                                                </div>
-                                                <div class="data-info">
-                                                    <span class="data-name" style="display: block; font-weight: 600; margin-bottom: 2px; font-size: 0.85rem; color: #ffff00;">AI Processing</span>
-                                                    <span class="data-meta" style="font-size: 0.7rem; color: #ffff00;">Real-time Analytics</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -980,7 +1027,7 @@
                                     <h3 class="chart-title">
                                         <i class="fas fa-brain me-2"></i>Market Intelligence
                                     </h3>
-                                    <p class="chart-subtitle">AI-powered insights and recommendations</p>
+                                    <p class="chart-subtitle"> insights and recommendations</p>
                                 </div>
                                 <div class="intel-actions">
                                     <button class="btn btn-primary" onclick="generateInsights()">
@@ -1048,22 +1095,22 @@
                     <i class="fas fa-robot"></i>
                 </div>
                 <div class="chatbox-info">
-                    <h4>AI Trade Assistant</h4>
+                    <h4 style="font-size: 0.8rem; margin: 0; font-weight: 600;">AI Trade Assistant</h4>
                     <div class="status-info">
                         <span class="status-indicator online"></span>
-                        <span class="status-text">Online</span>
-                        <span class="model-badge">Qwen3 235B</span>
+                        <span class="status-text" style="font-size: 0.65rem;">Online</span>
+                        <span class="model-badge" style="font-size: 0.55rem;">Qwen3 235B</span>
                     </div>
                 </div>
             </div>
             <div class="chatbox-controls">
-                <button class="control-btn" onclick="openAISettings()" title="AI Settings" data-tooltip="Settings">
+                <button class="control-btn" onclick="openAISettings()" title="AI Settings" data-tooltip="Settings" style="font-size: 0.75rem; padding: 6px;">
                     <i class="fas fa-cog"></i>
                 </button>
-                <button class="control-btn" onclick="minimizeChatbox()" title="Minimize" data-tooltip="Minimize">
+                <button class="control-btn" onclick="minimizeChatbox()" title="Minimize" data-tooltip="Minimize" style="font-size: 0.75rem; padding: 6px;">
                     <i class="fas fa-minus"></i>
                 </button>
-                <button class="control-btn close-btn" onclick="closeChatbox()" title="Close" data-tooltip="Close">
+                <button class="control-btn close-btn" onclick="closeChatbox()" title="Close" data-tooltip="Close" style="font-size: 0.75rem; padding: 6px;">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -1078,8 +1125,8 @@
                         <i class="fas fa-sparkles"></i>
                     </div>
                     <div class="welcome-content">
-                        <h5>Welcome to AI Trade Assistant!</h5>
-                        <p>I'm powered by Qwen3 235B and ready to help you analyze Rwanda's trade data with advanced AI insights.</p>
+                        <h5 style="font-size: 0.75rem; margin-bottom: 0.25rem; font-weight: 600;">Welcome to AI Trade Assistant!</h5>
+                        <p style="font-size: 0.65rem; margin: 0; line-height: 1.3;">I'm powered by Qwen3 235B and ready to help you analyze Rwanda's trade data with advanced AI insights.</p>
                     </div>
                 </div>
             </div>
@@ -1092,42 +1139,17 @@
                             <i class="fas fa-comment"></i>
                         </div>
                         <input type="text" class="chat-input" id="chat-input"
-                               placeholder="Ask me about exports, imports, trade trends, or market insights...">
-                        <button class="btn btn-send" onclick="sendMessage()" title="Send Message">
+                                placeholder="Ask me about exports, imports, trade trends, or market insights..." style="font-size: 0.75rem; padding: 8px 12px;">
+                        <button class="btn btn-send" onclick="sendMessage()" title="Send Message" style="font-size: 0.75rem; padding: 6px 10px;">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                     <div class="input-actions">
-                        <button class="action-btn" onclick="attachFile()" title="Attach File">
+                        <button class="action-btn" onclick="attachFile()" title="Attach File" style="font-size: 0.75rem; padding: 6px;">
                             <i class="fas fa-paperclip"></i>
                         </button>
-                        <button class="action-btn" onclick="voiceInput()" title="Voice Input">
+                        <button class="action-btn" onclick="voiceInput()" title="Voice Input" style="font-size: 0.75rem; padding: 6px;">
                             <i class="fas fa-microphone"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Quick Suggestions -->
-                <div class="chat-suggestions">
-                    <div class="suggestions-header">
-                        <span>Quick Questions:</span>
-                    </div>
-                    <div class="suggestions-grid">
-                        <button class="suggestion-btn" onclick="askQuestion('What are the top export commodities?')">
-                            <i class="fas fa-box"></i>
-                            <span>Top Exports</span>
-                        </button>
-                        <button class="suggestion-btn" onclick="askQuestion('Show me trade balance trends')">
-                            <i class="fas fa-balance-scale"></i>
-                            <span>Trade Balance</span>
-                        </button>
-                        <button class="suggestion-btn" onclick="askQuestion('What are the main trading partners?')">
-                            <i class="fas fa-globe"></i>
-                            <span>Trading Partners</span>
-                        </button>
-                        <button class="suggestion-btn" onclick="askQuestion('Predict future export trends')">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Future Trends</span>
                         </button>
                     </div>
                 </div>
@@ -1137,8 +1159,8 @@
         <!-- Chatbox Footer -->
         <div class="chatbox-footer">
             <div class="footer-info">
-                <span class="powered-by">Powered by Qwen3 235B</span>
-                <span class="response-time">Fast responses</span>
+                <span class="powered-by" style="font-size: 0.65rem;">Powered by Qwen3 235B</span>
+                <span class="response-time" style="font-size: 0.65rem;">Fast responses</span>
             </div>
         </div>
     </div>
@@ -1666,7 +1688,7 @@
                     "I understand you're asking about Rwanda's trade data. Let me analyze that for you.",
                     "Based on the latest NISR data, I can provide insights on export trends and patterns.",
                     "I'd be happy to help you with trade analysis. What specific aspect would you like to explore?",
-                    "The AI-powered analytics show interesting trends in Rwanda's trade performance."
+                    "The  analytics show interesting trends in Rwanda's trade performance."
                 ];
                 const randomResponse = responses[Math.floor(Math.random() * responses.length)];
                 addMessage(randomResponse, 'ai');
@@ -1744,7 +1766,7 @@
         }
 
         function generateInsights() {
-            addMessage("Generating AI-powered market insights...", 'ai');
+            addMessage("Generating  market insights...", 'ai');
             setTimeout(() => {
                 addMessage("✅ Analysis complete! I've identified key export opportunities in agricultural and mineral sectors with high growth potential.", 'ai');
             }, 2000);

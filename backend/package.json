@@ -1,7 +1,7 @@
 {
-  "name": "rwanda-export-explorer-backend",
+  "name": "tradescope-backend",
   "version": "1.0.0",
-  "description": "Backend API for Rwanda trade analysis systemdashboard",
+  "description": "Backend API for TradeScope dashboard",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

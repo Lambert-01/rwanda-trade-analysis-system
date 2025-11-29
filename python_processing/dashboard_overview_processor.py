@@ -1,242 +1,277 @@
 #!/usr/bin/env python3
 """
 Dashboard Overview Data Processor
-Extracts key metrics from NISR Excel file for dashboard display
+Extracts key metrics and overview data from NISR Excel file for dashboard display
 """
 
 import pandas as pd
 import json
 import os
-from datetime import datetime
+from pathlib import Path
 
-def extract_dashboard_overview():
-    """Extract key overview metrics for dashboard from Excel file"""
+def format_number(num):
+    """Format number to readable string with appropriate suffix"""
+    if num >= 1e9:
+        return f"${(num / 1e9):.2f}B"
+    elif num >= 1e6:
+        return f"${(num / 1e6):.1f}M"
+    elif num >= 1e3:
+        return f"${(num / 1e3):.1f}K"
+    else:
+        return f"${num:.1f}"
+
+def calculate_growth_rate(current, previous):
+    """Calculate growth rate percentage"""
+    if previous == 0:
+        return 0
+    return ((current - previous) / previous) * 100
+
+def extract_overview_data():
+    """Extract overview data from Excel file   """  
 
     excel_file = "../data/raw/2025Q1_Trade_report_annexTables.xlsx"
 
+    if not os.path.exists(excel_file):
+        print(f"Excel file not found: {excel_file}")
+        return None
+
     try:
-        # Read the Graph Overall sheet which contains the main trade data
-        df = pd.read_excel(excel_file, sheet_name="Graph Overall", header=None)
+        # Read all sheets
+        excel_data = pd.read_excel(excel_file, sheet_name=None)
+        print(f"Loaded Excel file with {len(excel_data)} sheets")
 
-        # Extract the key values from the known positions
-        # From the JSON structure, we know:
-        # Row 3 (index 3), Column 10: Exports = 480.8222662354178
-        # Row 4 (index 4), Column 10: Imports = 1379.0488043778544
+        overview_data = {
+            "overview": {},
+            "top_export_countries": [],
+            "top_import_countries": [],
+            "quarterly_trends": {}
+        }
 
-        # Extract cumulative data from column 10 (K column)
-        # From the debug output, we know:
-        # Row 2: 4468.62827019593 (cumulative exports)
-        # Row 3: 13855.8538867479 (cumulative imports)
-        # Row 4: 1477.72600387843 (cumulative re-exports)
+        # Extract data from "Total trade with the World" sheet for quarterly metrics
+        if "Total trade with the World" in excel_data:
+            df = excel_data["Total trade with the World"]
+            print(f"Processing 'Total trade with the World' sheet with shape: {df.shape}")
+            print("First 10 rows:")
+            print(df.head(10))
 
-        print("Debug: Looking for Exports/Imports rows...")
-        for idx, row in df.iterrows():
-            first_cell = str(row.iloc[1]).strip() if pd.notna(row.iloc[1]) else ""
-            print(f"Row {idx}: first_cell='{first_cell}', col10='{row.iloc[10]}'")
+            # The data is structured differently - let's examine it
+            print("Values in column 2 (where 2025Q1 should be):")
+            for idx, val in enumerate(df.iloc[:, 2]):
+                print(f"  Row {idx}: '{val}' (type: {type(val)})")
 
-        # Extract cumulative values directly from known positions
-        try:
-            cumulative_exports = float(df.iloc[2, 10])  # Row 2, Column 10 (K)
-            cumulative_imports = float(df.iloc[3, 10])  # Row 3, Column 10 (K)
-            cumulative_reexports = float(df.iloc[4, 10])  # Row 4, Column 10 (K)
+            # The data structure from excel_structure.json:
+            # Row 2: "Partner \ Period" in column 3, periods in columns 4-11
+            # Row 3: "WORLD" in column 3, exports values in columns 4-11
+            # Row 5: "WORLD" in column 3, imports values in columns 4-11
+            # Column 11 contains 2025Q1 data
 
-            print(f"Found cumulative exports: {cumulative_exports}")
-            print(f"Found cumulative imports: {cumulative_imports}")
-            print(f"Found cumulative re-exports: {cumulative_reexports}")
+            # Find WORLD exports and imports rows
+            world_exports_row = df[df.iloc[:, 2] == "WORLD"].iloc[0] if len(df[df.iloc[:, 2] == "WORLD"]) > 0 else None
+            world_imports_row = df[df.iloc[:, 2] == "WORLD"].iloc[1] if len(df[df.iloc[:, 2] == "WORLD"]) > 1 else None
 
-        except (ValueError, IndexError) as e:
-            print("Available data in column 10:")
-            for idx in range(len(df)):
-                val = df.iloc[idx, 10]
-                print(f"Row {idx}: {val} (type: {type(val)})")
-            raise ValueError(f"Could not extract cumulative data: {e}")
+            if world_exports_row is not None and world_imports_row is not None:
+                # Extract 2025Q1 values (column 11)
+                total_exports = float(world_exports_row.iloc[11]) if not pd.isna(world_exports_row.iloc[11]) else 0
+                total_imports = float(world_imports_row.iloc[11]) if not pd.isna(world_imports_row.iloc[11]) else 0
+                trade_balance = total_exports - total_imports
 
-        # For dashboard, use cumulative values but format as billions
-        exports_2025q1 = cumulative_exports / 1000  # Convert to billions
-        imports_2025q1 = cumulative_imports / 1000  # Convert to billions
-        reexports_2025q1 = cumulative_reexports / 1000  # Convert to billions
+                print(f"Raw values - Exports: {total_exports}, Imports: {total_imports}, Balance: {trade_balance}")
 
-        # Calculate trade balance
-        trade_balance = exports_2025q1 - imports_2025q1
+                # Calculate growth rates (2024Q1 is in column 10)
+                export_growth = 0
+                import_growth = 0
 
-        # Calculate total trade
-        total_trade = exports_2025q1 + imports_2025q1
+                prev_exports = float(world_exports_row.iloc[10]) if not pd.isna(world_exports_row.iloc[10]) else 0
+                prev_imports = float(world_imports_row.iloc[10]) if not pd.isna(world_imports_row.iloc[10]) else 0
 
-        # Get quarterly data for trends (last 5 quarters)
-        quarterly_exports = []
-        quarterly_imports = []
+                if prev_exports > 0:
+                    export_growth = calculate_growth_rate(total_exports, prev_exports)
+                if prev_imports > 0:
+                    import_growth = calculate_growth_rate(total_imports, prev_imports)
 
-        # Columns 6-10 correspond to 2024Q1, 2024Q2, 2024Q3, 2024Q4, 2025Q1
-        # Row 3 = Exports, Row 4 = Imports
-        for col in range(6, 11):  # Columns F to K (6-10)
-            try:
-                exp_val = float(df.iloc[3, col]) if pd.notna(df.iloc[3, col]) else 0
-                imp_val = float(df.iloc[4, col]) if pd.notna(df.iloc[4, col]) else 0
-                quarterly_exports.append(exp_val)
-                quarterly_imports.append(imp_val)
-            except (ValueError, TypeError):
-                # Skip non-numeric columns
-                continue
-
-        # Calculate growth rates
-        if len(quarterly_exports) >= 2:
-            latest_export = quarterly_exports[-1]
-            previous_export = quarterly_exports[-2]
-            export_growth_rate = ((latest_export - previous_export) / previous_export) * 100
-
-            latest_import = quarterly_imports[-1]
-            previous_import = quarterly_imports[-2]
-            import_growth_rate = ((latest_import - previous_import) / previous_import) * 100
-        else:
-            export_growth_rate = 0
-            import_growth_rate = 0
-
-        # Create dashboard overview data structure
-        dashboard_data = {
-            "overview": {
-                "total_exports": {
-                    "value": round(cumulative_exports / 1000, 1),  # Convert to billions, round to 1 decimal
-                    "formatted": f"${cumulative_exports / 1000:.1f}B",
-                    "growth_rate": round(export_growth_rate, 1),
-                    "period": "2022-2025 Cumulative"
-                },
-                "total_imports": {
-                    "value": round(cumulative_imports / 1000, 1),  # Convert to billions, round to 1 decimal
-                    "formatted": f"${cumulative_imports / 1000:.1f}B",
-                    "growth_rate": round(import_growth_rate, 1),
-                    "period": "2022-2025 Cumulative"
-                },
-                "trade_balance": {
-                    "value": round(trade_balance, 1),  # Round to 1 decimal
-                    "formatted": f"${trade_balance:.1f}B",
-                    "status": "deficit" if trade_balance < 0 else "surplus",
-                    "period": "2022-2025 Cumulative"
-                },
-                "total_trade": {
-                    "value": round(total_trade, 1),  # Round to 1 decimal
-                    "formatted": f"${total_trade:.1f}B",
-                    "period": "2022-2025 Cumulative"
-                },
-                "reexports": {
-                    "value": round(cumulative_reexports / 1000, 1),  # Convert to billions, round to 1 decimal
-                    "formatted": f"${cumulative_reexports / 1000:.1f}B",
-                    "growth_rate": 45.2,  # Placeholder growth rate
-                    "period": "2022-2025 Cumulative"
+                overview_data["overview"] = {
+                    "total_exports": {
+                        "value": total_exports,
+                        "formatted": format_number(total_exports),
+                        "growth_rate": round(export_growth, 1)
+                    },
+                    "total_imports": {
+                        "value": total_imports,
+                        "formatted": format_number(total_imports),
+                        "growth_rate": round(import_growth, 1)
+                    },
+                    "trade_balance": {
+                        "value": trade_balance,
+                        "formatted": format_number(trade_balance),
+                        "status": "deficit" if trade_balance < 0 else "surplus"
+                    },
+                    "total_trade": {
+                        "value": total_exports + total_imports,
+                        "formatted": format_number(total_exports + total_imports)
+                    }
                 }
-            },
-            "quarterly_trends": {
-                "periods": ["2024Q1", "2024Q2", "2024Q3", "2024Q4", "2025Q1"],
-                "exports": [round(x, 2) for x in quarterly_exports],
-                "imports": [round(x, 2) for x in quarterly_imports],
-                "trade_balance": [round(quarterly_exports[i] - quarterly_imports[i], 2) for i in range(len(quarterly_exports))]
-            },
-            "metadata": {
-                "source": "NISR 2025Q1 Trade Report",
-                "last_updated": datetime.now().isoformat(),
-                "data_period": "2022-2025 Cumulative",
-                "currency": "USD",
-                "unit": "billion"
+
+                print(f"Overview metrics extracted: Exports {format_number(total_exports)}, Imports {format_number(total_imports)}, Balance {format_number(trade_balance)}")
+            else:
+                print("Could not find WORLD trade data rows")
+
+        # Extract top export countries from "ExportCountry" sheet
+        if "ExportCountry" in excel_data:
+            df = excel_data["ExportCountry"]
+
+            # Find rows with country data (skip headers)
+            country_data = []
+            for idx, row in df.iterrows():
+                if idx >= 3:  # Skip header rows
+                    country_name = str(row.iloc[0]).strip()
+                    if country_name and not pd.isna(country_name) and country_name != "nan":
+                        try:
+                            # Get the latest value (2025Q1)
+                            value_2025q1 = float(row.iloc[-1]) if not pd.isna(row.iloc[-1]) else 0
+                            if value_2025q1 > 0:
+                                country_data.append({
+                                    "country": country_name,
+                                    "value": value_2025q1,
+                                    "formatted": format_number(value_2025q1)
+                                })
+                        except (ValueError, IndexError):
+                            continue
+
+            # Sort by value and take top 10
+            country_data.sort(key=lambda x: x["value"], reverse=True)
+            overview_data["top_export_countries"] = country_data[:10]
+
+            print(f"Top export countries extracted: {len(overview_data['top_export_countries'])} countries")
+
+        # Extract top import countries from "ImportCountry" sheet
+        if "ImportCountry" in excel_data:
+            df = excel_data["ImportCountry"]
+
+            # Find rows with country data (skip headers)
+            country_data = []
+            for idx, row in df.iterrows():
+                if idx >= 3:  # Skip header rows
+                    country_name = str(row.iloc[0]).strip()
+                    if country_name and not pd.isna(country_name) and country_name != "nan":
+                        try:
+                            # Get the latest value (2025Q1)
+                            value_2025q1 = float(row.iloc[-1]) if not pd.isna(row.iloc[-1]) else 0
+                            if value_2025q1 > 0:
+                                country_data.append({
+                                    "country": country_name,
+                                    "value": value_2025q1,
+                                    "formatted": format_number(value_2025q1)
+                                })
+                        except (ValueError, IndexError):
+                            continue
+
+            # Sort by value and take top 10
+            country_data.sort(key=lambda x: x["value"], reverse=True)
+            overview_data["top_import_countries"] = country_data[:10]
+
+            print(f"Top import countries extracted: {len(overview_data['top_import_countries'])} countries")
+
+        # Extract quarterly trends from "Graph Overall"
+        if "Graph Overall" in excel_data:
+            df = excel_data["Graph Overall"]
+
+            quarterly_exports = []
+            quarterly_imports = []
+            quarterly_balance = []
+
+            # Extract quarterly data
+            for col in df.columns:
+                if "Q" in str(col) and ("2023" in str(col) or "2024" in str(col) or "2025" in str(col)):
+                    quarter = str(col)
+
+                    exports_row = df[df.iloc[:, 1] == "Exports"]
+                    imports_row = df[df.iloc[:, 1] == "Imports"]
+
+                    if not exports_row.empty and not imports_row.empty:
+                        try:
+                            exp_val = float(exports_row[col].iloc[0])
+                            imp_val = float(imports_row[col].iloc[0])
+                            bal_val = exp_val - imp_val
+
+                            quarterly_exports.append({
+                                "quarter": quarter,
+                                "value": exp_val
+                            })
+                            quarterly_imports.append({
+                                "quarter": quarter,
+                                "value": imp_val
+                            })
+                            quarterly_balance.append({
+                                "quarter": quarter,
+                                "value": bal_val
+                            })
+                        except (ValueError, IndexError):
+                            continue
+
+            overview_data["quarterly_trends"] = {
+                "exports": quarterly_exports,
+                "imports": quarterly_imports,
+                "trade_balance": quarterly_balance
             }
-        }
 
-        return dashboard_data
+            print(f"Quarterly trends extracted: {len(quarterly_exports)} quarters")
 
-    except Exception as e:
-        print(f"Error extracting dashboard data: {e}")
-        return None
+        return overview_data
 
     except Exception as e:
-        print(f"Error extracting country data: {e}")
+        print(f"Error processing Excel file: {e}")
         return None
 
-def extract_top_countries():
-    """Extract top export/import countries for dashboard"""
+def save_dashboard_overview(data):
+    """Save dashboard overview data to JSON file"""
 
-    excel_file = "../data/raw/2025Q1_Trade_report_annexTables.xlsx"
-
-    try:
-        # Read ExportCountry sheet
-        df_exports = pd.read_excel(excel_file, sheet_name="ExportCountry", header=None)
-
-        # Skip header rows and find actual data
-        # Look for rows with country names (after the header rows)
-        export_countries = []
-
-        # Start from row 6 (index 5) to skip headers
-        for idx in range(5, min(15, len(df_exports))):  # Get top 10 countries
-            row = df_exports.iloc[idx]
-            if pd.notna(row[0]) and str(row[0]).strip() and not str(row[0]).startswith('Total'):
-                country_name = str(row[0]).strip()
-                value_2025q1 = float(row[9]) if pd.notna(row[9]) else 0
-                export_countries.append({
-                    "country": country_name,
-                    "value": round(value_2025q1, 2),
-                    "formatted": f"${value_2025q1:.2f}M"
-                })
-
-        # Read ImportCountry sheet
-        df_imports = pd.read_excel(excel_file, sheet_name="ImportCountry", header=None)
-
-        import_countries = []
-
-        # Start from row 6 (index 5) to skip headers
-        for idx in range(5, min(15, len(df_imports))):  # Get top 10 countries
-            row = df_imports.iloc[idx]
-            if pd.notna(row[0]) and str(row[0]).strip() and not str(row[0]).startswith('Total'):
-                country_name = str(row[0]).strip()
-                value_2025q1 = float(row[9]) if pd.notna(row[9]) else 0
-                import_countries.append({
-                    "country": country_name,
-                    "value": round(value_2025q1, 2),
-                    "formatted": f"${value_2025q1:.2f}M"
-                })
-
-        return {
-            "top_export_countries": export_countries[:5],  # Top 5
-            "top_import_countries": import_countries[:5]   # Top 5
-        }
-
-    except Exception as e:
-        print(f"Error extracting country data: {e}")
-        return None
-
-def save_dashboard_data():
-    """Main function to extract and save dashboard data"""
-
-    print("Extracting dashboard overview data from Excel...")
-
-    # Extract overview data
-    overview_data = extract_dashboard_overview()
-    if not overview_data:
-        print("Failed to extract overview data")
-        return False
-
-    # Extract country data
-    country_data = extract_top_countries()
-    if country_data:
-        overview_data.update(country_data)
-
-    # Create output directory if it doesn't exist
     output_dir = "../data/processed"
     os.makedirs(output_dir, exist_ok=True)
 
-    # Save to JSON file
     output_file = os.path.join(output_dir, "dashboard_overview.json")
 
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(overview_data, f, indent=2, ensure_ascii=False)
+    try:
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
 
-    print(f"Dashboard overview data saved to {output_file}")
-    print(f"Key metrics extracted:")
-    print(f"   - Exports: ${overview_data['overview']['total_exports']['value']}M")
-    print(f"   - Imports: ${overview_data['overview']['total_imports']['value']}M")
-    print(f"   - Trade Balance: ${overview_data['overview']['trade_balance']['value']}M")
+        print(f"Dashboard overview data saved to: {output_file}")
+        return True
+
+    except Exception as e:
+        print(f"Error saving dashboard data: {e}")
+        return False
+
+def main():
+    """Main function to process dashboard overview data"""
+
+    print("Starting Dashboard Overview Data Processing...")
+    print("=" * 50)
+
+    # Extract data from Excel
+    data = extract_overview_data()
+
+    if data:
+        # Save to JSON
+        success = save_dashboard_overview(data)
+
+        if success:
+            print("=" * 50)
+            print("Dashboard overview processing completed successfully!")
+            print("\nSummary:")
+            print(f"   - Total Exports: {data['overview'].get('total_exports', {}).get('formatted', 'N/A')}")
+            print(f"   - Total Imports: {data['overview'].get('total_imports', {}).get('formatted', 'N/A')}")
+            print(f"   - Trade Balance: {data['overview'].get('trade_balance', {}).get('formatted', 'N/A')}")
+            print(f"   - Top Export Countries: {len(data.get('top_export_countries', []))}")
+            print(f"   - Top Import Countries: {len(data.get('top_import_countries', []))}")
+            print(f"   - Quarterly Data Points: {len(data.get('quarterly_trends', {}).get('exports', []))}")
+        else:
+            print("Failed to save dashboard data")
+            return False
+    else:
+        print("Failed to extract data from Excel file")
+        return False
 
     return True
 
 if __name__ == "__main__":
-    success = save_dashboard_data()
-    if success:
-        print("Dashboard data processing completed successfully!")
-    else:
-        print("Dashboard data processing failed!")
+    main()

@@ -1,7 +1,7 @@
 services:
   # Backend API Service
   - type: web
-    name: rwanda-trade-backend
+    name: tradescope-backend
     runtime: node
     buildCommand: "cd backend && npm install"
     startCommand: "cd backend && npm start"
@@ -15,19 +15,19 @@ services:
 
   # Frontend Static Site
   - type: static
-    name: rwanda-trade-frontend
+    name: tradescope-frontend
     buildCommand: "echo 'No build needed for static files'"
     staticPublishPath: ./frontend
     envVars:
       - key: API_BASE_URL
         fromService:
           type: web
-          name: rwanda-trade-backend
+          name: tradescope-backend
           property: host
 
   # Python Data Processing Worker (Optional)
   - type: worker
-    name: rwanda-data-processor
+    name: tradescope-data-processor
     runtime: python
     buildCommand: "pip install -r requirements.txt"
     startCommand: "cd python_processing && python run_pipeline.py"

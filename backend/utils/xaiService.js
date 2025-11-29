@@ -1,6 +1,6 @@
 /**
- * xAI Grok Service for Rwanda Trade analytic system
- * Provides AI-powered insights for analytics sections using xAI Grok 4.1 Fast
+ * xAI Grok Service for Tradescope
+ * Provides  insights for analytics sections using xAI Grok 4.1 Fast
  */
 
 const OpenAI = require('openai');

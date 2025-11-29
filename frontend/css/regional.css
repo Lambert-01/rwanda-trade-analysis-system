@@ -53,7 +53,7 @@
 .metric-card.warning .metric-icon { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
 
 .metric-content h3 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
     color: #1f2937;

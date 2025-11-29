@@ -530,7 +530,7 @@ router.get('/trends', async (req, res) => {
 
 /**
  * @route   GET /api/exports/ai-analysis
- * @desc    Get AI-powered export analysis
+ * @desc    Get  export analysis
  * @access  Public
  */
 router.get('/ai-analysis', async (req, res) => {
@@ -1299,6 +1299,62 @@ router.get('/performance-analysis', async (req, res) => {
 });
 
 /**
+ * @route   GET /api/exports/overall-analysis
+ * @desc    Get Overall Export Analysis Summary
+ * @access  Public
+ */
+router.get('/overall-analysis', (req, res) => {
+  try {
+    console.log('📊 Fetching overall export analysis...');
+
+    // Check if overall exports analysis exists
+    if (dataFileExists('overall_exports_analysis.json')) {
+      const overallData = loadJsonData('overall_exports_analysis.json');
+      console.log('📊 Overall export analysis loaded successfully');
+      res.json(overallData);
+    } else {
+      console.log('📊 No overall export analysis file found');
+      res.json({
+        quarters: [],
+        export_values: [],
+        total_exports: 0,
+        average_quarterly: 0,
+        max_quarterly: 0,
+        min_quarterly: 0,
+        volatility: 0
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching overall export analysis:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * @route   GET /api/exports/comprehensive-analysis
+ * @desc    Get Comprehensive Export Analysis
+ * @access  Public
+ */
+router.get('/comprehensive-analysis', async (req, res) => {
+   try {
+     console.log('🌍 Fetching comprehensive export analysis...');
+
+     // Try to load the comprehensive analysis file
+     if (dataFileExists('comprehensive_export_analysis.json')) {
+       const comprehensiveData = loadJsonData('comprehensive_export_analysis.json');
+       console.log('🌍 Comprehensive export analysis loaded successfully');
+       res.json(comprehensiveData);
+     } else {
+       console.log('🌍 Comprehensive export analysis file not found');
+       res.status(404).json({ error: 'Comprehensive export analysis data not found' });
+     }
+   } catch (error) {
+     console.error('Error fetching comprehensive export analysis:', error);
+     res.status(500).json({ error: error.message });
+   }
+});
+
+/**
  * @route   GET /api/exports/country-analysis
  * @desc    Get Detailed Export Analysis by Country
  * @access  Public
@@ -1408,8 +1464,8 @@ router.get('/country-analysis', async (req, res) => {
     }
 
     // Fallback to JSON file
-    if (dataFileExists('export_detailed_country_analysis.json')) {
-      const countryData = loadJsonData('export_detailed_country_analysis.json');
+    if (dataFileExists('country_exports_analysis.json')) {
+      const countryData = loadJsonData('country_exports_analysis.json');
       console.log('🌍 Country analysis loaded from JSON file');
       res.json(countryData);
     } else {

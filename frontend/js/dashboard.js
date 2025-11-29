@@ -1,6 +1,6 @@
   /**
  * Rwanda trade analysis system- Dashboard JavaScript
- * Enhanced AI-powered trade analytics platform
+ * Enhanced  trade analytics platform
  */
 
 // Global variables for data storage

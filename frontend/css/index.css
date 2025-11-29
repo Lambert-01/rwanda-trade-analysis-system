@@ -252,7 +252,7 @@
 }
 
 .stat-number {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: #00A1F1;
     display: block;
@@ -413,7 +413,7 @@
 }
 
 .hero-flag {
-    font-size: 3rem;
+    font-size: 2rem;
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
 }
 

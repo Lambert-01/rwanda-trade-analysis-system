@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Import Analysis | Rwanda Trade analytic system</title>
+    <title>Import Analysis | Tradescope</title>
 
     <!-- Meta Tags -->
     <meta name="description" content="Comprehensive analysis of Rwanda's import sources, product categories, and trade dependencies">
@@ -34,8 +34,8 @@
         <div class="sidebar-header">
             <div class="logo-container">
                 <img src="assets/images/NISR.png" alt="NISR Logo" class="nisr-logo">
-                <h3>Rwanda Trade analytic system</h3>
-                <span class="ai-badge">AI-Powered</span>
+                <h3>Tradescope</h3>
+                <span class="ai-badge"></span>
             </div>
         </div>
 
@@ -99,7 +99,7 @@
             </div>
             <div class="sidebar-footer-compact">
                 <div class="footer-info">
-                    <span class="footer-copyright">© 2025 Rwanda Trade analytic system</span>
+                    <span class="footer-copyright">© 2025 Tradescope</span>
                     <span class="footer-meta">Data: NISR | Updated: 2025-10-10</span>
                 </div>
             </div>
@@ -154,75 +154,158 @@
         <!-- Import Analysis Section -->
         <section id="imports" class="section active">
             <div class="container-fluid">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-arrow-down me-2"></i>Import Analysis
-                    </h2>
-                    <p class="section-subtitle">Comprehensive analysis of Rwanda's import sources, product categories, and trade dependencies</p>
-                    <div class="section-actions">
-                        <button class="btn btn-primary" onclick="loadImportAnalysis()">
-                            <i class="fas fa-sync-alt me-1"></i>Refresh Analysis
-                        </button>
-                        <button class="btn btn-outline-primary" onclick="exportImportData()">
-                            <i class="fas fa-download me-1"></i>Export Data
-                        </button>
+                <!-- Modern Hero Section -->
+                <div class="hero-section" style="margin-top: 0; padding-top: 10px;">
+                    <div class="container-fluid">
+                        <div class="row align-items-center" style="min-height: 40vh;">
+                            <div class="col-lg-8">
+                                <div class="hero-content">
+                                    <div class="hero-header" data-aos="fade-up">
+                                        <div class="hero-main-title">
+                                            <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 8px;">
+                                                <i class="fas fa-arrow-down text-primary me-2"></i>
+                                                Import Analysis
+                                            </h1>
+                                        </div>
+                                        <p class="hero-subtitle" style="font-size: 1rem; margin-bottom: 0;">
+                                            <i class="fas fa-chart-line text-primary"></i>
+                                            Comprehensive analysis of Rwanda's import sources, product categories, and trade dependencies
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="hero-visual">
+                                    <div class="info-grid" data-aos="fade-left" data-aos-delay="300">
+                                        <div class="info-card team-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 24px rgba(102, 126, 234, 0.3); max-height: 200px;">
+                                            <div class="card-header" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.2); padding: 8px 12px;">
+                                                <div class="card-icon" style="background: rgba(255,255,255,0.2); color: white; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                </div>
+                                                <div class="card-title">
+                                                    <h6 style="color: white; margin: 0; font-weight: 700; font-size: 0.9rem;">Import Dashboard</h6>
+                                                    <span class="card-subtitle" style="color: rgba(255,255,255,0.8); font-size: 0.65rem;"><i class="fas fa-globe-africa"></i> Real-time Analytics</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-content" style="padding: 10px;">
+                                                <div class="section-actions" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                                    <button class="btn btn-sm" onclick="loadImportAnalysis()" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); font-size: 0.75rem; padding: 4px 8px;">
+                                                        <i class="fas fa-sync-alt me-1"></i>Refresh
+                                                    </button>
+                                                    <button class="btn btn-sm" onclick="exportImportData()" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); font-size: 0.75rem; padding: 4px 8px;">
+                                                        <i class="fas fa-download me-1"></i>Export
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Import Overview Stats -->
-                <div class="row g-4 mb-5" id="import-overview">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="stats-card animate__animated animate__fadeInUp">
-                            <div class="stats-icon bg-primary">
-                                <i class="fas fa-globe"></i>
-                            </div>
-                            <div class="stats-value" id="total-import-sources">20</div>
-                            <div class="stats-label">Import Sources</div>
-                            <div class="stats-trend trend-up">
-                                <i class="fas fa-arrow-up me-1"></i>
-                                <span>Active Partners</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="stats-card animate__animated animate__fadeInUp animate__delay-1s">
-                            <div class="stats-icon bg-info">
-                                <i class="fas fa-boxes"></i>
-                            </div>
-                            <div class="stats-value" id="import-categories">10</div>
-                            <div class="stats-label">Product Categories</div>
-                            <div class="stats-trend trend-up">
-                                <i class="fas fa-arrow-up me-1"></i>
-                                <span>SITC Sections</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="stats-card animate__animated animate__fadeInUp animate__delay-2s">
-                            <div class="stats-icon bg-warning">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="stats-value" id="import-growth">+78.0%</div>
-                            <div class="stats-label">Import Growth (2022-2025)</div>
-                            <div class="stats-trend trend-up">
-                                <i class="fas fa-arrow-up me-1"></i>
-                                <span>Overall Growth</span>
+                <!-- Modern Stats Cards -->
+                <div class="container-fluid">
+                    <div class="row g-3 mb-4" id="import-overview">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="100">
+                                <div class="card-header">
+                                    <div class="card-icon primary">
+                                        <i class="fas fa-globe"></i>
+                                    </div>
+                                    <div class="card-badge">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span id="import-sources-trend">+12.3%</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value counting-number" id="total-import-sources">20</h3>
+                                    <p class="card-label">Import Sources</p>
+                                    <div class="card-subtitle">Countries supplying Rwanda's imports</div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="trend-indicator positive">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>Active Partners</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="stats-card animate__animated animate__fadeInUp animate__delay-3s">
-                            <div class="stats-icon bg-success">
-                                <i class="fas fa-percentage"></i>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="200">
+                                <div class="card-header">
+                                    <div class="card-icon info">
+                                        <i class="fas fa-boxes"></i>
+                                    </div>
+                                    <div class="card-badge">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span id="import-categories-trend">+8.7%</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value counting-number" id="import-categories">10</h3>
+                                    <p class="card-label">Product Categories</p>
+                                    <div class="card-subtitle">SITC classification sections</div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="trend-indicator positive">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>SITC Sections</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="stats-value" id="import-dependency">44.5%</div>
-                            <div class="stats-label">Import Dependency</div>
-                            <div class="stats-trend trend-down">
-                                <i class="fas fa-arrow-down me-1"></i>
-                                <span>Vs GDP</span>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="300">
+                                <div class="card-header">
+                                    <div class="card-icon warning">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="card-badge">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span id="import-growth-trend">+78.0%</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value counting-number" id="import-growth">+78.0%</h3>
+                                    <p class="card-label">Import Growth Rate</p>
+                                    <div class="card-subtitle">2022-2025 cumulative growth</div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="trend-indicator positive">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>Overall Growth</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="400">
+                                <div class="card-header">
+                                    <div class="card-icon success">
+                                        <i class="fas fa-balance-scale"></i>
+                                    </div>
+                                    <div class="card-badge negative">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span id="import-dependency-trend">44.5%</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value counting-number" id="import-dependency">44.5%</h3>
+                                    <p class="card-label">Import Dependency</p>
+                                    <div class="card-subtitle">Import-to-GDP ratio</div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="trend-indicator negative">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span>Vs GDP</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -386,11 +469,7 @@
         </div>
     </div>
 
-    <!-- Chatbox Toggle Button -->
-    <button class="chatbox-toggle" id="chatbox-toggle" onclick="toggleChatbox()" title="Open AI Assistant">
-        <i class="fas fa-comments"></i>
-        <span class="notification-dot"></span>
-    </button>
+    
 
     <!-- External Libraries JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -405,6 +484,255 @@
     <script src="js/main.js"></script>
     <script src="js/chatbox.js"></script>
     <script src="js/imports.js"></script>
+
+    <!-- Custom Styling for Enhanced Layout -->
+    <style>
+        /* Modern Stats Cards */
+        .modern-stats-card.compact {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .modern-stats-card.compact:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .modern-stats-card.compact .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .modern-stats-card.compact .card-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .modern-stats-card.compact .card-icon.success {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .modern-stats-card.compact .card-icon.primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .modern-stats-card.compact .card-icon.warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .modern-stats-card.compact .card-icon.info {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+        }
+
+        .modern-stats-card.compact .card-badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .modern-stats-card.compact .card-badge.positive {
+            background: #10b981;
+        }
+
+        .modern-stats-card.compact .card-badge.negative {
+            background: #ef4444;
+        }
+
+        .modern-stats-card.compact .card-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #1a365d;
+        }
+
+        .modern-stats-card.compact .card-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: #64748b;
+        }
+
+        .modern-stats-card.compact .card-subtitle {
+            font-size: 0.65rem;
+            color: #94a3b8;
+        }
+
+        .modern-stats-card.compact .card-footer {
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .modern-stats-card.compact .trend-indicator {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-weight: 600;
+        }
+
+        .modern-stats-card.compact .trend-indicator.positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .modern-stats-card.compact .trend-indicator.negative {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        /* Counting Animation */
+        .counting-number {
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section Styles */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="30" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .hero-visual {
+            position: relative;
+            z-index: 2;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .info-card .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .info-card .card-title h6 {
+            margin: 0;
+            font-weight: 700;
+            color: white;
+        }
+
+        .info-card .card-subtitle {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .chart-card {
+            background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .chart-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .chart-title {
+            color: #1a365d;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .chart-subtitle {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0 0 1rem 0;
+            line-height: 1.4;
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .modern-stats-card.compact .card-value {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 
     <!-- Initialize AOS -->
     <script>

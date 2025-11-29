@@ -141,7 +141,7 @@ async function initializeApp() {
                 { method: 'GET', path: '/api/exports/growth', description: 'Get export growth rates' },
                 { method: 'GET', path: '/api/exports/models', description: 'Get ML model results for exports' },
                 { method: 'GET', path: '/api/exports/insights', description: 'Get advanced export insights' },
-                { method: 'GET', path: '/api/exports/ai-analysis', description: 'Get AI-powered export analysis' }
+                { method: 'GET', path: '/api/exports/ai-analysis', description: 'Get  export analysis' }
               ]
             }
           });

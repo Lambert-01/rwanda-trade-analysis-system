@@ -18,12 +18,19 @@
     --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
 }
 
+/* Header attachment for seamless hero integration */
+.top-header {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
 /* ===== Hero Section ===== */
 .commodities-hero {
     background: var(--gradient-primary);
-    padding: 4rem 0;
+    padding: 0 0 1rem 0;
     color: white;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
+    margin-top: -1rem;
     border-radius: 20px;
     box-shadow: var(--shadow-lg);
     position: relative;
@@ -43,7 +50,7 @@
 }
 
 .commodities-hero h1 {
-    font-size: 2.8rem;
+    font-size: 2rem;
     font-weight: 800;
     margin-bottom: 1rem;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -53,7 +60,7 @@
 
 .commodities-hero p {
     font-size: 1.2rem;
-    opacity: 0.95;
+    color: #FFA500 !important;
     position: relative;
     z-index: 1;
 }
@@ -61,20 +68,23 @@
 /* ===== Summary Statistics ===== */
 .commodity-stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    justify-items: center;
 }
 
 .commodity-stats-card {
     background: white;
-    border-radius: 16px;
-    padding: 1.25rem;
+    border-radius: 10px;
+    padding: 1rem;
     box-shadow: var(--shadow-sm);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     animation: fadeInUp 0.6s ease backwards;
     position: relative;
     overflow: hidden;
+    width: 100%;
+    max-width: 240px;
 }
 
 .commodity-stats-card::before {
@@ -100,14 +110,14 @@
 }
 
 .commodity-stats-card .stat-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -132,19 +142,19 @@
 }
 
 .commodity-stats-card .stat-label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: #6c757d;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .commodity-stats-card .stat-value {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 800;
     color: #212529;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     background-clip: text;
     -webkit-background-clip: text;
@@ -152,7 +162,7 @@
 }
 
 .commodity-stats-card .stat-detail {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: #6c757d;
 }
 
@@ -173,8 +183,8 @@
 /* ===== Top Performers ===== */
 .top-performer-card {
     background: white;
-    border-radius: 16px;
-    padding: 2rem;
+    border-radius: 12px;
+    padding: 1rem;
     box-shadow: var(--shadow-sm);
     animation: fadeInUp 0.7s ease backwards;
     transition: all 0.3s ease;
@@ -200,15 +210,15 @@
 }
 
 .top-performer-card .card-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8rem;
+    font-size: 1.25rem;
     color: white;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -225,9 +235,9 @@
 }
 
 .top-performer-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     color: #212529;
 }
 
@@ -252,7 +262,7 @@
 }
 
 .performer-rank {
-    font-size: 1.8rem;
+    font-size: 1.25rem;
     margin-right: 1rem;
     flex-shrink: 0;
 }
@@ -305,9 +315,9 @@
 /* ===== SITC Comparison ===== */
 .comparison-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
 }
 
 .sitc-comparison-card {
@@ -457,11 +467,12 @@
 /* ===== Detailed Table ===== */
 .detailed-table {
     background: white;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--shadow-sm);
-    margin-top: 2rem;
+    margin-top: 1rem;
     animation: fadeInUp 1s ease backwards;
+    font-size: 0.8rem;
 }
 
 .detailed-table thead {
@@ -469,28 +480,23 @@
     color: white;
 }
 
-.detailed-table thead th {
-    padding: 1.25rem;
+.detailed-table thead th,
+.detailed-table tbody td {
+    padding: 0.75rem 0.5rem;
     font-weight: 600;
-    border: none;
+    border: 1px solid #dee2e6;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     letter-spacing: 0.5px;
+    vertical-align: middle;
 }
 
 .detailed-table tbody tr {
     transition: all 0.2s ease;
-    border-bottom: 1px solid #f1f3f5;
 }
 
 .detailed-table tbody tr:hover {
     background-color: #f8f9fa;
-    transform: scale(1.01);
-}
-
-.detailed-table tbody td {
-    padding: 1.25rem;
-    vertical-align: middle;
 }
 
 .detailed-table .badge {
@@ -513,9 +519,9 @@
 
 /* ===== Section Headers ===== */
 .section-title {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
     color: #212529;
     background: var(--gradient-primary);
     background-clip: text;
@@ -524,9 +530,9 @@
 }
 
 .section-subtitle {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     color: #6c757d;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 /* ===== Loading Screen ===== */

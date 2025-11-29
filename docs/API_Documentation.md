@@ -1,8 +1,8 @@
-# Rwanda Export Analysis Platform - API Documentation
+# TradeScope - API Documentation
 
 ## Overview
 
-The Rwanda Export Analysis Platform provides a comprehensive REST API for accessing trade data, analytics, and AI-powered insights. The API supports both MongoDB (primary) and JSON file fallbacks for data access.
+The Rwanda Export Analysis Platform provides a comprehensive REST API for accessing trade data, analytics, and  insights. The API supports both MongoDB (primary) and JSON file fallbacks for data access.
 
 **Base URL**: `http://localhost:3000/api`
 
@@ -236,7 +236,7 @@ Get comprehensive analysis of export performance by destination country.
 }
 ```
 
-### Get AI-Powered Export Analysis
+### Get  Export Analysis
 **GET** `/api/exports/ai-analysis`
 
 Get AI-generated insights and analysis of export data using OpenRouter API.
@@ -402,7 +402,7 @@ Get machine learning predictions for future import values.
 ### Get AI Chat/Analysis
 **POST** `/api/chat/ask`
 
-Get AI-powered explanations and analysis.
+Get  explanations and analysis.
 
 **Request Body**:
 ```json

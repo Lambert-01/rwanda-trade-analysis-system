@@ -1,5 +1,5 @@
 /* =====================================================================
-  Rwanda trade analysis system - PREDICTIONS.JS (AI-POWERED REBUILD)
+  Rwanda trade analysis system - PREDICTIONS.JS ( REBUILD)
    Professional AI Integration with OpenRouter/DeepSeek
    ===================================================================== */
 
@@ -579,7 +579,7 @@ class AIPredictionsEngine {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'AI-Powered Trade Forecasting - Historical vs Predicted',
+                        text: ' Trade Forecasting - Historical vs Predicted',
                         font: { size: 18, weight: 'bold' },
                         color: '#667eea'
                     },
@@ -1471,7 +1471,7 @@ class AIPredictionsEngine {
             'trade-balance': 'Analyze Rwanda\'s trade balance, deficit trends, and economic implications.',
             'commodity-trends': 'Provide detailed commodity-level analysis for both exports and imports.',
             'regional-insights': 'Analyze regional trade patterns and integration opportunities.',
-            'forecast-analysis': 'Provide AI-powered forecasts for Rwanda\'s trade performance over the next year.',
+            'forecast-analysis': 'Provide  forecasts for Rwanda\'s trade performance over the next year.',
             'risk-assessment': 'Assess key risks in Rwanda\'s trade environment and mitigation strategies.',
             'policy-recommendations': 'Generate evidence-based policy recommendations for improving trade performance.'
         };

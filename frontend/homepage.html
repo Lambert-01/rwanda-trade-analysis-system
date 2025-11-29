@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeScope - Rwanda Trade Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0e1a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 50%, #0a0e1a 100%);
+            z-index: -2;
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #3b82f6, transparent);
+            top: -200px;
+            left: -200px;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #8b5cf6, transparent);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: 5s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #06b6d4, transparent);
+            top: 50%;
+            left: 50%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Logo/Brand */
+        .brand {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(139, 92, 246, 0.8)); }
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* Hero content */
+        .hero {
+            text-align: center;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* Visual element */
+        .visual-center {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 1.5rem auto;
+        }
+
+        .center-orb {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.2), transparent);
+            border-radius: 50%;
+            position: relative;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        .ring {
+            position: absolute;
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .ring-1 {
+            width: 140px;
+            height: 140px;
+            animation: spin 15s linear infinite;
+        }
+
+        .ring-2 {
+            width: 170px;
+            height: 170px;
+            animation: spin 20s linear reverse infinite;
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #3b82f6;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #3b82f6;
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+
+        .dot-1 { top: 0; left: 50%; transform: translateX(-50%); }
+        .dot-2 { right: 0; top: 50%; transform: translateY(-50%); animation-delay: 0.5s; }
+        .dot-3 { bottom: 0; left: 50%; transform: translateX(-50%); animation-delay: 1s; }
+        .dot-4 { left: 0; top: 50%; transform: translateY(-50%); animation-delay: 1.5s; }
+
+        @keyframes dotPulse {
+            0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.3); }
+        }
+
+        /* Info cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+
+        .card-subtitle {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .team-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 8px;
+        }
+
+        .member-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .member-info h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 0.125rem;
+        }
+
+        .member-info p {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        .data-list {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .data-item {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 8px;
+        }
+
+        .data-item-icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .data-item-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 0.125rem;
+        }
+
+        .data-item-desc {
+            font-size: 0.65rem;
+            color: #94a3b8;
+        }
+
+        /* CTA Button */
+        .cta {
+            margin-top: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { padding: 0.5rem; }
+            .logo { font-size: 2rem; }
+            .tagline { font-size: 0.9rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .hero p { font-size: 0.9rem; }
+            .visual-center { width: 160px; height: 160px; }
+            .ring-1 { width: 110px; height: 110px; }
+            .ring-2 { width: 135px; height: 135px; }
+            .info-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+            .card { padding: 0.75rem; }
+            .data-list { flex-direction: column; gap: 0.5rem; }
+            .btn { padding: 0.75rem 1.5rem; font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+        <div class="brand">
+            <div class="logo">TradeScope</div>
+            <div class="tagline">Rwanda Trade Intelligence Platform</div>
+        </div>
+
+        <div class="hero">
+            <h1>Transform Trade Data Into Strategic Insights</h1>
+            <p>Real-time analytics and intelligent processing for Rwanda's trade ecosystem. Access comprehensive data from 2022-Q1 to 2025-Q1.</p>
+        </div>
+
+        <div class="visual-center">
+            <div class="center-orb">
+                <div class="ring ring-1"></div>
+                <div class="ring ring-2"></div>
+                <div class="dot dot-1"></div>
+                <div class="dot dot-2"></div>
+                <div class="dot dot-3"></div>
+                <div class="dot dot-4"></div>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #f43f5e, #ec4899);">👥</div>
+                    <div>
+                        <div class="card-title">Team Codabytes</div>
+                        <div class="card-subtitle">Undergraduate Innovators</div>
+                    </div>
+                </div>
+                <div class="team-list">
+                    <div class="team-member">
+                        <div class="member-avatar" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">LN</div>
+                        <div class="member-info">
+                            <h4>Lambert NDACYAYISABA</h4>
+                            <p>Applied Mathematics • web developper </p>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">DR</div>
+                        <div class="member-info">
+                            <h4>Derrick RUTAGANIRA</h4>
+                            <p>Software Engineering • Full Stack</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #06b6d4, #3b82f6);">🗄️</div>
+                    <div>
+                        <div class="card-title">Data Ecosystem</div>
+                        <div class="card-subtitle"> Analytics</div>
+                    </div>
+                </div>
+                <div class="data-list">
+                    <div class="data-item">
+                        <div class="data-item-icon">📊</div>
+                        <div class="data-item-title">NISR Reports</div>
+                        <div class="data-item-desc">13 Quarters</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-item-icon">📈</div>
+                        <div class="data-item-title">13+ Sheets</div>
+                        <div class="data-item-desc">Annex Data</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-item-icon">⚡</div>
+                        <div class="data-item-title">Real-time</div>
+                        <div class="data-item-desc">AI Engine</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta">
+            <a href="/dashboard" class="btn">
+                Explore
+                <span>→</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

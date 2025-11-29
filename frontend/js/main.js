@@ -795,7 +795,7 @@ function printSection(sectionId) {
 async function loadExcelAnalysis() {
     try {
         console.log('🔄 Starting Excel analysis loading...');
-        showGlobalLoading();
+        showLoading();
         showToast('Analyzing Rwanda trade data...', 'info', 2000);
 
         const results = await getAnalysisResults();
@@ -808,13 +808,13 @@ async function loadExcelAnalysis() {
             throw new Error('No data received from analysis');
         }
 
-        hideGlobalLoading();
+        hideLoading();
         console.log('✅ Excel analysis completed successfully');
 
     } catch (error) {
         console.error('❌ Error loading Excel analysis:', error);
         showToast('Failed to load analysis data. Please try again.', 'error', 4000);
-        hideGlobalLoading();
+        hideLoading();
         throw error; // Re-throw to allow caller to handle
     }
 }
@@ -1832,7 +1832,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // Prevent dashboard.js from initializing if it's loaded
     window.dashboardInitialized = true;
 
-    showToast('🇷🇼 Welcome to Rwanda Trade analytic system!', 'success', 2500);
+    showToast('🇷🇼 Welcome to Tradescope!', 'success', 2500);
 
     // Load Excel analysis on page load
     setTimeout(async () => {
@@ -3123,8 +3123,8 @@ function initializeNotificationSystem() {
     // Show welcome notification
     setTimeout(() => {
         if ('Notification' in window && Notification.permission === 'granted') {
-            new Notification('Welcome to Rwanda Trade analytic system!', {
-                body: 'AI-powered trade analytics for Rwanda\'s economic development',
+            new Notification('Welcome to Tradescope!', {
+                body: ' trade analytics for Rwanda\'s economic development',
                 icon: '/assets/images/favicon.ico',
                 badge: '/assets/images/favicon.ico'
             });
@@ -3209,7 +3209,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // Prevent dashboard.js from initializing if it's loaded
     window.dashboardInitialized = true;
 
-    showToast('🇷🇼 Welcome to Rwanda Trade analytic system!', 'success', 2500);
+    showToast('🇷🇼 Welcome to Tradescope!', 'success', 2500);
 
     // Initialize hackathon features first
     initializeHackathonFeatures();

@@ -16,9 +16,13 @@ class AIChatbox {
     }
 
     initializeEventListeners() {
-        // Toggle chatbox
+        // Toggle chatbox - Add touch support for mobile
         if (this.toggleBtn) {
             this.toggleBtn.addEventListener('click', () => this.toggleChatbox());
+            this.toggleBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.toggleChatbox();
+            }, { passive: false });
         }
 
         // Send message on Enter
@@ -30,24 +34,92 @@ class AIChatbox {
             });
         }
 
-        // Close chatbox button
+        // Close chatbox button - Add touch support
         const closeBtn = this.chatbox?.querySelector('.btn-close');
         if (closeBtn) {
             closeBtn.addEventListener('click', () => this.closeChatbox());
+            closeBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.closeChatbox();
+            }, { passive: false });
         }
 
-        // Minimize chatbox button
+        // Minimize chatbox button - Add touch support
         const minimizeBtn = this.chatbox?.querySelector('.btn-minimize');
         if (minimizeBtn) {
             minimizeBtn.addEventListener('click', () => this.minimizeChatbox());
+            minimizeBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.minimizeChatbox();
+            }, { passive: false });
         }
 
-        // Click outside to close
+        // Control buttons - Add touch support
+        const controlBtns = this.chatbox?.querySelectorAll('.control-btn');
+        controlBtns?.forEach(btn => {
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const action = btn.getAttribute('onclick');
+                if (action) {
+                    // Execute the onclick action
+                    eval(action.replace('this.', 'btn.'));
+                }
+            }, { passive: false });
+        });
+
+        // Send button - Add touch support
+        const sendBtn = this.chatbox?.querySelector('.btn-send');
+        if (sendBtn) {
+            sendBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.sendMessage();
+            }, { passive: false });
+        }
+
+        // Action buttons - Add touch support
+        const actionBtns = this.chatbox?.querySelectorAll('.action-btn');
+        actionBtns?.forEach(btn => {
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const action = btn.getAttribute('onclick');
+                if (action) {
+                    eval(action.replace('this.', 'btn.'));
+                }
+            }, { passive: false });
+        });
+
+        // Click outside to close - Improve for mobile
         document.addEventListener('click', (e) => {
             if (this.isOpen && !this.chatbox?.contains(e.target) && !this.toggleBtn?.contains(e.target)) {
                 this.closeChatbox();
             }
         });
+
+        // Touch outside to close for mobile
+        document.addEventListener('touchstart', (e) => {
+            if (this.isOpen && !this.chatbox?.contains(e.target) && !this.toggleBtn?.contains(e.target)) {
+                this.closeChatbox();
+            }
+        }, { passive: true });
+
+        // Handle viewport changes (keyboard show/hide on mobile)
+        window.addEventListener('resize', () => this.handleViewportChange());
+        window.addEventListener('orientationchange', () => this.handleViewportChange());
+
+        // Prevent zoom on input focus for iOS
+        if (this.input) {
+            this.input.addEventListener('focus', () => {
+                if (window.innerWidth < 768) {
+                    this.adjustForMobileKeyboard();
+                }
+            });
+
+            this.input.addEventListener('blur', () => {
+                if (window.innerWidth < 768) {
+                    this.restoreFromMobileKeyboard();
+                }
+            });
+        }
     }
 
     toggleChatbox() {
@@ -147,9 +219,24 @@ class AIChatbox {
     addMessage(text, sender) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}-message`;
+        messageDiv.style.display = 'flex';
+        messageDiv.style.width = '100%';
+        messageDiv.style.marginBottom = '8px';
+        messageDiv.style.alignItems = 'flex-start';
 
         const avatarDiv = document.createElement('div');
         avatarDiv.className = 'message-avatar';
+        avatarDiv.style.width = '24px';
+        avatarDiv.style.height = '24px';
+        avatarDiv.style.borderRadius = '50%';
+        avatarDiv.style.display = 'flex';
+        avatarDiv.style.alignItems = 'center';
+        avatarDiv.style.justifyContent = 'center';
+        avatarDiv.style.fontSize = '0.7rem';
+        avatarDiv.style.marginRight = '8px';
+        avatarDiv.style.flexShrink = '0';
+        avatarDiv.style.background = sender === 'ai' ? '#00A1F1' : '#64748b';
+        avatarDiv.style.color = 'white';
 
         const avatarIcon = document.createElement('i');
         if (sender === 'ai') {
@@ -161,14 +248,47 @@ class AIChatbox {
 
         const contentDiv = document.createElement('div');
         contentDiv.className = 'message-content';
+        contentDiv.style.flex = '1';
+        contentDiv.style.display = 'flex';
+        contentDiv.style.flexDirection = 'column';
 
         const textDiv = document.createElement('div');
         textDiv.className = 'message-text';
-        textDiv.textContent = text;
+        textDiv.style.width = '100%';
+        textDiv.style.display = 'block';
+        textDiv.style.fontSize = '0.75rem';
+        textDiv.style.lineHeight = '1.4';
+        textDiv.style.padding = '6px 10px';
+        textDiv.style.borderRadius = '12px';
+        textDiv.style.wordWrap = 'break-word';
+        textDiv.style.maxWidth = sender === 'user' ? '80%' : '85%';
+
+        // Style based on sender
+        if (sender === 'user') {
+            textDiv.style.background = 'linear-gradient(135deg, #00A1F1, #0077CC)';
+            textDiv.style.color = 'white';
+            textDiv.style.marginLeft = 'auto';
+            textDiv.style.textAlign = 'left';
+        } else {
+            textDiv.style.background = '#f1f5f9';
+            textDiv.style.color = '#334155';
+            textDiv.style.textAlign = 'left';
+        }
+
+        // Render markdown for AI messages, plain text for user messages
+        if (sender === 'ai') {
+            textDiv.innerHTML = this.renderMarkdown(text);
+        } else {
+            textDiv.textContent = text;
+        }
 
         const timeDiv = document.createElement('div');
         timeDiv.className = 'message-time';
         timeDiv.textContent = this.getCurrentTime();
+        timeDiv.style.marginTop = '2px';
+        timeDiv.style.fontSize = '0.6rem';
+        timeDiv.style.color = '#94a3b8';
+        timeDiv.style.textAlign = sender === 'user' ? 'right' : 'left';
 
         contentDiv.appendChild(textDiv);
         contentDiv.appendChild(timeDiv);
@@ -178,6 +298,25 @@ class AIChatbox {
 
         this.messagesContainer?.appendChild(messageDiv);
         this.scrollToBottom();
+    }
+
+    /**
+     * Render basic markdown formatting for AI responses
+     */
+    renderMarkdown(text) {
+        return text
+            // Headers (## Header -> <h3>Header</h3>)
+            .replace(/^## (.*$)/gim, '<h3 class="ai-header" style="font-size: 0.8rem; font-weight: 600; margin: 4px 0 2px 0; color: #1e40af;">$1</h3>')
+            // Bold text (**text** -> <strong>text</strong>)
+            .replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: 600; color: #1e40af;">$1</strong>')
+            // Bullet points (• text -> <li>text</li>)
+            .replace(/^• (.*$)/gim, '<li class="ai-bullet" style="font-size: 0.7rem; line-height: 1.3; margin-bottom: 2px; padding-left: 8px; position: relative;">$1</li>')
+            // Convert multiple bullets into a list
+            .replace(/(<li class="ai-bullet">.*?<\/li>\s*)+/g, '<ul class="ai-list" style="margin: 4px 0; padding-left: 12px;">$&</ul>')
+            // Line breaks
+            .replace(/\n/g, '<br>')
+            // Clean up any double <ul> tags that might have been created
+            .replace(/<\/ul>\s*<ul class="ai-list">/g, '');
     }
 
     generateAIResponse(userMessage) {
@@ -196,27 +335,60 @@ class AIChatbox {
         const typingDiv = document.createElement('div');
         typingDiv.className = 'message ai-message typing-indicator';
         typingDiv.id = 'typing-indicator';
+        typingDiv.style.display = 'flex';
+        typingDiv.style.width = '100%';
+        typingDiv.style.marginBottom = '8px';
+        typingDiv.style.alignItems = 'flex-start';
 
         const avatarDiv = document.createElement('div');
         avatarDiv.className = 'message-avatar';
         avatarDiv.innerHTML = '<i class="fas fa-robot"></i>';
+        avatarDiv.style.width = '24px';
+        avatarDiv.style.height = '24px';
+        avatarDiv.style.borderRadius = '50%';
+        avatarDiv.style.display = 'flex';
+        avatarDiv.style.alignItems = 'center';
+        avatarDiv.style.justifyContent = 'center';
+        avatarDiv.style.fontSize = '0.7rem';
+        avatarDiv.style.marginRight = '8px';
+        avatarDiv.style.flexShrink = '0';
+        avatarDiv.style.background = '#00A1F1';
+        avatarDiv.style.color = 'white';
 
         const contentDiv = document.createElement('div');
         contentDiv.className = 'message-content';
+        contentDiv.style.flex = '1';
+        contentDiv.style.display = 'flex';
+        contentDiv.style.flexDirection = 'column';
 
         const typingContent = document.createElement('div');
         typingContent.className = 'message-text';
+        typingContent.style.width = '100%';
+        typingContent.style.display = 'block';
+        typingContent.style.fontSize = '0.75rem';
+        typingContent.style.lineHeight = '1.4';
+        typingContent.style.padding = '6px 10px';
+        typingContent.style.borderRadius = '12px';
+        typingContent.style.wordWrap = 'break-word';
+        typingContent.style.maxWidth = '85%';
+        typingContent.style.background = '#f1f5f9';
+        typingContent.style.color = '#334155';
+        typingContent.style.textAlign = 'left';
         typingContent.innerHTML = `
-            <div class="typing-dots">
-                <span class="typing-dot"></span>
-                <span class="typing-dot"></span>
-                <span class="typing-dot"></span>
+            <div class="typing-dots" style="display: flex; gap: 4px; align-items: center;">
+                <span class="typing-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #94a3b8; animation: typing 1.4s infinite;"></span>
+                <span class="typing-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #94a3b8; animation: typing 1.4s infinite 0.2s;"></span>
+                <span class="typing-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #94a3b8; animation: typing 1.4s infinite 0.4s;"></span>
             </div>
         `;
 
         const timeDiv = document.createElement('div');
         timeDiv.className = 'message-time';
         timeDiv.textContent = 'AI is typing...';
+        timeDiv.style.marginTop = '2px';
+        timeDiv.style.fontSize = '0.6rem';
+        timeDiv.style.color = '#94a3b8';
+        timeDiv.style.textAlign = 'left';
 
         contentDiv.appendChild(typingContent);
         contentDiv.appendChild(timeDiv);
@@ -371,7 +543,7 @@ class AIChatbox {
             switch (status) {
                 case 'connected':
                     statusDot.className = 'status-indicator connected';
-                    statusElement.className = 'status online ai-powered';
+                    statusElement.className = 'status online ';
                     statusElement.innerHTML = '<span class="status-indicator connected"></span>AI Powered (OpenRouter)';
                     break;
                 case 'error':
@@ -389,6 +561,64 @@ class AIChatbox {
                     statusElement.className = 'status offline';
                     statusElement.innerHTML = '<span class="status-indicator"></span>Offline';
             }
+        }
+    }
+
+    // Mobile-specific methods
+    handleViewportChange() {
+        if (window.innerWidth < 768 && this.isOpen) {
+            // Adjust chatbox position and size for viewport changes
+            const chatbox = this.chatbox;
+            if (chatbox) {
+                const viewportHeight = window.innerHeight;
+                const maxHeight = viewportHeight - 40; // Leave some margin
+
+                chatbox.style.maxHeight = maxHeight + 'px';
+
+                // If keyboard is likely shown (viewport height decreased significantly)
+                if (viewportHeight < window.screen.height * 0.8) {
+                    this.adjustForMobileKeyboard();
+                } else {
+                    this.restoreFromMobileKeyboard();
+                }
+            }
+        }
+    }
+
+    adjustForMobileKeyboard() {
+        const chatbox = this.chatbox;
+        if (chatbox && window.innerWidth < 768) {
+            // Move chatbox up to avoid keyboard overlap
+            const keyboardHeight = window.screen.height - window.innerHeight;
+            const currentTop = parseFloat(getComputedStyle(chatbox).top) || 50;
+
+            if (keyboardHeight > 150) { // Significant keyboard height
+                const newTop = Math.max(10, currentTop - (keyboardHeight / 2));
+                chatbox.style.top = newTop + '%';
+                chatbox.style.transform = 'translate(-50%, 0)';
+            }
+
+            // Reduce chatbox height to fit better
+            const maxHeight = window.innerHeight - keyboardHeight - 60;
+            chatbox.style.maxHeight = maxHeight + 'px';
+
+            // Scroll to input area
+            setTimeout(() => {
+                const inputContainer = chatbox.querySelector('.chat-input-container');
+                if (inputContainer) {
+                    inputContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+            }, 300);
+        }
+    }
+
+    restoreFromMobileKeyboard() {
+        const chatbox = this.chatbox;
+        if (chatbox && window.innerWidth < 768) {
+            // Restore original positioning
+            chatbox.style.top = '50%';
+            chatbox.style.transform = 'translate(-50%, -50%)';
+            chatbox.style.maxHeight = 'calc(100vh - 40px)';
         }
     }
 }
@@ -743,7 +973,7 @@ function forceShowChatbox() {
     const statusElement = chatbox?.querySelector('.status');
     if (statusElement) {
         statusElement.innerHTML = `<span class="status-indicator"></span>AI Powered (xAI Grok)`;
-        statusElement.className = 'status online ai-powered';
+        statusElement.className = 'status online ';
     }
 
     showToast('Chatbox force-opened for testing!', 'success');
@@ -812,7 +1042,7 @@ async function updateAIStatusIndicator() {
             if (statusElement) {
                 if (data.ai_configured) {
                     statusElement.innerHTML = `<span class="status-indicator"></span>AI Powered (${data.provider})`;
-                    statusElement.className = 'status online ai-powered';
+                    statusElement.className = 'status online ';
                     console.log('✅ AI service configured:', data.provider, 'Model:', data.model);
                 } else {
                     statusElement.innerHTML = `<span class="status-indicator"></span>Static Mode`;

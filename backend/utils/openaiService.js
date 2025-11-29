@@ -1,6 +1,6 @@
 /**
- * OpenAI Service for Rwanda Trade analytic system
- * Provides AI-powered insights and descriptions for trade data
+ * OpenAI Service for Tradescope
+ * Provides  insights and descriptions for trade data
  */
 
 const OpenAI = require('openai');
@@ -214,7 +214,63 @@ class OpenAIService {
     }
 
     /**
-     * Generate section-specific insights for analytics dashboard
+     * Generate section-specific insights for analytics dashboard with deep data analysis
+     */
+    async generateSectionInsightsWithData(section, sectionData, pdfContext = '') {
+        try {
+            console.log('📊 Generating deep section insights for:', section, 'with data analysis');
+
+            const prompt = this.buildDeepSectionInsightsPrompt(section, sectionData, pdfContext);
+
+            const completion = await this.client.chat.completions.create({
+                model: this.model,
+                messages: [
+                    {
+                        role: "system",
+                        content: "You are an expert trade economist and data analyst specializing in African markets. Analyze the provided JSON data deeply and provide specific, actionable insights that explain what the numbers show, why they matter, and their economic implications for Rwanda. Format your response using clear markdown structure with section headers, bold emphasis, and bullet points for readability."
+                    },
+                    {
+                        role: "user",
+                        content: prompt
+                    }
+                ],
+                max_tokens: this.maxTokens,
+                temperature: this.temperature
+            });
+
+            // Clean the AI response to remove any <think> tags that may be present
+            const rawInsights = completion.choices[0].message.content;
+            const insights = this.parseSectionInsights(cleanAIResponse(rawInsights), section);
+            console.log('✅ Deep section insights generated successfully');
+
+            return {
+                success: true,
+                insights: insights,
+                section: section,
+                generated_at: new Date().toISOString(),
+                using_openai: true,
+                provider: 'OpenRouter',
+                data_analyzed: true,
+                raw_response: rawInsights
+            };
+
+        } catch (error) {
+            console.error('❌ Error generating deep section insights:', error);
+            return {
+                success: false,
+                insights: this.getFallbackSectionInsights(section),
+                section: section,
+                generated_at: new Date().toISOString(),
+                using_openai: false,
+                provider: 'Fallback',
+                data_analyzed: false,
+                error: error.message
+            };
+        }
+    }
+
+    /**
+     * Generate section-specific insights for analytics dashboard (legacy function)
      */
     async generateSectionInsights(section, sectionData, pdfContext = '') {
         try {
@@ -386,7 +442,250 @@ class OpenAIService {
     }
 
     /**
-     * Build section insights prompt for analytics dashboard
+     * Build deep section insights prompt that analyzes actual JSON data
+     */
+    buildDeepSectionInsightsPrompt(section, sectionData, pdfContext) {
+        const dataSummary = this.analyzeSectionData(section, sectionData);
+
+        const basePrompt = `You are analyzing Rwanda's trade data for the ${section} section. Here is the actual data from the analytics:
+
+DATA ANALYSIS REQUEST:
+Analyze this JSON data structure and provide specific insights about what the numbers show, why they matter, and their economic implications:
+
+${JSON.stringify(sectionData, null, 2)}
+
+KEY DATA SUMMARY:
+${dataSummary}
+
+Based on this specific data, provide 3-5 detailed insights formatted as follows:
+
+### Insight X: [Descriptive Title]
+
+**What the data shows**: [Clear explanation referencing specific values from the JSON data]
+
+**Why it matters**: [Connection to Rwanda's economic context and broader implications]
+
+**Implications**: [What this means for policymakers, businesses, and economic development]
+
+**Actionable insights**: [Specific recommendations based on the data]
+
+FORMAT REQUIREMENTS:
+- Use markdown formatting with **bold** for emphasis
+- Create itemized lists using bullet points (-) where appropriate
+- Make insights visually appealing and easy to interpret
+- Reference specific numbers and values from the JSON data
+- Keep each insight focused and actionable
+- Use professional, clear language suitable for policymakers
+
+Focus on the actual data provided - do not make up numbers or reference external data. Be specific about the values you see in the JSON structure.`;
+
+        switch (section) {
+            case 'time-series':
+                return `${basePrompt}
+
+For TIME SERIES ANALYSIS, specifically analyze:
+- The slope and R-squared values for exports and imports
+- Stationarity test results (which series are stationary?)
+- Seasonal component patterns
+- Forecast values for the next 4 quarters
+- What these specific numbers tell us about Rwanda's trade evolution
+
+What do the slope values (${dataSummary.includes('slope') ? 'present in data' : 'check data'}) indicate about growth trends? How reliable are the forecasts based on the R-squared values?
+
+Use the specified markdown formatting with clear section headers and bullet points for detailed analysis.`;
+
+            case 'growth':
+                return `${basePrompt}
+
+For GROWTH ANALYSIS, specifically analyze:
+- QoQ (Quarter-over-Quarter) growth rates
+- YoY (Year-over-Year) growth rates
+- CAGR (Compound Annual Growth Rate) values
+- Which periods show the strongest/weakest growth
+- Comparative performance between exports and imports
+
+What do these specific growth rates (${dataSummary.includes('CAGR') ? 'including CAGR values' : 'from the data'}) tell us about Rwanda's trade momentum? Which quarters performed best and why might that matter for planning?
+
+Use the specified markdown formatting with clear section headers and bullet points for detailed analysis.`;
+
+            case 'share':
+                return `${basePrompt}
+
+For SHARE ANALYSIS, specifically analyze:
+- Top export markets and their percentage shares
+- Top import sources and their percentage shares
+- Commodity share distributions
+- Market concentration patterns
+
+What do the specific market share percentages (${dataSummary.includes('share_percentage') ? 'found in data' : 'from the JSON'}) tell us about Rwanda's trade diversification? Which markets dominate and what are the risks of this concentration?
+
+Use the specified markdown formatting with clear section headers and bullet points for detailed analysis.`;
+
+            case 'hhi':
+                return `${basePrompt}
+
+For HHI CONCENTRATION ANALYSIS, specifically analyze:
+- HHI values for export destinations and import sources
+- Interpretation categories (highly concentrated, etc.)
+- Number of destinations/sources analyzed
+- Risk assessment insights
+
+What do the specific HHI values (${dataSummary.includes('hhi_value') ? 'present in data' : 'from the analysis'}) mean for Rwanda's economic vulnerability? How does the number of trading partners affect market concentration?
+
+Use the specified markdown formatting with clear section headers and bullet points for detailed analysis.`;
+
+            case 'balance':
+                return `${basePrompt}
+
+For TRADE BALANCE ANALYSIS, specifically analyze:
+- Quarterly balance values (positive/negative)
+- Average deficit amounts
+- Number of quarters in deficit
+- Deficit drivers and their contributions
+
+What do the specific balance figures (${dataSummary.includes('quarterly_balance') ? 'from quarterly data' : 'in the analysis'}) tell us about Rwanda's trade sustainability? Which factors are driving the deficits and what are the structural implications?
+
+Use the specified markdown formatting with clear section headers and bullet points for detailed analysis.`;
+
+            case 'correlation':
+                return `${basePrompt}
+
+For CORRELATION ANALYSIS, specifically analyze:
+- Correlation coefficients between variables
+- Strong vs weak relationships
+- Variable pairs and their relationships
+- Interpretation of correlation strength
+
+What do the specific correlation coefficients (${dataSummary.includes('correlation') ? 'found in matrix' : 'from the data'}) reveal about relationships between trade variables? Which correlations are strongest and what do they imply for policy coordination?
+
+Use the specified markdown formatting with clear section headers and bullet points for detailed analysis.`;
+
+            default:
+                return `${basePrompt}
+
+Provide comprehensive insights based on the specific data structure and values in this ${section} analysis. Focus on what the actual numbers reveal about Rwanda's trade performance and economic implications.
+
+Use the specified markdown formatting with clear section headers and bullet points for detailed analysis.`;
+        }
+    }
+
+    /**
+     * Analyze section data to extract key information for prompt building
+     */
+    analyzeSectionData(section, sectionData) {
+        if (!sectionData || typeof sectionData !== 'object') {
+            return "No data available for analysis";
+        }
+
+        try {
+            let summary = "";
+
+            switch (section) {
+                case 'time-series':
+                    if (sectionData.time_series) {
+                        const ts = sectionData.time_series;
+                        if (ts.exports_trend) {
+                            summary += `Export trend: slope ${ts.exports_trend.slope?.toFixed(2)}, R² ${ts.exports_trend.r_squared?.toFixed(3)}\n`;
+                        }
+                        if (ts.imports_trend) {
+                            summary += `Import trend: slope ${ts.imports_trend.slope?.toFixed(2)}, R² ${ts.imports_trend.r_squared?.toFixed(3)}\n`;
+                        }
+                        if (ts.forecast_next_4_quarters) {
+                            summary += `Forecast data available for next 4 quarters\n`;
+                        }
+                        if (ts.stationarity_tests) {
+                            summary += `Stationarity: Exports ${ts.stationarity_tests.exports?.stationary ? 'stationary' : 'non-stationary'}, Imports ${ts.stationarity_tests.imports?.stationary ? 'stationary' : 'non-stationary'}\n`;
+                        }
+                    }
+                    break;
+
+                case 'growth':
+                    if (sectionData.growth_analysis) {
+                        const growth = sectionData.growth_analysis;
+                        if (growth.cagr) {
+                            summary += `CAGR: Exports ${growth.cagr.exports?.toFixed(3)}, Imports ${growth.cagr.imports?.toFixed(3)}\n`;
+                        }
+                        if (growth.insights && Array.isArray(growth.insights)) {
+                            summary += `Key insights: ${growth.insights.length} insights available\n`;
+                        }
+                    }
+                    break;
+
+                case 'share':
+                    if (sectionData.share_analysis) {
+                        const share = sectionData.share_analysis;
+                        if (share.country_share) {
+                            if (share.country_share.exports) {
+                                const topExport = Object.values(share.country_share.exports)[0];
+                                if (topExport) summary += `Top export market: ${Object.keys(share.country_share.exports)[0]} (${topExport.share_percentage?.toFixed(1)}%)\n`;
+                            }
+                            if (share.country_share.imports) {
+                                const topImport = Object.values(share.country_share.imports)[0];
+                                if (topImport) summary += `Top import source: ${Object.keys(share.country_share.imports)[0]} (${topImport.share_percentage?.toFixed(1)}%)\n`;
+                            }
+                        }
+                    }
+                    break;
+
+                case 'hhi':
+                    if (sectionData.hhi) {
+                        const hhi = sectionData.hhi;
+                        if (hhi.export_destinations) {
+                            summary += `Export HHI: ${hhi.export_destinations.hhi_value?.toFixed(4)} (${hhi.export_destinations.interpretation})\n`;
+                        }
+                        if (hhi.import_sources) {
+                            summary += `Import HHI: ${hhi.import_sources.hhi_value?.toFixed(4)} (${hhi.import_sources.interpretation})\n`;
+                        }
+                    }
+                    break;
+
+                case 'balance':
+                    if (sectionData.trade_balance) {
+                        const balance = sectionData.trade_balance;
+                        if (balance.deficit_drivers) {
+                            summary += `Average deficit: $${balance.deficit_drivers.average_deficit?.toFixed(0)}M, ${balance.deficit_drivers.quarters_in_deficit} quarters in deficit\n`;
+                        }
+                        if (balance.quarterly_balance) {
+                            summary += `Quarterly balances: ${balance.quarterly_balance.length} quarters analyzed\n`;
+                        }
+                    }
+                    break;
+
+                case 'correlation':
+                    if (sectionData.correlations) {
+                        const corr = sectionData.correlations;
+                        if (corr.matrix) {
+                            const variables = Object.keys(corr.matrix);
+                            summary += `Correlation matrix: ${variables.length} variables analyzed\n`;
+                            // Find strongest correlation
+                            let maxCorr = 0;
+                            let maxPair = '';
+                            variables.forEach(v1 => {
+                                variables.forEach(v2 => {
+                                    if (v1 !== v2) {
+                                        const val = Math.abs(corr.matrix[v1]?.[v2] || 0);
+                                        if (val > maxCorr) {
+                                            maxCorr = val;
+                                            maxPair = `${v1}-${v2}`;
+                                        }
+                                    }
+                                });
+                            });
+                            if (maxPair) summary += `Strongest correlation: ${maxPair} (${maxCorr.toFixed(3)})\n`;
+                        }
+                    }
+                    break;
+            }
+
+            return summary || "Data structure analyzed - contains trade analytics information";
+        } catch (error) {
+            console.error('Error analyzing section data:', error);
+            return "Data analysis encountered an error";
+        }
+    }
+
+    /**
+     * Build section insights prompt for analytics dashboard (legacy)
      */
     buildSectionInsightsPrompt(section, sectionData, pdfContext) {
         const baseContext = `Based on the Rwanda Trade Report 2025Q1, analyze the following ${section} data and provide simple, clear insights that help users understand what this means for Rwanda's economy.
@@ -465,33 +764,42 @@ Provide general insights about this trade data section and its implications for 
         cleanedText = cleanedText.replace(/^["']|["']$/g, ''); // Remove quotes
         cleanedText = cleanedText.replace(/^(Response:|Answer:|Analysis:)/i, ''); // Remove prefixes
 
-        // Try to split by numbered lists first (1., 2., etc.)
+        // For the new formatted responses, try to split by "### Insight" headers
         let insights = [];
-        const numberedPattern = /^\d+\.\s*/gm;
-        if (numberedPattern.test(cleanedText)) {
-            insights = cleanedText.split(numberedPattern).filter(item => item.trim().length > 0);
-            insights = insights.map(item => item.replace(/^\d+\.\s*/, '').trim());
-        }
-        // Try to split by bullet points
-        else if (cleanedText.includes('•') || cleanedText.includes('- ')) {
-            insights = cleanedText.split(/[•\-]\s*/).filter(item => item.trim().length > 0);
-        }
-        // Try to split by newlines
-        else if (cleanedText.includes('\n')) {
-            insights = cleanedText.split('\n').filter(line => line.trim().length > 0);
-        }
-        // Try to split by sentences
-        else if (cleanedText.includes('.')) {
-            insights = cleanedText.split('.').filter(sentence => sentence.trim().length > 0);
-        }
-        else {
-            insights = [cleanedText];
+        const insightPattern = /### Insight \d+:.*?(?=(### Insight \d+:|$))/gs;
+        const matches = cleanedText.match(insightPattern);
+
+        if (matches && matches.length > 0) {
+            insights = matches.map(match => match.trim());
+        } else {
+            // Fallback to previous parsing methods
+            // Try to split by numbered lists first (1., 2., etc.)
+            const numberedPattern = /^\d+\.\s*/gm;
+            if (numberedPattern.test(cleanedText)) {
+                insights = cleanedText.split(numberedPattern).filter(item => item.trim().length > 0);
+                insights = insights.map(item => item.replace(/^\d+\.\s*/, '').trim());
+            }
+            // Try to split by bullet points
+            else if (cleanedText.includes('•') || cleanedText.includes('- ')) {
+                insights = cleanedText.split(/[•\-]\s*/).filter(item => item.trim().length > 0);
+            }
+            // Try to split by newlines
+            else if (cleanedText.includes('\n')) {
+                insights = cleanedText.split('\n').filter(line => line.trim().length > 0);
+            }
+            // Try to split by sentences
+            else if (cleanedText.includes('.')) {
+                insights = cleanedText.split('.').filter(sentence => sentence.trim().length > 0);
+            }
+            else {
+                insights = [cleanedText];
+            }
         }
 
         // Clean and filter insights
         insights = insights
             .map(insight => insight.trim())
-            .filter(insight => insight.length > 10) // Remove very short items
+            .filter(insight => insight.length > 20) // Remove very short items, increased threshold for formatted content
             .filter(insight => !insight.toLowerCase().includes('based on the')) // Remove generic intros
             .slice(0, 5); // Limit to 5 insights
 

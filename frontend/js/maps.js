@@ -369,13 +369,288 @@ if (exportMap) {
 // Custom marker, tooltip, and legend styles are handled in dashboard.css
 
 /************************************
- * 11. DEMO & INIT                  *
+ * 11. INTERACTIVE WORLD MAP FOR EXPORTS
+ ************************************/
+let worldMap, worldMarkers = [];
+
+// Initialize the interactive world map for exports
+function initInteractiveWorldMap() {
+    console.log('🗺️ Initializing interactive world map for exports...');
+
+    // Remove existing map if it exists
+    if (worldMap) {
+        worldMap.remove();
+    }
+
+    // Create world map centered on Africa
+    worldMap = L.map('export-map', {
+        center: [0, 20], // Centered on Africa
+        zoom: 3,
+        minZoom: 2,
+        maxZoom: 8,
+        zoomControl: true,
+        attributionControl: true,
+        preferCanvas: true
+    });
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(worldMap);
+
+    // Load and render export destinations
+    loadExportDestinationsData();
+
+    // Add legend
+    addWorldMapLegend();
+
+    console.log('✅ Interactive world map initialized');
+}
+
+// Load export destinations data from JSON file
+async function loadExportDestinationsData() {
+    try {
+        console.log('📊 Loading export destinations data...');
+
+        // Fetch data from the JSON file
+        const response = await fetch('data/processed/country_exports_analysis.json');
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('📊 Export destinations data loaded:', data.countries.length, 'countries');
+
+        // Render markers on the map
+        renderWorldMapMarkers(data.countries);
+
+    } catch (error) {
+        console.error('❌ Error loading export destinations data:', error);
+
+        // Fallback: show error message on map
+        const errorDiv = document.createElement('div');
+        errorDiv.innerHTML = `
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                        background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                        text-align: center; z-index: 1000;">
+                <h4 style="color: #dc3545; margin: 0 0 10px 0;">⚠️ Map Data Unavailable</h4>
+                <p style="margin: 0; color: #666;">Unable to load export destinations data</p>
+            </div>
+        `;
+        document.getElementById('export-map').appendChild(errorDiv);
+    }
+}
+
+// Render markers on the world map
+function renderWorldMapMarkers(countries) {
+    console.log('📍 Rendering world map markers for', countries.length, 'countries');
+
+    // Clear existing markers
+    worldMarkers.forEach(marker => worldMap.removeLayer(marker));
+    worldMarkers = [];
+
+    // Calculate marker size scaling
+    const maxExports = Math.max(...countries.map(c => c.total_exports));
+    const minSize = 8;
+    const maxSize = 25;
+
+    countries.forEach(country => {
+        const coords = getCountryCoordinates(country.country);
+
+        // Skip countries without coordinates
+        if (!coords || (coords.lat === 0 && coords.lng === 0)) {
+            console.warn(`⚠️ No coordinates found for ${country.country}`);
+            return;
+        }
+
+        // Calculate marker size based on total exports
+        const size = minSize + (country.total_exports / maxExports) * (maxSize - minSize);
+
+        // Determine marker color based on share percentage
+        let color;
+        if (country.share_percentage >= 20) {
+            color = '#dc3545'; // Red for high share
+        } else if (country.share_percentage >= 5) {
+            color = '#fd7e14'; // Orange for medium share
+        } else {
+            color = '#007bff'; // Blue for low share
+        }
+
+        // Create custom marker icon
+        const markerIcon = L.divIcon({
+            className: 'custom-marker',
+            html: `<div style="
+                width: ${size}px;
+                height: ${size}px;
+                background-color: ${color};
+                border: 2px solid white;
+                border-radius: 50%;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: ${Math.max(8, size * 0.4)}px;
+                font-weight: bold;
+            ">${Math.round(country.share_percentage)}%</div>`,
+            iconSize: [size, size],
+            iconAnchor: [size/2, size/2]
+        });
+
+        // Create popup content with detailed information
+        const popupContent = createCountryPopup(country);
+
+        // Create marker
+        const marker = L.marker([coords.lat, coords.lng], {
+            icon: markerIcon
+        });
+
+        // Bind popup
+        marker.bindPopup(popupContent, {
+            maxWidth: 400,
+            className: 'country-popup'
+        });
+
+        // Add marker to map
+        marker.addTo(worldMap);
+        worldMarkers.push(marker);
+    });
+
+    console.log('✅ World map markers rendered:', worldMarkers.length);
+}
+
+// Create detailed popup content for each country
+function createCountryPopup(country) {
+    // Format numbers
+    const formatNumber = (num) => {
+        if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
+        if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
+        if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K';
+        return num.toFixed(2);
+    };
+
+    // Create quarterly values table
+    const quarterlyRows = Object.entries(country.quarterly_values)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([quarter, value]) => `
+            <tr>
+                <td style="padding: 4px 8px; border-bottom: 1px solid #eee;">${quarter}</td>
+                <td style="padding: 4px 8px; border-bottom: 1px solid #eee; text-align: right;">$${formatNumber(value)}</td>
+            </tr>
+        `).join('');
+
+    return `
+        <div style="font-family: 'Inter', sans-serif; max-width: 350px;">
+            <h4 style="margin: 0 0 12px 0; color: #1a365d; font-size: 16px; font-weight: 600;">
+                ${country.country}
+            </h4>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px; text-align: center;">
+                    <div style="font-size: 14px; font-weight: 600; color: #059669;">$${formatNumber(country.total_exports)}</div>
+                    <div style="font-size: 11px; color: #64748b;">Total Exports</div>
+                </div>
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px; text-align: center;">
+                    <div style="font-size: 14px; font-weight: 600; color: #059669;">$${formatNumber(country.average_exports)}</div>
+                    <div style="font-size: 11px; color: #64748b;">Average</div>
+                </div>
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px; text-align: center;">
+                    <div style="font-size: 14px; font-weight: 600; color: #059669;">$${formatNumber(country.max_exports)}</div>
+                    <div style="font-size: 11px; color: #64748b;">Max Quarterly</div>
+                </div>
+                <div style="background: #f8fafc; padding: 8px; border-radius: 6px; text-align: center;">
+                    <div style="font-size: 14px; font-weight: 600; color: ${country.growth_rate >= 0 ? '#059669' : '#dc3545'};">${(country.growth_rate * 100).toFixed(1)}%</div>
+                    <div style="font-size: 11px; color: #64748b;">Growth Rate</div>
+                </div>
+            </div>
+
+            <div style="background: #f8fafc; padding: 8px; border-radius: 6px; margin-bottom: 12px; text-align: center;">
+                <div style="font-size: 14px; font-weight: 600; color: #7c3aed;">${country.share_percentage.toFixed(2)}%</div>
+                <div style="font-size: 11px; color: #64748b;">Market Share</div>
+            </div>
+
+            <div style="margin-bottom: 8px;">
+                <h5 style="margin: 0 0 8px 0; font-size: 13px; font-weight: 600; color: #374151;">Quarterly Exports</h5>
+                <div style="max-height: 150px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 4px;">
+                    <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                        <thead style="background: #f9fafb; position: sticky; top: 0;">
+                            <tr>
+                                <th style="padding: 6px 8px; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb;">Quarter</th>
+                                <th style="padding: 6px 8px; text-align: right; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb;">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${quarterlyRows}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div style="font-size: 11px; color: #6b7280; text-align: center; margin-top: 8px;">
+                Active quarters: ${country.quarters_active}
+            </div>
+        </div>
+    `;
+}
+
+// Add legend to the world map
+function addWorldMapLegend() {
+    const legend = L.control({ position: 'bottomright' });
+
+    legend.onAdd = function(map) {
+        const div = L.DomUtil.create('div', 'world-map-legend');
+        div.innerHTML = `
+            <div style="
+                background: white;
+                padding: 12px;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                font-family: 'Inter', sans-serif;
+                font-size: 12px;
+                line-height: 1.4;
+            ">
+                <h4 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #1a365d;">Market Share</h4>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 12px; height: 12px; background: #dc3545; border-radius: 50%; border: 1px solid white;"></div>
+                        <span>≥ 20% (High)</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 12px; height: 12px; background: #fd7e14; border-radius: 50%; border: 1px solid white;"></div>
+                        <span>5-19% (Medium)</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 12px; height: 12px; background: #007bff; border-radius: 50%; border: 1px solid white;"></div>
+                        <span>< 5% (Low)</span>
+                    </div>
+                </div>
+                <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #6b7280;">
+                    Circle size = Export volume
+                </div>
+            </div>
+        `;
+        return div;
+    };
+
+    legend.addTo(worldMap);
+}
+
+/************************************
+ * 12. DEMO & INIT                  *
  ************************************/
 document.addEventListener('DOMContentLoaded', function() {
-    initExportMap();
-    loadExportDestinations('2024');
-    addMapLegend(exportMap, 'export');
-    // Optionally, load import map and heatmap as needed
+    // Only initialize the interactive world map if we're not on the exports page
+    // The exports page handles its own map initialization through exports.js
+    const isExportsPage = window.location.pathname.includes('exports.html') ||
+                         document.querySelector('#exports') !== null;
+
+    if (!isExportsPage) {
+        console.log('🗺️ Initializing interactive world map (not on exports page)');
+        initInteractiveWorldMap();
+    } else {
+        console.log('📊 On exports page - skipping maps.js map initialization (handled by exports.js)');
+    }
 });
 
 /************************************

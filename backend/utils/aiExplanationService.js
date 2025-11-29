@@ -1,6 +1,6 @@
 /**
  * Enhanced AI Explanation Service
- * Provides comprehensive AI-powered explanations and real-time system monitoring
+ * Provides comprehensive  explanations and real-time system monitoring
  * Fully integrated throughout the Rwanda trade analysis systemsystem
  */
 
@@ -810,7 +810,7 @@ async function generateSystemInsight(recentEvents) {
         const eventSummary = recentEvents.map(e => `${e.type}: ${e.activity || e.file || 'activity'}`).join('; ');
 
         const prompt = `
-        Recent system activities in Rwanda Trade analytic system:
+        Recent system activities in Tradescope:
         ${eventSummary}
 
         Based on these ${recentEvents.length} recent events, provide a comprehensive insight about system performance, data processing status, and any recommendations for optimization.
@@ -915,7 +915,7 @@ async function generateEnhancedComprehensiveInsights(tradeData, systemStatus = n
 async function generateRealTimeInsights(dataUpdate) {
     try {
         const prompt = `
-        Real-time data update detected in Rwanda Trade analytic system:
+        Real-time data update detected in Tradescope:
         - Data Type: ${dataUpdate.type}
         - Update Size: ${dataUpdate.size || 'N/A'}
         - Processing Time: ${dataUpdate.processing_time || 'N/A'}

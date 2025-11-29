@@ -1,0 +1,17 @@
+{
+  "sectionData": {
+    "time_series": {
+      "exports_trend": {
+        "slope": 26.52,
+        "intercept": 354.44,
+        "r_squared": 0.45
+      },
+      "forecast_next_4_quarters": {
+        "exports": {
+          "forecast_values": [544, 539, 529, 458]
+        }
+      }
+    }
+  },
+  "section": "time-series"
+}

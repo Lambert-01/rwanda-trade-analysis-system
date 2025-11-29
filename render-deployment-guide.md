@@ -1,4 +1,4 @@
-# 🚀 Deploying Rwanda Export Analysis Platform on Render.com
+# 🚀 Deploying TradeScope on Render.com
 
 ## 📋 Deployment Overview
 
@@ -31,7 +31,7 @@ Your platform consists of multiple components that need to be deployed separatel
 # render.yaml
 services:
   - type: web
-    name: rwanda-trade-backend
+    name: tradescope-backend
     env: node
     buildCommand: "cd backend && npm install"
     startCommand: "cd backend && npm start"
@@ -44,12 +44,12 @@ services:
         # You'll set this in Render dashboard
 
   - type: static
-    name: rwanda-trade-frontend
+    name: tradescope-frontend
     buildCommand: "npm install"
     staticPublishPath: ./
     envVars:
       - key: API_BASE_URL
-        value: https://rwanda-trade-backend.onrender.com
+        value: https://tradescope-backend.onrender.com
 ```
 
 ## 🚀 Step 2: Deploy Backend API
@@ -61,7 +61,7 @@ services:
 
 ### 2. Configure Backend Service
 **Service Settings:**
-- **Name**: `rwanda-trade-backend`
+- **Name**: `tradescope-backend`
 - **Runtime**: `Node.js`
 - **Build Command**: `cd backend && npm install`
 - **Start Command**: `cd backend && npm start`
@@ -86,7 +86,7 @@ DATA_RAW_PATH=./data/raw
 DATA_PROCESSED_PATH=./data/processed
 
 # CORS (allow frontend domain)
-CORS_ORIGIN=https://rwanda-trade-frontend.onrender.com
+CORS_ORIGIN=https://tradescope-frontend.onrender.com
 
 # Security
 RATE_LIMIT=100
@@ -100,13 +100,13 @@ RATE_LIMIT=100
 
 ### 2. Configure Frontend Service
 **Service Settings:**
-- **Name**: `rwanda-trade-frontend`
+- **Name**: `tradescope-frontend`
 - **Build Command**: `npm install`
 - **Publish Directory**: `.` (root directory)
 
 ### 3. Frontend Environment Variables
 ```env
-API_BASE_URL=https://rwanda-trade-backend.onrender.com
+API_BASE_URL=https://tradescope-backend.onrender.com
 NODE_ENV=production
 ```
 
@@ -116,7 +116,7 @@ NODE_ENV=production
 Create a separate **Background Worker** service for Python processing:
 
 1. **"New +"** → **"Background Worker"**
-2. **Name**: `rwanda-data-processor`
+2. **Name**: `tradescope-data-processor`
 3. **Runtime**: `Python`
 4. **Build Command**: `pip install -r requirements.txt`
 5. **Start Command**: `cd python_processing && python run_pipeline.py`
@@ -164,8 +164,8 @@ MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/rwanda_trade?ret
 3. Add your domain or use provided `*.onrender.com` subdomain
 
 **Example URLs:**
-- Frontend: `https://rwanda-trade-frontend.onrender.com`
-- Backend: `https://rwanda-trade-backend.onrender.com`
+- Frontend: `https://tradescope-frontend.onrender.com`
+- Backend: `https://tradescope-backend.onrender.com`
 
 ## 🚀 Step 7: Deployment Verification
 
@@ -173,11 +173,11 @@ MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/rwanda_trade?ret
 
 1. **Check Backend Health**:
 ```bash
-curl https://rwanda-trade-backend.onrender.com/api/exports
+curl https://tradescope-backend.onrender.com/api/exports
 ```
 
 2. **Check Frontend**:
-   - Open `https://rwanda-trade-frontend.onrender.com`
+   - Open `https://tradescope-frontend.onrender.com`
    - Verify all pages load correctly
    - Test interactive features
 
@@ -266,7 +266,7 @@ git push origin main
 - [ ] Interactive features working
 
 **Once deployed, your platform will be accessible at:**
-- **🌐 Frontend**: `https://rwanda-trade-frontend.onrender.com`
-- **🔌 API**: `https://rwanda-trade-backend.onrender.com`
+- **🌐 Frontend**: `https://tradescope-frontend.onrender.com`
+- **🔌 API**: `https://tradescope-backend.onrender.com`
 
 **Ready for NISR Hackathon 2025 evaluation!** 🏆

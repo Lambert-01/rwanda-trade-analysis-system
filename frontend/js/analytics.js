@@ -1,6 +1,6 @@
 /* =====================================================================
   Rwanda trade analysis system - ANALYTICS.JS (PROFESSIONAL REBUILD)
-   Advanced Statistical Analysis & AI-Powered Forecasting
+   Advanced Statistical Analysis &  Forecasting
    ===================================================================== */
 
 class AdvancedAnalyticsEngine {

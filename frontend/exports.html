@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Export Analysis | Rwanda Trade analytic system</title>
+    <title>Export Analysis | Tradescope</title>
 
     <!-- Meta Tags -->
     <meta name="description" content="Comprehensive analysis of Rwanda's export destinations, products, and growth trends">
@@ -34,8 +34,8 @@
         <div class="sidebar-header">
             <div class="logo-container">
                 <img src="assets/images/NISR.png" alt="NISR Logo" class="nisr-logo">
-                <h3>Rwanda Trade analytic system</h3>
-                <span class="ai-badge">AI-Powered</span>
+                <h3>Tradescope</h3>
+                <span class="ai-badge"></span>
             </div>
         </div>
 
@@ -99,7 +99,7 @@
             </div>
             <div class="sidebar-footer-compact">
                 <div class="footer-info">
-                    <span class="footer-copyright">© 2025 Rwanda Trade analytic system</span>
+                    <span class="footer-copyright">© 2025 Tradescope</span>
                     <span class="footer-meta">Data: NISR | Updated: 2025-10-10</span>
                 </div>
             </div>
@@ -109,28 +109,28 @@
     <!-- Mobile Overlay -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-    <!-- Top Header Bar -->
-    <header class="top-header">
+    <!-- Compact Top Header Bar -->
+    <header class="top-header compact">
         <div class="header-left">
             <button class="sidebar-toggle" id="sidebar-toggle" title="Toggle Navigation Menu" aria-label="Toggle Navigation Menu">
                 <i class="fas fa-bars"></i>
             </button>
             <div class="page-title">
-                <h1>Export Analysis</h1>
-                <p>Comprehensive export trends and destination analysis</p>
+                <h1 class="compact-title">Export Analysis</h1>
+                <p class="compact-subtitle">Rwanda's export destinations & trends</p>
             </div>
         </div>
 
         <div class="header-right">
-            <div class="header-actions">
-                <button class="btn btn-refresh" onclick="refreshExportsData()" title="Refresh Data">
+            <div class="header-actions compact">
+                <button class="btn btn-refresh btn-sm" onclick="refreshExportsData()" title="Refresh Data">
                     <i class="fas fa-sync-alt"></i>
                 </button>
-                <button class="btn btn-notifications" onclick="toggleNotifications()" title="Notifications">
+                <button class="btn btn-notifications btn-sm" onclick="toggleNotifications()" title="Notifications">
                     <i class="fas fa-bell"></i>
                     <span class="notification-badge">2</span>
                 </button>
-                <div class="time-display">
+                <div class="time-display compact">
                     <i class="fas fa-clock"></i>
                     <span id="current-time">Loading...</span>
                 </div>
@@ -138,8 +138,8 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
+    <!-- Main Content - Attached to Header -->
+    <main class="main-content attached">
         <!-- Loading Screen -->
         <div id="loading-screen" class="loading-screen">
             <div class="spinner-container">
@@ -154,95 +154,168 @@
         <!-- Export Analysis Section -->
         <section id="exports" class="section active">
             <div class="container-fluid">
-                <div class="section-header">
-                    <h2 class="section-title">Export Analysis</h2>
-                    <p class="section-subtitle">Explore Rwanda's export destinations, products, and growth trends</p>
-                    <div class="section-actions">
-                        <button class="btn btn-primary" onclick="loadExportAnalysis()">
-                            <i class="fas fa-sync-alt me-1"></i>Refresh Analysis
-                        </button>
-                        <button class="btn btn-outline-primary" onclick="exportExportData()">
-                            <i class="fas fa-download me-1"></i>Export Data
-                        </button>
+                <!-- Compact Blue Hero Section - Attached to Header -->
+                <div class="hero-section compact blue-attached">
+                    <div class="container-fluid">
+                        <div class="row align-items-center g-3">
+                            <!-- Left Column - Main Content -->
+                            <div class="col-lg-8 col-md-7">
+                                <div class="hero-content">
+                                    <div class="hero-header">
+                                        <div class="hero-badge">
+                                            <span class="badge-modern blue">
+                                                <i class="fas fa-arrow-up"></i>
+                                                Export Analytics
+                                            </span>
+                                        </div>
+                                        <h1 class="hero-title-modern compact">
+                                            Rwanda Export Analysis
+                                        </h1>
+                                        <p class="hero-subtitle-modern compact">
+                                            <i class="fas fa-chart-line me-1"></i>
+                                            Comprehensive analysis of export destinations, products, and growth trends
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Column - Action Card -->
+                            <div class="col-lg-4 col-md-5">
+                                <div class="hero-visual">
+                                    <div class="action-card-modern blue">
+                                        <div class="card-header-modern">
+                                            <div class="card-icon-modern blue">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </div>
+                                            <div class="card-title-modern">
+                                                <h5>Export Dashboard</h5>
+                                                <span class="card-subtitle-modern">
+                                                    <i class="fas fa-globe-africa"></i>
+                                                    Real-time Analytics
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="card-actions-modern">
+                                            <button class="btn-modern primary blue" onclick="loadExportAnalysis()">
+                                                <i class="fas fa-sync-alt me-2"></i>
+                                                Refresh Data
+                                            </button>
+                                        </div>
+                                        <div class="card-footer-modern">
+                                            <small class="text-muted">
+                                                <i class="fas fa-clock me-1"></i>
+                                                Last updated: <span id="last-update-time">Just now</span>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Key Performance Indicators -->
-                <div class="row g-4 mb-5" id="export-overview">
-                    <div class="col-lg-12">
-                        <div class="section-header mb-4">
-                            <h3 class="section-title">
-                                <i class="fas fa-tachometer-alt me-2"></i>
-                                Export Performance Dashboard
-                            </h3>
-                            <p class="section-subtitle">Key metrics and performance indicators for Rwanda's export sector</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="stats-card animate__animated animate__fadeInUp">
-                            <div class="stats-icon bg-success">
-                                <i class="fas fa-globe-africa"></i>
-                            </div>
-                            <div class="stats-value" id="export-destinations-count">
-                                <span class="counter">20</span>
-                            </div>
-                            <div class="stats-label">Active Export Markets</div>
-                            <div class="stats-description">Countries receiving Rwanda's exports</div>
-                            <div class="stats-trend trend-up">
-                                <i class="fas fa-arrow-up me-1"></i>
-                                <span>Market Diversification</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="stats-card animate__animated animate__fadeInUp animate__delay-1s">
-                            <div class="stats-icon bg-primary">
-                                <i class="fas fa-box-open"></i>
-                            </div>
-                            <div class="stats-value" id="export-products-count">
-                                <span class="counter">10</span>
-                            </div>
-                            <div class="stats-label">Product Categories</div>
-                            <div class="stats-description">SITC classification sections</div>
-                            <div class="stats-trend trend-up">
-                                <i class="fas fa-arrow-up me-1"></i>
-                                <span>Export Variety</span>
+                <!-- Modern Stats Cards -->
+                <div class="container-fluid">
+                    <div class="row g-3 mb-4" id="export-overview">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="100">
+                                <div class="card-header">
+                                    <div class="card-icon success">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="card-badge">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span id="export-destinations-trend">10.4%</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value counting-number" id="export-destinations-count">9</h3>
+                                    <p class="card-label">Export Periods</p>
+                                    <div class="card-subtitle">Quarters of export data analyzed</div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="trend-indicator positive">
+                                        <i class="fas fa-chart-bar"></i>
+                                        <span>Volatility Index</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="stats-card animate__animated animate__fadeInUp animate__delay-2s">
-                            <div class="stats-icon bg-warning">
-                                <i class="fas fa-percentage"></i>
-                            </div>
-                            <div class="stats-value" id="export-growth-rate">
-                                <span class="counter">+157.9</span><span class="percentage">%</span>
-                            </div>
-                            <div class="stats-label">Export Growth Rate</div>
-                            <div class="stats-description">2022-2025 cumulative growth</div>
-                            <div class="stats-trend trend-up">
-                                <i class="fas fa-arrow-up me-1"></i>
-                                <span>Strong Performance</span>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="200">
+                                <div class="card-header">
+                                    <div class="card-icon primary">
+                                        <i class="fas fa-calculator"></i>
+                                    </div>
+                                    <div class="card-badge">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <span id="export-products-trend">$677M</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value counting-number" id="export-products-count">497</h3>
+                                    <p class="card-label">Avg Quarterly Value</p>
+                                    <div class="card-subtitle">Average export value per quarter</div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="trend-indicator positive">
+                                        <i class="fas fa-trophy"></i>
+                                        <span>Peak Performance</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="stats-card animate__animated animate__fadeInUp animate__delay-3s">
-                            <div class="stats-icon bg-info">
-                                <i class="fas fa-crown"></i>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="300">
+                                <div class="card-header">
+                                    <div class="card-icon warning">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                    <div class="card-badge">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span id="export-growth-trend">$388M</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value counting-number" id="export-growth-rate">$4469M</h3>
+                                    <p class="card-label">Total Export Value</p>
+                                    <div class="card-subtitle">Cumulative exports 2023-2025</div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="trend-indicator positive">
+                                        <i class="fas fa-chart-area"></i>
+                                        <span>Lowest Quarter</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="stats-value" id="top-destination">
-                                <span class="flag">🇦🇪</span> UAE
-                            </div>
-                            <div class="stats-label">Leading Export Destination</div>
-                            <div class="stats-description">United Arab Emirates</div>
-                            <div class="stats-trend trend-up">
-                                <i class="fas fa-arrow-up me-1"></i>
-                                <span>$5.81B (76% Share)</span>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <div class="modern-stats-card compact" data-aos="fade-up" data-aos-delay="400">
+                                <div class="card-header">
+                                    <div class="card-icon info">
+                                        <i class="fas fa-crown"></i>
+                                    </div>
+                                    <div class="card-badge">
+                                        <i class="fas fa-star"></i>
+                                        <span id="top-destination-share">76%</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-value" id="top-destination">
+                                        <span class="flag">🇦🇪</span> UAE
+                                    </h3>
+                                    <p class="card-label">Leading Export Destination</p>
+                                    <div class="card-subtitle">United Arab Emirates</div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="trend-indicator positive">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>$5.81B (76% Share)</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -252,20 +325,41 @@
                     <!-- Export Map -->
                     <div class="col-lg-12">
                         <div class="chart-card">
-                            <div class="chart-header">
-                                <h3 class="chart-title">
-                                    <i class="fas fa-map-marked-alt me-2"></i>
-                                    Geographic Distribution of Rwanda's Export Destinations
-                                </h3>
-                                <p class="chart-subtitle">Interactive map showing Rwanda's key export markets and trade volumes</p>
-                                <div class="chart-controls">
-                                    <select class="form-select form-select-sm" id="export-year-filter" aria-label="Select year for export analysis">
-                                        <option value="2024">2024</option>
-                                        <option value="2023">2023</option>
-                                        <option value="2022">2022</option>
-                                    </select>
+                        <div class="chart-header">
+                            <h3 class="chart-title">
+                                <i class="fas fa-map-marked-alt me-2"></i>
+                                <a href="test_map.html" style="color: inherit; text-decoration: none;" title="View Enhanced Test Map">Rwanda's Export Markets Map</a>
+                            </h3>
+                            <p class="chart-subtitle">Interactive visualization of Rwanda's key export destinations with trade volumes, market shares, and growth trends</p>
+                            <div class="chart-controls">
+                                <div class="row g-2">
+                                    
+                                    <div class="col-md-3">
+                                        <select class="form-select form-select-sm" id="export-region-filter" aria-label="Filter by region">
+                                            <option value="all">All Regions</option>
+                                            <option value="africa">Africa</option>
+                                            <option value="asia">Asia</option>
+                                            <option value="europe">Europe</option>
+                                            <option value="americas">Americas</option>
+                                            <option value="oceania">Oceania</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select form-select-sm" id="export-value-filter" aria-label="Filter by trade value">
+                                            <option value="all">All Values</option>
+                                            <option value="high">High Value (>$100M)</option>
+                                            <option value="medium">Medium Value ($10M-$100M)</option>
+                                            <option value="low">Low Value (<$10M)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-outline-primary btn-sm w-100" id="reset-map-filters" title="Reset all filters">
+                                            <i class="fas fa-undo me-1"></i>Reset
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
                             <div class="map-container">
                                 <div id="export-map" style="height: 500px; border-radius: 12px;"></div>
                             </div>
@@ -273,19 +367,53 @@
                     </div>
                 </div>
 
-                <!-- Top Destinations Table -->
+                <!-- Commodity Trends & Distribution -->
                 <div class="row g-4 mb-5">
                     <div class="col-lg-12">
                         <div class="chart-card">
                             <div class="chart-header">
                                 <h3 class="chart-title">
-                                    <i class="fas fa-trophy me-2"></i>
-                                    Rwanda's Top Export Destinations
+                                    <i class="fas fa-chart-bar me-2"></i>
+                                    Rwanda's Export Commodity Trends & Distribution
                                 </h3>
-                                <p class="chart-subtitle">Ranking of countries by export value and growth performance</p>
+                                <p class="chart-subtitle">Quarterly commodity performance with stacked trends and market share analysis</p>
+                                <div class="chart-controls">
+                                    <div class="row g-2 align-items-center">
+                                        <div class="col-md-3">
+                                            <select class="form-select form-select-sm" id="commodity-time-filter" aria-label="Filter by time period">
+                                                <option value="all" selected>All Quarters</option>
+                                                <option value="2023">2023 Only</option>
+                                                <option value="2024">2024 Only</option>
+                                                <option value="2025">2025 Q1</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-select form-select-sm" id="commodity-display-filter" aria-label="Display options">
+                                                <option value="stacked" selected>Stacked View</option>
+                                                <option value="percentage">Percentage View</option>
+                                                <option value="trends">Growth Trends</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-select form-select-sm" id="commodity-count-filter" aria-label="Number of commodities">
+                                                <option value="5" selected>Top 5 Commodities</option>
+                                                <option value="10">All Commodities</option>
+                                                <option value="3">Top 3 Only</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="d-flex justify-content-end align-items-center">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    Interactive stacked bars
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="destinations-list" id="top-destinations" style="max-height: 300px; overflow-y: auto;">
-                                <!-- Dynamic content -->
+                            <div class="chart-container">
+                                <canvas id="commodity-stacked-chart" height="400"></canvas>
                             </div>
                         </div>
                     </div>
@@ -293,42 +421,50 @@
 
                 <!-- Main Analytics Section -->
                 <div class="row g-4 mb-5">
-                    <!-- Export Products Distribution -->
-                    <div class="col-lg-6">
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <h3 class="chart-title">
-                                    <i class="fas fa-chart-pie me-2"></i>
-                                    Product Distribution by SITC Classification
-                                </h3>
-                                <p class="chart-subtitle">Breakdown of Rwanda's exports by Standard International Trade Classification sections</p>
-                                <div class="chart-controls">
-                                    <select class="form-select form-select-sm" id="export-product-filter" aria-label="Select period for export products analysis">
-                                        <option value="q4_2024">Q4 2024</option>
-                                        <option value="q3_2024">Q3 2024</option>
-                                        <option value="q2_2024">Q2 2024</option>
-                                        <option value="q1_2024">Q1 2024</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="export-products-chart" height="350"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Quarterly Growth Analysis -->
+                    <!-- Time Series Trend with Seasonal Components -->
                     <div class="col-lg-6">
                         <div class="chart-card">
                             <div class="chart-header">
                                 <h3 class="chart-title">
                                     <i class="fas fa-chart-line me-2"></i>
-                                    Quarterly Export Growth Trends
+                                    Time Series Trend with Seasonal Components
                                 </h3>
-                                <p class="chart-subtitle">Quarter-over-quarter growth rates showing export performance momentum</p>
+                                <p class="chart-subtitle">Export values with trend analysis and seasonal patterns (2023Q1-2025Q1)</p>
+                                <div class="chart-controls">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="show-seasonal-toggle" checked>
+                                        <label class="form-check-label" for="show-seasonal-toggle">
+                                            Show Seasonal Components
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="chart-container">
-                                <canvas id="export-growth-chart" height="350"></canvas>
+                                <canvas id="time-series-chart" height="350"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Continental Market Share Distribution -->
+                    <div class="col-lg-6">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title">
+                                    <i class="fas fa-globe-americas me-2"></i>
+                                    Continental Market Share Distribution
+                                </h3>
+                                <p class="chart-subtitle">Export distribution across continents showing market concentration</p>
+                                <div class="chart-controls">
+                                    <div class="btn-group" role="group">
+                                        <input type="radio" class="btn-check" name="continent-chart-type" id="pie-chart-btn" checked>
+                                        <label class="btn btn-sm btn-outline-primary" for="pie-chart-btn">Pie Chart</label>
+                                        <input type="radio" class="btn-check" name="continent-chart-type" id="bar-chart-btn">
+                                        <label class="btn btn-sm btn-outline-primary" for="bar-chart-btn">Bar Chart</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="continental-chart" height="350"></canvas>
                             </div>
                         </div>
                     </div>
@@ -343,7 +479,7 @@
                                     <i class="fas fa-clock me-2"></i>
                                     Export Performance Timeline & Forecasting
                                 </h3>
-                                <p class="chart-subtitle">Historical export trends with AI-powered forecasting for future quarters</p>
+                                <p class="chart-subtitle">Historical export trends with  forecasting for future quarters</p>
                                 <div class="chart-controls">
                                     <div class="btn-group" role="group">
                                         <input type="radio" class="btn-check" name="export-chart-type" id="quarterly-btn" checked>
@@ -375,9 +511,48 @@
                                 </h3>
                                 <p class="chart-subtitle">Detailed breakdown of export performance, market share, and growth trends by destination country</p>
                                 <div class="chart-controls">
-                                    <div class="input-group" style="width: 300px;">
-                                        <span class="input-group-text"><i class="fas fa-search"></i></span>
-                                        <input type="text" class="form-control form-control-sm" id="export-search" placeholder="Search countries, regions, or values...">
+                                    <div class="row g-2 align-items-center">
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                                <input type="text" class="form-control form-control-sm" id="export-search" placeholder="Search countries...">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="form-select form-select-sm" id="export-growth-filter" aria-label="Filter by growth trend">
+                                                <option value="all">All Trends</option>
+                                                <option value="strong-growth">Strong Growth</option>
+                                                <option value="moderate-growth">Moderate Growth</option>
+                                                <option value="stable">Stable</option>
+                                                <option value="declining">Declining</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="form-select form-select-sm" id="export-value-filter-table" aria-label="Filter by value range">
+                                                <option value="all">All Values</option>
+                                                <option value="high">High (>500M)</option>
+                                                <option value="medium">Medium (100M-500M)</option>
+                                                <option value="low">Low (<100M)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="form-select form-select-sm" id="export-share-filter" aria-label="Filter by market share">
+                                                <option value="all">All Shares</option>
+                                                <option value="major">Major (>10%)</option>
+                                                <option value="significant">Significant (5-10%)</option>
+                                                <option value="minor">Minor (<5%)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-secondary btn-sm" id="reset-table-filters" title="Reset all filters">
+                                                    <i class="fas fa-undo me-1"></i>Reset
+                                                </button>
+                                                <button class="btn btn-outline-primary btn-sm" id="export-table-data" title="Export table data">
+                                                    <i class="fas fa-download me-1"></i>Export
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -392,21 +567,25 @@
                                                 <i class="fas fa-globe-africa me-1"></i>Destination Country
                                             </th>
                                             <th class="text-end">
-                                                <i class="fas fa-dollar-sign me-1"></i>Total Value<br>
-                                                <small class="text-muted">(2022-2025)</small>
-                                            </th>
-                                            <th class="text-end">
-                                                <i class="fas fa-calendar-alt me-1"></i>Q4 2024 Value
+                                                <i class="fas fa-dollar-sign me-1"></i>Total Exports<br>
+                                                <small class="text-muted">(2023-2025)</small>
                                             </th>
                                             <th class="text-center">
                                                 <i class="fas fa-percentage me-1"></i>Market Share
                                             </th>
                                             <th class="text-center">
                                                 <i class="fas fa-chart-line me-1"></i>Growth Rate<br>
-                                                <small class="text-muted">(vs Previous Period)</small>
+                                                <small class="text-muted">(YoY)</small>
+                                            </th>
+                                            <th class="text-center">
+                                                <i class="fas fa-calculator me-1"></i>Avg. Quarterly<br>
+                                                <small class="text-muted">Export Value</small>
                                             </th>
                                             <th class="text-center">
                                                 <i class="fas fa-trending-up me-1"></i>Trend Status
+                                            </th>
+                                            <th class="text-center">
+                                                <i class="fas fa-clock me-1"></i>Active Quarters
                                             </th>
                                         </tr>
                                     </thead>
@@ -419,22 +598,28 @@
                             <!-- Table Footer with Summary -->
                             <div class="table-footer mt-3">
                                 <div class="row g-3">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="summary-card bg-light p-3 rounded">
                                             <h6 class="mb-1">Total Countries</h6>
                                             <span class="fw-bold text-primary" id="total-countries">20</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="summary-card bg-light p-3 rounded">
-                                            <h6 class="mb-1">Avg. Growth Rate</h6>
-                                            <span class="fw-bold text-success" id="avg-growth">+12.5%</span>
+                                            <h6 class="mb-1">Top 1 Share</h6>
+                                            <span class="fw-bold text-success" id="top-1-share">66.6%</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <div class="summary-card bg-light p-3 rounded">
+                                            <h6 class="mb-1">Top 5 Share</h6>
+                                            <span class="fw-bold text-info" id="top-5-share">86.5%</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
                                         <div class="summary-card bg-light p-3 rounded">
                                             <h6 class="mb-1">Market Concentration</h6>
-                                            <span class="fw-bold text-info" id="market-concentration">High</span>
+                                            <span class="fw-bold text-warning" id="market-concentration">High</span>
                                         </div>
                                     </div>
                                 </div>
@@ -501,11 +686,7 @@
         </div>
     </div>
 
-    <!-- Chatbox Toggle Button -->
-    <button class="chatbox-toggle" id="chatbox-toggle" onclick="toggleChatbox()" title="Open AI Assistant">
-        <i class="fas fa-comments"></i>
-        <span class="notification-dot"></span>
-    </button>
+    
 
     <!-- External Libraries JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -522,8 +703,664 @@
     <script src="js/chatbox.js"></script>
     <script src="js/exports.js"></script>
 
+    <!-- Commodity Stacked Bar Chart Script -->
+    <script>
+        // Commodity Stacked Bar Chart Implementation
+        let commodityChart = null;
+        let commodityData = [];
+
+        // Color palette for different commodity categories
+        const commodityColors = {
+            '0': '#FF6B6B',    // Food and live animals - Red
+            '1': '#4ECDC4',    // Beverages and tobacco - Teal
+            '2': '#45B7D1',    // Crude materials - Blue
+            '3': '#FFA07A',    // Mineral fuels - Light Salmon
+            '4': '#98D8C8',    // Animal/vegetable oils - Mint
+            '5': '#F7DC6F',    // Chemicals - Yellow
+            '6': '#BB8FCE',    // Manufactured goods - Purple
+            '7': '#85C1E9',    // Machinery - Light Blue
+            '8': '#F8C471',    // Misc manufactured - Orange
+            '9': '#82E0AA'     // Other commodities - Green
+        };
+
+        // Quarter labels
+        const allQuarters = ['2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'];
+
+        // Load commodity data
+        async function loadCommodityData() {
+            try {
+                console.log('Loading commodity data...');
+                const response = await fetch('data/processed/exportscommodity_data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                commodityData = await response.json();
+                console.log('✅ Commodity data loaded:', commodityData.length, 'commodities');
+                initializeCommodityChart();
+            } catch (error) {
+                console.error('❌ Error loading commodity data:', error);
+                // Show error message in chart area
+                const ctx = document.getElementById('commodity-stacked-chart');
+                if (ctx) {
+                    ctx.parentElement.innerHTML = `
+                        <div class="alert alert-warning text-center">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Unable to load commodity data. Please check the data source.
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Initialize the commodity stacked bar chart
+        function initializeCommodityChart() {
+            const ctx = document.getElementById('commodity-stacked-chart');
+            if (!ctx) return;
+
+            // Get filter values
+            const timeFilter = document.getElementById('commodity-time-filter').value;
+            const displayFilter = document.getElementById('commodity-display-filter').value;
+            const countFilter = parseInt(document.getElementById('commodity-count-filter').value);
+
+            // Filter quarters based on time filter
+            let quartersToShow = allQuarters;
+            if (timeFilter === '2023') {
+                quartersToShow = ['2023Q1', '2023Q2', '2023Q3', '2023Q4'];
+            } else if (timeFilter === '2024') {
+                quartersToShow = ['2024Q1', '2024Q2', '2024Q3', '2024Q4'];
+            } else if (timeFilter === '2025') {
+                quartersToShow = ['2025Q1'];
+            }
+
+            // Sort commodities by share percentage and limit count
+            const sortedData = commodityData
+                .sort((a, b) => b.share_percentage - a.share_percentage)
+                .slice(0, countFilter);
+
+            // Prepare chart data based on display filter
+            let chartData;
+            let chartType = 'bar';
+
+            if (displayFilter === 'percentage') {
+                // Percentage view - normalize to 100%
+                chartData = {
+                    labels: quartersToShow,
+                    datasets: sortedData.map(commodity => {
+                        const totalValues = quartersToShow.map(q => commodity.quarterly_values[q] || 0);
+                        const totalForPeriod = totalValues.reduce((sum, val) => sum + val, 0);
+
+                        return {
+                            label: `${commodity.sitc_section}: ${commodity.commodity_description}`,
+                            data: totalValues.map(val => totalForPeriod > 0 ? (val / totalForPeriod) * 100 : 0),
+                            backgroundColor: commodityColors[commodity.sitc_section] || '#95A5A6',
+                            borderColor: commodityColors[commodity.sitc_section] || '#95A5A6',
+                            borderWidth: 1
+                        };
+                    })
+                };
+            } else if (displayFilter === 'trends') {
+                // Growth trends view - show growth rates
+                chartData = {
+                    labels: quartersToShow.slice(1), // Skip first quarter for growth calculation
+                    datasets: sortedData.map(commodity => {
+                        const growthRates = [];
+                        for (let i = 1; i < quartersToShow.length; i++) {
+                            const current = commodity.quarterly_values[quartersToShow[i]] || 0;
+                            const previous = commodity.quarterly_values[quartersToShow[i-1]] || 0;
+                            const growth = previous > 0 ? ((current - previous) / previous) * 100 : 0;
+                            growthRates.push(growth);
+                        }
+
+                        return {
+                            label: `${commodity.sitc_section}: ${commodity.commodity_description}`,
+                            data: growthRates,
+                            backgroundColor: commodityColors[commodity.sitc_section] || '#95A5A6',
+                            borderColor: commodityColors[commodity.sitc_section] || '#95A5A6',
+                            borderWidth: 2,
+                            fill: false,
+                            type: 'line',
+                            tension: 0.4
+                        };
+                    })
+                };
+                chartType = 'line';
+            } else {
+                // Stacked view - absolute values
+                chartData = {
+                    labels: quartersToShow,
+                    datasets: sortedData.map(commodity => ({
+                        label: `${commodity.sitc_section}: ${commodity.commodity_description}`,
+                        data: quartersToShow.map(q => commodity.quarterly_values[q] || 0),
+                        backgroundColor: commodityColors[commodity.sitc_section] || '#95A5A6',
+                        borderColor: commodityColors[commodity.sitc_section] || '#95A5A6',
+                        borderWidth: 1
+                    }))
+                };
+            }
+
+            // Destroy existing chart if it exists
+            if (commodityChart) {
+                commodityChart.destroy();
+            }
+
+            // Create new chart
+            commodityChart = new Chart(ctx, {
+                type: chartType,
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    aspectRatio: 2.5,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: countFilter <= 5, // Show legend only for fewer items
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const commodity = sortedData[context.datasetIndex];
+                                    const value = context.parsed.y;
+                                    const quarter = context.label;
+
+                                    if (displayFilter === 'percentage') {
+                                        return `${commodity.commodity_description}: ${value.toFixed(1)}%`;
+                                    } else if (displayFilter === 'trends') {
+                                        return `${commodity.commodity_description}: ${value > 0 ? '+' : ''}${value.toFixed(1)}% growth`;
+                                    } else {
+                                        return `${commodity.commodity_description}: $${value.toLocaleString()}`;
+                                    }
+                                }
+                            },
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#fff',
+                            borderWidth: 1,
+                            cornerRadius: 8
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: displayFilter === 'stacked',
+                            title: {
+                                display: true,
+                                text: displayFilter === 'trends' ? 'Quarter' : 'Time Period'
+                            }
+                        },
+                        y: {
+                            stacked: displayFilter === 'stacked',
+                            title: {
+                                display: true,
+                                text: displayFilter === 'percentage' ? 'Percentage (%)' :
+                                      displayFilter === 'trends' ? 'Growth Rate (%)' : 'Export Value ($)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    if (displayFilter === 'percentage') {
+                                        return value + '%';
+                                    } else if (displayFilter === 'trends') {
+                                        return value + '%';
+                                    } else {
+                                        return '$' + value.toLocaleString();
+                                    }
+                                }
+                            },
+                            max: displayFilter === 'percentage' ? 50 : undefined
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+        }
+
+        // Update trends panel with analysis
+        function updateTrendsPanel(data, displayFilter) {
+            const trendsPanel = document.getElementById('trend-indicators');
+            const marketSharePanel = document.getElementById('market-share-summary');
+
+            if (!trendsPanel || !marketSharePanel) return;
+
+            // Trend indicators
+            const trendSummary = data.map(commodity => {
+                const trendClass = commodity.trend === 'Strong Growth' ? 'success' :
+                                 commodity.trend === 'Moderate Growth' ? 'info' :
+                                 commodity.trend === 'Stable' ? 'warning' : 'danger';
+
+                return `
+                    <div class="trend-item d-flex align-items-center justify-content-between mb-2">
+                        <div class="d-flex align-items-center">
+                            <div class="trend-color me-2" style="width: 8px; height: 8px; border-radius: 50%; background-color: ${commodityColors[commodity.sitc_section] || '#95A5A6'};"></div>
+                            <small class="fw-bold">${commodity.sitc_section}</small>
+                        </div>
+                        <span class="badge bg-${trendClass} badge-sm">${commodity.trend}</span>
+                    </div>
+                `;
+            }).join('');
+
+            trendsPanel.innerHTML = trendSummary;
+
+            // Market share summary
+            const totalValue = data.reduce((sum, item) => sum + item.total_exports, 0);
+            const marketShareSummary = data.slice(0, 5).map(commodity => `
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <small class="text-muted">${commodity.sitc_section}</small>
+                    <small class="fw-bold">${commodity.share_percentage.toFixed(1)}%</small>
+                </div>
+            `).join('');
+
+            marketSharePanel.innerHTML = marketShareSummary + `
+                <hr class="my-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <small class="fw-bold">Total Value</small>
+                    <small class="fw-bold text-primary">$${totalValue.toLocaleString()}</small>
+                </div>
+            `;
+        }
+
+        // Handle filter changes
+        document.getElementById('commodity-time-filter').addEventListener('change', initializeCommodityChart);
+        document.getElementById('commodity-display-filter').addEventListener('change', initializeCommodityChart);
+        document.getElementById('commodity-count-filter').addEventListener('change', initializeCommodityChart);
+
+        // Initialize chart when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCommodityData();
+        });
+    </script>
+
     <!-- Custom Styling for Enhanced Layout -->
     <style>
+        /* Modern Stats Cards */
+        .modern-stats-card.compact {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.08);
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .modern-stats-card.compact:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .modern-stats-card.compact .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .modern-stats-card.compact .card-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .modern-stats-card.compact .card-icon.success {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .modern-stats-card.compact .card-icon.primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .modern-stats-card.compact .card-icon.warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .modern-stats-card.compact .card-icon.info {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+        }
+
+        .modern-stats-card.compact .card-badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .modern-stats-card.compact .card-badge.positive {
+            background: #10b981;
+        }
+
+        .modern-stats-card.compact .card-badge.negative {
+            background: #ef4444;
+        }
+
+        .modern-stats-card.compact .card-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #1a365d;
+        }
+
+        .modern-stats-card.compact .card-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: #64748b;
+        }
+
+        .modern-stats-card.compact .card-subtitle {
+            font-size: 0.65rem;
+            color: #94a3b8;
+        }
+
+        .modern-stats-card.compact .card-footer {
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .modern-stats-card.compact .trend-indicator {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-weight: 600;
+        }
+
+        .modern-stats-card.compact .trend-indicator.positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .modern-stats-card.compact .trend-indicator.negative {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        /* Counting Animation */
+        .counting-number {
+            transition: all 0.3s ease;
+        }
+
+        /* Compact Blue Hero Section - Attached to Header */
+        .hero-section.compact.blue-attached {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            color: white;
+            border-radius: 0 0 12px 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 80px;
+            display: flex !important;
+            align-items: center;
+            visibility: visible !important;
+            opacity: 1 !important;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Attached Main Content */
+        .main-content.attached {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+
+        /* Ensure header and hero attach seamlessly */
+        .top-header.compact + .main-content.attached .hero-section.compact {
+            margin-top: 0;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .hero-section.compact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hero-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23hero-pattern)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="30" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.1;
+        }
+
+        /* Hero Content - Modern Compact Design */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .hero-header {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        /* Modern Badge */
+        .hero-badge {
+            margin-bottom: 1rem;
+        }
+
+        .badge-modern.blue {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .badge-modern.blue i {
+            color: #93c5fd;
+        }
+
+        /* Compact Modern Hero Title */
+        .hero-title-modern.compact {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            color: white !important;
+            display: block !important;
+            visibility: visible !important;
+            line-height: 1.2;
+        }
+
+        /* Compact Modern Hero Subtitle */
+        .hero-subtitle-modern.compact {
+            font-size: 0.85rem;
+            opacity: 0.95;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            color: white !important;
+            display: block !important;
+            visibility: visible !important;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+
+        /* Hero Visual - Action Card */
+        .hero-visual {
+            position: relative;
+            z-index: 2;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .action-card-modern.blue {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: 0 6px 24px rgba(59, 130, 246, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .action-card-modern.blue:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-header-modern {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon-modern.blue {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 3px 10px rgba(59, 130, 246, 0.4);
+        }
+
+        .card-title-modern h5 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a365d;
+        }
+
+        .card-subtitle-modern {
+            font-size: 0.8rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .card-actions-modern {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn-modern {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-modern.primary.blue {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            box-shadow: 0 3px 10px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-modern.primary.blue:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-modern.secondary {
+            background: rgba(255,255,255,0.9);
+            color: #667eea;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-modern.secondary:hover {
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .card-footer-modern {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .info-card .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .info-card .card-title h6 {
+            margin: 0;
+            font-weight: 700;
+            color: white;
+        }
+
+        .info-card .card-subtitle {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
         .chart-card {
             background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
             border: 1px solid rgba(0,0,0,0.08);
@@ -531,6 +1368,9 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
             margin-bottom: 2rem;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
 
         .chart-card:hover {
@@ -678,7 +1518,18 @@
         .chart-container {
             position: relative;
             height: 350px;
+            max-height: 350px;
             padding: 1rem;
+            overflow: hidden;
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+
+        .chart-container canvas {
+            max-height: 300px !important;
+            height: 300px !important;
+            width: 100% !important;
+            max-width: 100% !important;
         }
 
         .section-header {
@@ -766,6 +1617,149 @@
             font-size: 0.9rem;
         }
 
+        /* Main content visibility */
+        .main-content {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        /* Ensure all containers are visible */
+        .container-fluid {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        /* Hero section row and columns */
+        .hero-section .row {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .hero-section .col-lg-8,
+        .hero-section .col-lg-4 {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .info-grid {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        /* Compact Header Styles */
+        .top-header.compact {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 0;
+        }
+
+        .compact-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0;
+            color: #1a365d;
+        }
+
+        .compact-subtitle {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin: 0.25rem 0 0 0;
+            font-weight: 500;
+        }
+
+        .header-actions.compact {
+            gap: 0.5rem;
+        }
+
+        .header-actions.compact .btn {
+            padding: 0.5rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .time-display.compact {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Commodity Chart Styling */
+        .commodity-trends-panel {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 20px;
+        }
+
+        .commodity-trends-panel h6 {
+            color: #1a365d;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .trend-item {
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.6);
+        }
+
+        .trend-item:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateX(2px);
+        }
+
+        .trend-color {
+            flex-shrink: 0;
+        }
+
+        .badge-sm {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.4rem;
+        }
+
+        #market-share-summary small {
+            font-size: 0.75rem;
+        }
+
+        /* Chart container improvements */
+        #commodity-donut-chart {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Filter styling */
+        #commodity-filter {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-weight: 500;
+            color: #1a365d;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        #commodity-filter:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
         /* Responsive improvements */
         @media (max-width: 768px) {
             .chart-title {
@@ -778,6 +1772,43 @@
 
             .chart-container {
                 height: 300px;
+            }
+
+            .hero-title-modern {
+                font-size: 1.5rem;
+            }
+
+            .modern-stats-card.compact .card-value {
+                font-size: 1.2rem;
+            }
+
+            .action-card-modern {
+                padding: 1rem;
+            }
+
+            .card-actions-modern {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+
+            .btn-modern {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            /* Commodity chart responsive */
+            .commodity-legend {
+                margin-top: 2rem;
+            }
+
+            #commodity-donut-chart {
+                margin-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .commodity-legend {
+                margin-top: 2rem;
             }
         }
     </style>
@@ -808,6 +1839,78 @@
 
             // Initialize counter animations
             initializeCounters();
+
+            // Initialize the interactive world map only if not on exports page
+            // The exports page handles its own map initialization through exports.js
+            const isExportsPage = window.location.pathname.includes('exports.html') ||
+                                 document.querySelector('#exports') !== null;
+
+            if (!isExportsPage && typeof initInteractiveWorldMap === 'function') {
+                console.log('🗺️ Initializing interactive world map (not on exports page)...');
+                initInteractiveWorldMap();
+            } else if (isExportsPage) {
+                console.log('📊 On exports page - map initialization handled by exports.js');
+            } else {
+                console.error('❌ initInteractiveWorldMap function not found');
+            }
+
+            // Ensure exports section is visible and active
+            setTimeout(() => {
+                console.log('🔧 Ensuring exports section is visible...');
+                const exportsSection = document.getElementById('exports');
+                if (exportsSection) {
+                    // Remove active class from all sections
+                    document.querySelectorAll('.section').forEach(section => {
+                        section.classList.remove('active');
+                        section.style.display = 'none';
+                        section.style.visibility = 'hidden';
+                        section.style.opacity = '0';
+                    });
+
+                    // Make exports section active and visible
+                    exportsSection.classList.add('active');
+                    exportsSection.style.display = 'block';
+                    exportsSection.style.visibility = 'visible';
+                    exportsSection.style.opacity = '1';
+                    exportsSection.style.position = 'relative';
+                    exportsSection.style.zIndex = '1';
+
+                    console.log('✅ Exports section activated and made visible');
+
+                    // Force layout recalculation
+                    exportsSection.offsetHeight;
+
+                    // Ensure all content inside is visible
+                    const containers = exportsSection.querySelectorAll('.container-fluid, .chart-card, .modern-stats-card, .hero-section');
+                    containers.forEach(container => {
+                        container.style.display = 'block';
+                        container.style.visibility = 'visible';
+                        container.style.opacity = '1';
+                    });
+
+                    // Specifically ensure hero section content is visible
+                    const heroSection = exportsSection.querySelector('.hero-section');
+                    if (heroSection) {
+                        console.log('🎨 Found hero section, ensuring content visibility...');
+                        heroSection.style.display = 'flex';
+                        heroSection.style.visibility = 'visible';
+                        heroSection.style.opacity = '1';
+
+                        // Ensure hero content elements are visible
+                        const heroElements = heroSection.querySelectorAll('.hero-content, .hero-visual, .hero-title, .hero-subtitle, .info-card');
+                        heroElements.forEach(element => {
+                            element.style.display = element.classList.contains('hero-title') || element.classList.contains('hero-subtitle') ? 'block' : 'flex';
+                            element.style.visibility = 'visible';
+                            element.style.opacity = '1';
+                            console.log(`✅ Made hero element visible: ${element.className}`);
+                        });
+                    }
+
+                    console.log('✅ All containers in exports section made visible');
+                } else {
+                    console.error('❌ Exports section not found');
+                }
+            }, 100);
         });
 
         function initializeCounters() {

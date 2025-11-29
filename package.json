@@ -1,7 +1,7 @@
 {
-  "name": "rwanda-export-explorer-frontend",
+  "name": "tradescope-frontend",
   "version": "1.0.0",
-  "description": "Frontend for Rwanda trade analysis system- Interactive trade data dashboard",
+  "description": "Frontend for TradeScope - Interactive trade data dashboard",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

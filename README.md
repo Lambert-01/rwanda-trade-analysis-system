@@ -1,4 +1,4 @@
-# 🇷🇼 Rwanda Export Analysis Platform
+# 🇷🇼 TradeScope
 
 **🏆 NISR HACKATHON 2025 - Team Codabytes**
 
@@ -13,7 +13,7 @@ A production-ready trade analysis platform that transforms **NISR's official Rwa
 - **Advanced Data Processing**: Automated ETL pipeline for Excel data ingestion
 - **Machine Learning Integration**: Predictive analytics using Random Forest and XGBoost models
 - **Interactive Visualizations**: Real-time dashboards with Chart.js and Leaflet.js
-- **AI-Powered Insights**: Natural language processing with OpenRouter API integration
+- ** Insights**: Natural language processing with OpenRouter API integration
 - **Scalable Architecture**: Microservices design with MongoDB backend
 
 ## 🏗️ Technical Architecture
@@ -109,7 +109,7 @@ rwanda-export-analysis/
 │   │   │                                # • Geographic destination mapping with coordinates
 │   │   │                                # • SITC commodity classification and analysis
 │   │   │                                # • Growth trend analysis and calculations
-│   │   │                                # • AI-powered insights integration
+│   │   │                                # •  insights integration
 │   │   ├── imports.js                   # Import data endpoints
 │   │   ├── analytics.js                 # Trade balance and trend analysis endpoints
 │   │   ├── predictions.js               # ML model prediction endpoints
@@ -152,7 +152,7 @@ rwanda-export-analysis/
 │       ├── charts.js                   # Chart.js configuration and rendering engine
 │       ├── maps.js                     # Leaflet.js map implementation with country coordinates
 │       └── [feature].js                # Feature-specific functionality modules
-├── 📂 python_processing/                # 🔬 Data Science Pipeline Engine
+├── 📂 python_processing/                # 🔬 web developper e Pipeline Engine
 │   ├── data_processor.py               # Primary data processing engine
 │   │                                        # • Excel file parsing and validation
 │   │                                        # • Data cleaning and normalization routines
@@ -245,7 +245,7 @@ import_model = XGBRegressor(
 - `GET /api/exports/summary` - Statistical summaries
 - `GET /api/exports/trends` - Trend analysis with growth rates
 - `GET /api/exports/sitc-analysis` - SITC section breakdowns
-- `GET /api/exports/ai-analysis` - AI-powered insights
+- `GET /api/exports/ai-analysis` -  insights
 
 **Data Source Hierarchy**
 1. **Primary**: MongoDB aggregation pipelines (fastest)
@@ -373,7 +373,7 @@ Git                    # Version control
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd rwanda-export-analysis
+cd tradescope
 
 # Verify repository structure
 ls -la
@@ -507,7 +507,7 @@ We created a comprehensive API that makes NISR's data easily accessible:
 - `GET /api/exports` - Quarterly export trends
 - `GET /api/exports/destinations` - Interactive country map data
 - `GET /api/exports/products` - Commodity analysis
-- `GET /api/exports/ai-analysis` - AI-powered insights
+- `GET /api/exports/ai-analysis` -  insights
 
 **Import Analytics**
 
@@ -666,9 +666,9 @@ Pipeline Architecture:
 
 **Team Codabytes** - NISR Hackathon 2025
 
-A comprehensive trade analysis platform demonstrating:
+TradeScope - A comprehensive trade analysis platform demonstrating:
 - **Full-Stack Architecture**: Modern Node.js/Python implementation
-- **AI-Powered Analytics**: OpenRouter API integration with fallback systems
+- ** Analytics**: OpenRouter API integration with fallback systems
 - **Production-Ready Code**: Scalable, secure, and maintainable architecture
 - **Comprehensive Documentation**: 800+ lines of technical documentation
 - **Real-World Impact**: Practical application for Rwanda's trade analysis
@@ -684,7 +684,7 @@ We participated in the **NISR Hackathon 2025**, an incredible competition that:
 **🎯 Who Could Join**  
 - Undergraduate and recent graduates (2024-2025)
 - Master's students from any field
-- Fresh graduates from Data Science, Statistics, Economics, Mathematics, IT, Information Systems, and Web Development
+- Fresh graduates from web developper e, Statistics, Economics, Mathematics, IT, Information Systems, and Web Development
 - Teams of 2 students from any university
 - Individual participation for recent graduates
 

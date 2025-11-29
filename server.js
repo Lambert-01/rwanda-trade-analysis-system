@@ -24,15 +24,6 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// Serve static files from frontend directory
-app.use(express.static(path.join(__dirname, 'frontend')));
-
-// Serve static assets
-app.use('/assets', express.static(path.join(__dirname, 'frontend', 'assets')));
-
-// Serve data files (JSON files)
-app.use('/data', express.static(path.join(__dirname, 'data')));
-
 // API Routes - Order matters! More specific routes first
 app.get('/api/health', (req, res) => {
     res.json({
@@ -752,7 +743,7 @@ app.get('/api', (req, res) => {
             aiForecasts: {
                 method: 'GET',
                 path: '/api/ai-forecasts',
-                description: 'Get AI-powered forecasts'
+                description: 'Get  forecasts'
             },
             rawData: {
                 method: 'GET',
@@ -767,7 +758,7 @@ app.get('/api', (req, res) => {
         },
         features: [
             'Complete Q4 2024 Rwanda trade data analysis',
-            'AI-powered forecasting and predictions',
+            ' forecasting and predictions',
             'Regional and continental trade analysis',
             'Detailed commodity breakdown by SITC sections',
             'Interactive charts and visualizations',
@@ -777,12 +768,27 @@ app.get('/api', (req, res) => {
     });
 });
 
-// Serve index.html for all non-API routes (SPA support)
-app.get('*', (req, res) => {
-    if (!req.path.startsWith('/api')) {
-        res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
-    }
+// Serve homepage.html as the landing page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'homepage.html'));
 });
+
+// Serve dashboard (index.html) at /dashboard route
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
+// Serve static files from frontend directory (after routes so they don't override)
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+// Serve static files from root directory (for test_map.html and other root files)
+app.use(express.static(path.join(__dirname)));
+
+// Serve static assets
+app.use('/assets', express.static(path.join(__dirname, 'frontend', 'assets')));
+
+// Serve data files (JSON files)
+app.use('/data', express.static(path.join(__dirname, 'data')));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

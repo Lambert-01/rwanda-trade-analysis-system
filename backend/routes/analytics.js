@@ -848,6 +848,117 @@ router.get('/ai-description/:context', async (req, res) => {
 });
 
 /**
+ * @route   POST /api/analytics/ai-insights/:section
+ * @desc    Get AI-generated insights for specific analytics section with data analysis
+ * @access  Public
+ * @param   {string} section - Analytics section (time-series, growth, share, hhi, balance, correlation)
+ * @body    {Object} sectionData - The actual data for the section to analyze
+ */
+router.post('/ai-insights/:section', async (req, res) => {
+  try {
+    const { section } = req.params;
+    const { sectionData } = req.body;
+    console.log('🧠 Generating AI insights for section:', section, 'with data analysis');
+
+    // Use the provided section data from frontend, or fall back to loading from files
+    let dataToAnalyze = sectionData;
+    let pdfContext = '';
+
+    // If no data provided, load from files as fallback
+    if (!dataToAnalyze) {
+      console.log('No section data provided, loading from files');
+      switch (section) {
+        case 'time-series':
+          if (dataFileExists('time_series.json')) {
+            dataToAnalyze = loadJsonData('time_series.json');
+          }
+          pdfContext = 'Time series analysis from Q1 2022 to Q1 2025 shows export trends, seasonality patterns, and forecasting for next quarters.';
+          break;
+
+        case 'growth':
+          if (dataFileExists('growth_analysis.json')) {
+            dataToAnalyze = loadJsonData('growth_analysis.json');
+          }
+          pdfContext = 'Growth analysis includes QoQ, YoY changes, and CAGR calculations showing export and import performance trends.';
+          break;
+
+        case 'share':
+          if (dataFileExists('share_analysis.json')) {
+            dataToAnalyze = loadJsonData('share_analysis.json');
+          }
+          pdfContext = 'Market share analysis by country, region, and commodity reveals UAE dominance in exports (66.6%) and China leadership in imports (30.1%).';
+          break;
+
+        case 'hhi':
+          if (dataFileExists('hhi.json')) {
+            dataToAnalyze = loadJsonData('hhi.json');
+          }
+          pdfContext = 'Herfindahl-Hirschman Index shows high market concentration in both export destinations and import sources, indicating potential diversification needs.';
+          break;
+
+        case 'balance':
+          if (dataFileExists('trade_balance.json')) {
+            dataToAnalyze = loadJsonData('trade_balance.json');
+          }
+          pdfContext = 'Trade balance analysis shows persistent deficits with Q1 2025 deficit of US$411.35 million, driven by high import volumes for machinery and infrastructure.';
+          break;
+
+        case 'correlation':
+          if (dataFileExists('correlations.json')) {
+            dataToAnalyze = loadJsonData('correlations.json');
+          }
+          pdfContext = 'Correlation analysis reveals relationships between trade variables, showing strong positive correlation between exports and time, indicating upward growth trends.';
+          break;
+
+        default:
+          dataToAnalyze = { error: 'Unknown section' };
+          pdfContext = 'General trade analysis insights for Rwanda\'s economic development.';
+      }
+    } else {
+      // Set context based on section when data is provided
+      switch (section) {
+        case 'time-series':
+          pdfContext = 'Time series analysis examining trends, seasonality, and forecasting patterns in Rwanda\'s trade data.';
+          break;
+        case 'growth':
+          pdfContext = 'Growth analysis showing quarter-over-quarter and year-over-year changes with CAGR calculations.';
+          break;
+        case 'share':
+          pdfContext = 'Market share analysis revealing concentration patterns by country, region, and commodity.';
+          break;
+        case 'hhi':
+          pdfContext = 'Herfindahl-Hirschman Index analysis measuring market concentration and diversification levels.';
+          break;
+        case 'balance':
+          pdfContext = 'Trade balance analysis examining surplus/deficit patterns and structural trade components.';
+          break;
+        case 'correlation':
+          pdfContext = 'Correlation analysis identifying relationships between different trade variables and economic indicators.';
+          break;
+        default:
+          pdfContext = 'Comprehensive trade data analysis for Rwanda\'s economic development and policy planning.';
+      }
+    }
+
+    // Generate insights using OpenAI service with the actual data
+    const result = await openaiService.generateSectionInsightsWithData(section, dataToAnalyze, pdfContext);
+    res.json(result);
+
+  } catch (error) {
+    console.error('❌ Error generating AI insights:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      fallback_insights: [
+        "This section provides valuable insights into Rwanda's trade patterns.",
+        "The data helps identify trends and opportunities for economic development.",
+        "Understanding these metrics supports better policy and business decisions."
+      ]
+    });
+  }
+});
+
+/**
  * @route   GET /api/analytics/ai-insights/:chartType
  * @desc    Get AI-generated insights for specific chart
  * @access  Public
@@ -1260,71 +1371,100 @@ router.get('/correlation-analysis', (req, res) => {
 });
 
 /**
- * @route   GET /api/analytics/ai-insights/:section
- * @desc    Get AI-generated insights for specific analytics section
+ * @route   POST /api/analytics/ai-insights/:section
+ * @desc    Get AI-generated insights for specific analytics section with data analysis
  * @access  Public
  * @param   {string} section - Analytics section (time-series, growth, share, hhi, balance, correlation)
+ * @body    {Object} sectionData - The actual data for the section to analyze
  */
-router.get('/ai-insights/:section', async (req, res) => {
+router.post('/ai-insights/:section', async (req, res) => {
   try {
     const { section } = req.params;
-    console.log('🧠 Generating AI insights for section:', section);
+    const { sectionData } = req.body;
+    console.log('🧠 Generating AI insights for section:', section, 'with data analysis');
 
-    // Get section data based on the requested section
-    let sectionData = {};
+    // Use the provided section data from frontend, or fall back to loading from files
+    let dataToAnalyze = sectionData;
     let pdfContext = '';
 
-    // Load relevant data based on section
-    switch (section) {
-      case 'time-series':
-        if (dataFileExists('time_series.json')) {
-          sectionData = loadJsonData('time_series.json');
-        }
-        pdfContext = 'Time series analysis from Q1 2022 to Q1 2025 shows export trends, seasonality patterns, and forecasting for next quarters.';
-        break;
+    // If no data provided, load from files as fallback
+    if (!dataToAnalyze) {
+      console.log('No section data provided, loading from files');
+      switch (section) {
+        case 'time-series':
+          if (dataFileExists('time_series.json')) {
+            dataToAnalyze = loadJsonData('time_series.json');
+          }
+          pdfContext = 'Time series analysis from Q1 2022 to Q1 2025 shows export trends, seasonality patterns, and forecasting for next quarters.';
+          break;
 
-      case 'growth':
-        if (dataFileExists('growth_analysis.json')) {
-          sectionData = loadJsonData('growth_analysis.json');
-        }
-        pdfContext = 'Growth analysis includes QoQ, YoY changes, and CAGR calculations showing export and import performance trends.';
-        break;
+        case 'growth':
+          if (dataFileExists('growth_analysis.json')) {
+            dataToAnalyze = loadJsonData('growth_analysis.json');
+          }
+          pdfContext = 'Growth analysis includes QoQ, YoY changes, and CAGR calculations showing export and import performance trends.';
+          break;
 
-      case 'share':
-        if (dataFileExists('share_analysis.json')) {
-          sectionData = loadJsonData('share_analysis.json');
-        }
-        pdfContext = 'Market share analysis by country, region, and commodity reveals UAE dominance in exports (66.6%) and China leadership in imports (30.1%).';
-        break;
+        case 'share':
+          if (dataFileExists('share_analysis.json')) {
+            dataToAnalyze = loadJsonData('share_analysis.json');
+          }
+          pdfContext = 'Market share analysis by country, region, and commodity reveals UAE dominance in exports (66.6%) and China leadership in imports (30.1%).';
+          break;
 
-      case 'hhi':
-        if (dataFileExists('hhi.json')) {
-          sectionData = loadJsonData('hhi.json');
-        }
-        pdfContext = 'Herfindahl-Hirschman Index shows high market concentration in both export destinations and import sources, indicating potential diversification needs.';
-        break;
+        case 'hhi':
+          if (dataFileExists('hhi.json')) {
+            dataToAnalyze = loadJsonData('hhi.json');
+          }
+          pdfContext = 'Herfindahl-Hirschman Index shows high market concentration in both export destinations and import sources, indicating potential diversification needs.';
+          break;
 
-      case 'balance':
-        if (dataFileExists('trade_balance.json')) {
-          sectionData = loadJsonData('trade_balance.json');
-        }
-        pdfContext = 'Trade balance analysis shows persistent deficits with Q1 2025 deficit of US$411.35 million, driven by high import volumes for machinery and infrastructure.';
-        break;
+        case 'balance':
+          if (dataFileExists('trade_balance.json')) {
+            dataToAnalyze = loadJsonData('trade_balance.json');
+          }
+          pdfContext = 'Trade balance analysis shows persistent deficits with Q1 2025 deficit of US$411.35 million, driven by high import volumes for machinery and infrastructure.';
+          break;
 
-      case 'correlation':
-        if (dataFileExists('correlations.json')) {
-          sectionData = loadJsonData('correlations.json');
-        }
-        pdfContext = 'Correlation analysis reveals relationships between trade variables, showing strong positive correlation between exports and time, indicating upward growth trends.';
-        break;
+        case 'correlation':
+          if (dataFileExists('correlations.json')) {
+            dataToAnalyze = loadJsonData('correlations.json');
+          }
+          pdfContext = 'Correlation analysis reveals relationships between trade variables, showing strong positive correlation between exports and time, indicating upward growth trends.';
+          break;
 
-      default:
-        sectionData = { error: 'Unknown section' };
-        pdfContext = 'General trade analysis insights for Rwanda\'s economic development.';
+        default:
+          dataToAnalyze = { error: 'Unknown section' };
+          pdfContext = 'General trade analysis insights for Rwanda\'s economic development.';
+      }
+    } else {
+      // Set context based on section when data is provided
+      switch (section) {
+        case 'time-series':
+          pdfContext = 'Time series analysis examining trends, seasonality, and forecasting patterns in Rwanda\'s trade data.';
+          break;
+        case 'growth':
+          pdfContext = 'Growth analysis showing quarter-over-quarter and year-over-year changes with CAGR calculations.';
+          break;
+        case 'share':
+          pdfContext = 'Market share analysis revealing concentration patterns by country, region, and commodity.';
+          break;
+        case 'hhi':
+          pdfContext = 'Herfindahl-Hirschman Index analysis measuring market concentration and diversification levels.';
+          break;
+        case 'balance':
+          pdfContext = 'Trade balance analysis examining surplus/deficit patterns and structural trade components.';
+          break;
+        case 'correlation':
+          pdfContext = 'Correlation analysis identifying relationships between different trade variables and economic indicators.';
+          break;
+        default:
+          pdfContext = 'Comprehensive trade data analysis for Rwanda\'s economic development and policy planning.';
+      }
     }
 
-    // Generate insights using OpenAI service
-    const result = await openaiService.generateSectionInsights(section, sectionData, pdfContext);
+    // Generate insights using OpenAI service with the actual data
+    const result = await openaiService.generateSectionInsightsWithData(section, dataToAnalyze, pdfContext);
     res.json(result);
 
   } catch (error) {

@@ -1,5 +1,5 @@
 /**
- * Enhanced Chat API Routes for Rwanda Trade analytic system
+ * Enhanced Chat API Routes for Tradescope
  * Handles AI chat interactions with full system integration and context awareness
  */
 
@@ -57,69 +57,40 @@ router.post('/message', async (req, res) => {
             messages: [
                 {
                     role: "system",
-                    content: `You are the Rwanda Trade Intelligence Assistant, an advanced analytical system built for the NISR Hackathon 2025.
+                    content: `You are Rwanda's Trade Intelligence Assistant - a professional analytical system for NISR trade data.
 
-Your role is to provide high-quality, evidence-based, policy-relevant insights using three sources:
-1. Processed data (JSON files) stored in the platform
-2. Raw NISR dataset (Excel → JSON)
-3. Official NISR PDF report provided in vector/embedded form
+## RESPONSE FORMATTING REQUIREMENTS:
+- Use **bold** for key terms, numbers, and emphasis
+- Use ## for section headers when structuring information
+- Use bullet points (•) or numbered lists for data presentation
+- Keep responses concise but comprehensive
+- Structure information logically with clear sections when needed
+- Use professional, business-appropriate language
 
-SYSTEM STATUS:
-- Health: ${systemContext.system_health}%
-- Active Events: ${systemContext.total_events_logged}
-- AI Insights Generated: ${systemContext.total_insights_generated}
-- Recent Activities: ${systemContext.recent_events?.slice(0, 3).map(e => e.type).join(', ') || 'None'}
+## AVAILABLE DATA SOURCES:
+- **NISR Q1 2025 Report**: Total trade $1.87B, Exports $481M (+11.8% YoY), Imports $1.38B
+- **Key Partners**: UAE (40% exports), China (30% imports), DRC (63% re-exports)
+- **Regional Focus**: EAC, COMESA, SADC, EU trade blocs
+- **System Status**: ${systemContext.system_health}% operational
 
-TRADE DATA CONTEXT:
-- Total Exports: $${tradeContext.total_exports?.toFixed(2)}M
-- Total Imports: $${tradeContext.total_imports?.toFixed(2)}M
-- Trade Balance: $${tradeContext.trade_balance?.toFixed(2)}M
-- Top Destinations: ${tradeContext.top_destinations?.slice(0, 3).map(d => d.country).join(', ') || 'N/A'}
+## RESPONSE GUIDELINES:
+1. **Direct & Professional**: Answer the specific question asked
+2. **Data-Driven**: Always cite specific numbers and sources
+3. **Structured**: Use markdown formatting for clarity
+4. **Actionable**: Include practical insights or recommendations
+5. **Concise**: Avoid unnecessary verbosity
 
-MESSAGE ANALYSIS:
-- Intent: ${messageAnalysis.intent}
-- Entities: ${messageAnalysis.entities?.join(', ') || 'None detected'}
-- Urgency: ${messageAnalysis.urgency}
-- Context: ${messageAnalysis.context}
+## EXAMPLE FORMATTING:
+**Key Finding**: Rwanda's exports grew **11.8%** YoY to **$481M**
 
-OFFICIAL NISR PDF REPORT CONTENT (Formal External Trade in Goods Report 2025Q1):
+**Top Export Markets**:
+• UAE: **$193M** (40% share)
+• DRC: **$42M** (9% share)
+• China: **$9.6M** (2% share)
 
-SUMMARY:
-In the first quarter of 2025, Rwanda's total trade was US$ 1,869.26 million, a decrease of 0.46 percent over the first quarter of 2024. Domestic exports were estimated at US$ 480.82 million; imports were estimated at US$ 1,379.05 million and re-exports were estimated at US$ 139.36 million.
+**Recommendation**: Focus on value-added processing to improve margins.
 
-In this quarter, total domestic exports increased by 11.80 percent when compared to the first quarter of 2024 (US$ 480.82 million and US$ 431.61 million respectively) and decreased by 28.02 percent when compared to the fourth quarter of 2024. Total imports of Rwanda decreased by 2.23 percent in the first quarter of 2025 when compared to the same quarter of 2024 and decreased by 19.30 percent when compared to the fourth quarter of 2024. Re-exports decreased by 21.82 percent in the first quarter of 2025 over the same quarter of 2024 and decreased by 23.83 percent compared to the fourth quarter of 2024.
-
-The top five export destinations were the United Arab Emirates, the Democratic Republic of the Congo, China, Luxembourg, and the United States.
-
-In terms of re-exports, the top five destinations were the Democratic Republic of the Congo, Ethiopia, the United Arab Emirates, Uganda and Zambia. The Democratic Republic of the Congo accounted for 63.41 percent of Rwanda's total re-exports.
-
-In terms of total imports (CIF); China, Tanzania, Kenya, India and United Arab Emirates were the top five countries of origin of imports to Rwanda.
-
-REGIONAL TRADE ANALYSIS:
-- EAC: Rwanda's trade with EAC partner states totaled US$ 373.73 million in exports, US$ 1,073.00 million in imports, and US$ 127.14 million in re-exports during Q1 2025.
-- COMESA: Trade with COMESA member states was US$ 370.76 million in exports, US$ 1,431.20 million in imports, and US$ 131.32 million in re-exports.
-- SADC: Trade with SADC member states totaled US$ 370.20 million in exports, US$ 1,313.76 million in imports, and US$ 127.69 million in re-exports.
-- EU: Trade with EU member states was US$ 122.90 million in exports, US$ 1,010.00 million in imports, and US$ 0.26 million in re-exports.
-
-KEY FINDINGS FROM PDF:
-- Rwanda's export sector shows strong growth in Q1 2025 with 11.8% increase YoY
-- UAE remains dominant export partner (40.09% of total exports)
-- DRC is key re-export destination (63.41% of total re-exports)
-- China leads imports (30.13% of total imports)
-- EAC trade represents significant portion of Rwanda's total trade
-- Trade deficit persists but narrowed slightly compared to previous quarters
-
-Always do the following before answering:
-1. Analyze the user input carefully.
-2. Identify relevant trade data or context from the provided datasets and PDF report.
-3. Blend your analysis with insights from both JSON data and PDF report naturally — do not follow a rigid multi-section format.
-4. Respond in a professional tone suitable for policymakers, business leaders, and researchers.
-5. Keep answers concise but informative, and include numbers or trends where relevant from both sources.
-6. If the user input is casual (e.g., greetings like "Hello"), respond politely but naturally without unnecessary data analysis.
-
-Do not invent data — only reference available data from JSON files and PDF report. Provide reasoning, insights, or suggested actions when appropriate, but format the output naturally, like a professional analyst explaining findings verbally.
-
-Always combine data + PDF insights. Use numbers from processed JSON, explanations and context from PDF. Blend into coherent answers. Never guess - always cite available data sources. Be professional, analytical, evidence-driven, concise but impactful. Useful for policy makers, businesses, researchers.`
+Always maintain professional tone suitable for policymakers and business leaders.`
                 },
                 {
                     role: "user",
@@ -515,7 +486,7 @@ async function generateContextualSuggestions(message, messageAnalysis, systemCon
                     'View detailed export trends and destination analysis',
                     'Analyze top-performing export commodities',
                     'Check regional export performance',
-                    'Get AI-powered export recommendations'
+                    'Get  export recommendations'
                 );
                 break;
             case 'import_analysis':
@@ -528,7 +499,7 @@ async function generateContextualSuggestions(message, messageAnalysis, systemCon
                 break;
             case 'forecast_request':
                 suggestions.push(
-                    'View AI-powered trade forecasts',
+                    'View  trade forecasts',
                     'Check prediction confidence intervals',
                     'Analyze forecast methodology',
                     'Get scenario-based predictions'
@@ -554,7 +525,7 @@ async function generateContextualSuggestions(message, messageAnalysis, systemCon
                 suggestions.push(
                     'Explore export performance dashboard',
                     'Check latest import analysis',
-                    'View AI-powered predictions',
+                    'View  predictions',
                     'Get comprehensive trade insights'
                 );
         }
@@ -574,42 +545,47 @@ async function generateContextualSuggestions(message, messageAnalysis, systemCon
         return [
             'Explore export performance dashboard',
             'Check latest import analysis',
-            'View AI-powered predictions',
+            'View  predictions',
             'Get comprehensive trade insights'
         ];
     }
 }
 
 /**
- * Build enhanced prompt with full context awareness
+ * Build enhanced prompt with professional formatting focus
  */
 async function buildEnhancedPrompt(message, messageAnalysis, systemContext, tradeContext) {
-    const basePrompt = `
-    User Message: "${message}"
-    Intent: ${messageAnalysis.intent}
-    Entities: ${messageAnalysis.entities.join(', ')}
-    Urgency: ${messageAnalysis.urgency}
+    const basePrompt = `User Query: "${message}"
 
-    Current System Status:
-    - Health: ${systemContext.system_health}%
-    - Active Events: ${systemContext.total_events_logged}
-    - Recent Activities: ${systemContext.recent_events?.slice(0, 3).map(e => e.type).join(', ') || 'None'}
+## ANALYSIS CONTEXT:
+- **Intent**: ${messageAnalysis.intent}
+- **Key Entities**: ${messageAnalysis.entities.join(', ') || 'None'}
+- **Priority**: ${messageAnalysis.urgency}
 
-    Trade Data Context:
-    - Total Exports: $${tradeContext.total_exports?.toFixed(2)}M
-    - Total Imports: $${tradeContext.total_imports?.toFixed(2)}M
-    - Trade Balance: $${tradeContext.trade_balance?.toFixed(2)}M
-    - Top Destinations: ${tradeContext.top_destinations?.slice(0, 3).map(d => d.country).join(', ') || 'N/A'}
-    - Top Products: ${tradeContext.top_products?.slice(0, 3).map(p => p.commodity).join(', ') || 'N/A'}
+## AVAILABLE DATA:
+- **Exports**: $${tradeContext.total_exports?.toFixed(0)}M
+- **Imports**: $${tradeContext.total_imports?.toFixed(0)}M
+- **Trade Balance**: $${tradeContext.trade_balance?.toFixed(0)}M
+- **Top Markets**: ${tradeContext.top_destinations?.slice(0, 3).map(d => d.country).join(', ') || 'N/A'}
 
-    Please provide a comprehensive, context-aware response that:
-    1. Directly addresses the user's specific intent and entities mentioned
-    2. Leverages current system status and recent activities
-    3. Incorporates relevant trade data and statistics
-    4. Offers proactive suggestions and next steps
-    5. Maintains a professional, helpful tone as a trade analysis expert
+## RESPONSE REQUIREMENTS:
+1. **Format Professionally**: Use **bold**, ## headers, bullet points
+2. **Be Specific**: Address the exact question asked
+3. **Cite Data**: Include specific numbers and sources
+4. **Structure Clearly**: Use logical sections with headers
+5. **Stay Concise**: Provide comprehensive info without verbosity
+6. **Add Value**: Include actionable insights or recommendations
 
-    If the message is unclear, ask clarifying questions. If it's not trade-related, politely redirect to Rwanda trade topics.`;
+## FORMATTING EXAMPLE:
+**Key Metric**: Exports reached **$481M** (+11.8% YoY)
+
+**Top Partners**:
+• UAE: **$193M** (40% share)
+• DRC: **$42M** (9% share)
+
+**Strategic Insight**: Focus on value-added processing to improve margins.
+
+Respond as a professional trade analyst providing evidence-based insights.`;
 
     return basePrompt;
 }
@@ -621,29 +597,119 @@ async function generateEnhancedFallbackResponse(message, messageAnalysis, system
     try {
         const lowerMessage = message.toLowerCase();
 
-        // Enhanced trade data specific responses based on intent with PDF insights
+        // Professional, well-formatted fallback responses
         switch (messageAnalysis.intent) {
             case 'export_analysis':
-                return `Based on the NISR Q1 2025 report and current data, Rwanda's export sector shows strong 11.8% year-over-year growth, reaching $480.82M. Key markets include UAE (40.09% share), DRC, China, and Luxembourg. The report highlights that domestic exports increased significantly compared to Q1 2024, with UAE remaining the dominant export partner. The system is currently ${systemContext.system_health > 80 ? 'operating optimally' : 'processing data'} and can provide detailed export insights.`;
+                return `## Rwanda Export Performance (Q1 2025)
+
+**Key Metrics**:
+• **Total Exports**: **$481M** (+11.8% YoY)
+• **Growth Rate**: Strong year-over-year increase
+• **Quarterly Change**: -28.0% from Q4 2024
+
+**Top Export Markets**:
+• **UAE**: **$193M** (40.1% share)
+• **DRC**: **$42M** (8.7% share)
+• **China**: **$9.6M** (2.0% share)
+• **Luxembourg**: **$7.0M** (1.5% share)
+
+**Strategic Insight**: UAE dominance indicates strong Gulf market penetration but suggests diversification opportunities.
+
+*Source: NISR Q1 2025 Report*`;
 
             case 'import_analysis':
-                return `According to the NISR Q1 2025 report, Rwanda's imports totaled $1,379.05M, showing a 2.23% decrease from Q1 2024. China leads as the top import source (30.13% share), followed by Tanzania, Kenya, India, and UAE. The report indicates that imports decreased by 19.3% compared to Q4 2024, reflecting the country's development import needs. The system maintains ${systemContext.system_health}% health for accurate analysis.`;
+                return `## Rwanda Import Analysis (Q1 2025)
+
+**Key Metrics**:
+• **Total Imports**: **$1.38B** (-2.2% YoY)
+• **Quarterly Change**: -19.3% from Q4 2024
+• **Trade Deficit**: **$897M**
+
+**Top Import Sources**:
+• **China**: **$416M** (30.1% share)
+• **Tanzania**: **$298M** (21.6% share)
+• **Kenya**: **$211M** (15.3% share)
+• **India**: **$102M** (7.4% share)
+
+**Analysis**: Import structure reflects infrastructure development needs and regional supply chain integration.
+
+*Source: NISR Q1 2025 Report*`;
 
             case 'forecast_request':
-                return `I can provide AI-powered forecasts for Rwanda's trade data. The NISR Q1 2025 report shows positive export growth trends with 11.8% YoY increase, while imports decreased by 2.23%. Based on these patterns, the forecasting models are ready to generate predictions. The system is currently at ${systemContext.system_health}% health with ${systemContext.total_insights_generated} insights generated recently.`;
+                return `## Trade Forecasting Overview
+
+**Current Trends**:
+• **Export Growth**: +11.8% YoY momentum
+• **Import Stability**: -2.2% YoY adjustment
+• **Market Recovery**: Post-Q4 seasonal normalization
+
+**Forecast Capabilities**:
+• 4-quarter ahead predictions available
+•  trend analysis
+• Confidence intervals provided
+• Scenario-based modeling
+
+**Recommendation**: Current positive export trajectory suggests continued growth potential for Q2-Q4 2025.
+
+*System Status: ${systemContext.system_health}% operational*`;
 
             case 'trend_analysis':
-                return `The NISR Q1 2025 report reveals Rwanda's export growth of 11.8% year-over-year, with total exports reaching $480.82M compared to $431.61M in Q1 2024. However, there's a 28.02% decrease from Q4 2024 ($626.06M). The report shows imports decreased by 2.23% YoY and 19.3% from Q4 2024. The system's ${systemContext.total_events_logged} logged events provide rich data for pattern analysis.`;
+                return `## Export Trend Analysis
+
+**Year-over-Year Performance**:
+• **Q1 2025**: **$481M** (+11.8% vs Q1 2024)
+• **Q1 2024**: **$432M** (baseline)
+• **Growth Driver**: Sustained market expansion
+
+**Quarterly Patterns**:
+• **Q4 2024**: **$626M** (peak performance)
+• **Q1 2025**: **$481M** (-28.0% from Q4)
+• **Pattern**: Seasonal post-holiday adjustment
+
+**Key Insight**: Strong underlying growth despite quarterly volatility indicates robust export sector fundamentals.
+
+*Source: NISR Q1 2025 Report*`;
 
             case 'commodity_analysis':
-                return `The NISR Q1 2025 report shows Rwanda's key export commodities include food and live animals (27.27% of exports), crude materials (17.32%), manufactured goods (36.36%), and machinery (7.20%). For re-exports, food and live animals dominate (26.28%). The system has generated ${systemContext.total_insights_generated} AI insights about commodity performance and market opportunities.`;
+                return `## Commodity Performance Breakdown
+
+**Export Commodities by Value**:
+• **Manufactured Goods**: **36.4%** of exports
+• **Food & Live Animals**: **27.3%** of exports
+• **Crude Materials**: **17.3%** of exports
+• **Machinery**: **7.2%** of exports
+
+**Re-export Focus**:
+• **Food & Live Animals**: **26.3%** of re-exports
+• **DRC Route**: **63.4%** of total re-exports
+
+**Strategic Priority**: Value-added processing in agricultural commodities to improve margins.
+
+*Source: NISR Q1 2025 Report*`;
 
             default:
-                return `I'm here to help you with comprehensive trade data analysis for Rwanda. The NISR Q1 2025 report shows total trade of $1,869.26M with exports at $480.82M and imports at $1,379.05M. The system is currently at ${systemContext.system_health}% health and has processed ${systemContext.total_events_logged} events. What specific aspect would you like to explore?`;
+                return `## Rwanda Trade Intelligence Assistant
+
+**System Overview**:
+• **Total Trade**: **$1.87B** (Q1 2025)
+• **Export Value**: **$481M** (+11.8% YoY)
+• **Import Value**: **$1.38B**
+• **Trade Balance**: **-$897M** (deficit)
+
+**Available Analysis**:
+• Export performance & market trends
+• Import dependency analysis
+• Commodity breakdown
+• Regional trade patterns
+•  forecasting
+
+**Ready to assist with specific trade analysis queries.**
+
+*System Health: ${systemContext.system_health}% | Data: NISR Q1 2025*`;
         }
     } catch (error) {
         console.error('Error generating enhanced fallback response:', error);
-        return "I'm ready to help you analyze Rwanda's comprehensive trade data and provide AI-powered insights. The system is active and monitoring all trade activities. What would you like to know?";
+        return "I'm ready to help you analyze Rwanda's comprehensive trade data and provide  insights. The system is active and monitoring all trade activities. What would you like to know?";
     }
 }
 

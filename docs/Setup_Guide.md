@@ -1,4 +1,4 @@
-# Rwanda Export Analysis Platform - Complete Setup Guide
+# TradeScope - Complete Setup Guide
 
 ## 🚀 Quick Start (5 minutes)
 
@@ -18,7 +18,7 @@ mongod --version
 ```bash
 # Clone repository
 git clone <repository-url>
-cd rwanda-export-analysis
+cd tradescope
 
 # Install all dependencies
 npm install                    # Frontend dependencies
@@ -499,7 +499,7 @@ pm2 logs all  # If using PM2
 
 **Setup completed successfully?** 🎉
 
-Your Rwanda Export Analysis Platform should now be running at:
+Your TradeScope should now be running at:
 - **Frontend**: http://localhost:8080
 - **Backend API**: http://localhost:3000
 - **API Documentation**: http://localhost:3000/api/docs

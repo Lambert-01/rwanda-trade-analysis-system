@@ -1,8 +1,8 @@
-# Rwanda trade analysis system- Implementation Plan
+# TradeScope - Implementation Plan
 
 ## Overview
 
-This document outlines the detailed implementation plan for completing the Rwanda trade analysis systemproject. The project aims to create an interactive dashboard for visualizing Rwanda's trade data, with a focus on exports, imports, and AI-powered predictions.
+This document outlines the detailed implementation plan for completing the TradeScope project. The project aims to create an interactive dashboard for visualizing Rwanda's trade data, with a focus on exports, imports, and  predictions.
 
 ## Current Status
 
