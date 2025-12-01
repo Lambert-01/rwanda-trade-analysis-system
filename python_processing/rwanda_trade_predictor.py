@@ -3,7 +3,6 @@
 Comprehensive Rwanda Trade Data Predictor
 Advanced prediction system covering all aspects of Rwanda's trade data
 """
-
 import pandas as pd
 import numpy as np
 import json

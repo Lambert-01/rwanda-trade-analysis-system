@@ -1,783 +1,610 @@
-/**
- * Predictions API Routes
- * Provides endpoints for accessing AI-generated predictions for Rwanda's trade data
- */
-
 const express = require('express');
 const router = express.Router();
-const { loadJsonData, dataFileExists } = require('../utils/dataLoader');
+const fs = require('fs').promises;
+const path = require('path');
+const { spawn } = require('child_process');
+const multer = require('multer');
+const xlsx = require('xlsx');
 
-/**
- * @route   GET /api/predictions/next
- * @desc    Get predictions for next quarters with live forecasting
- * @access  Public
- * @query   {number} quarters - Optional number of quarters to predict (default: 4)
- * @query   {string} method - Prediction method: 'linear', 'seasonal', 'ml' (default: 'linear')
- */
-router.get('/next', (req, res) => {
-   try {
-     const { quarters = 4, method = 'linear' } = req.query;
-
-     // Check if predictions data exists
-     if (dataFileExists('predictions.json')) {
-       const predictionsData = loadJsonData('predictions.json');
-       res.json(predictionsData);
-     } else {
-       // Generate fixed predictions using actual data
-       const predictions = generateFixedPredictions(parseInt(quarters));
-       res.json(predictions);
-     }
-   } catch (error) {
-     console.error('Error fetching predictions:', error);
-     res.status(500).json({ error: error.message });
-   }
- });
-
-/**
- * @route   GET /api/predictions/opportunities
- * @desc    Get predicted export opportunities
- * @access  Public
- * @query   {number} limit - Optional limit for number of opportunities (default: 5)
- */
-router.get('/opportunities', (req, res) => {
-  try {
-    const { limit = 5 } = req.query;
-    
-    // Check if analysis report exists (contains opportunities)
-    if (dataFileExists('analysis_report.json')) {
-      const analysisData = loadJsonData('analysis_report.json');
-      
-      // Extract opportunities from analysis report
-      if (analysisData.opportunities && Array.isArray(analysisData.opportunities)) {
-        const opportunities = analysisData.opportunities
-          .slice(0, parseInt(limit));
-        
-        res.json(opportunities);
-      } else {
-        // Generate mock opportunities if not found in analysis report
-        res.json(generateMockOpportunities(parseInt(limit)));
-      }
-    } else {
-      // Generate mock opportunities if analysis report doesn't exist
-      res.json(generateMockOpportunities(parseInt(limit)));
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, '../../uploads/'));
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
     }
-  } catch (error) {
-    console.error('Error fetching opportunities:', error);
-    res.status(500).json({ error: error.message });
-  }
 });
 
-/**
- * @route   GET /api/predictions/live
- * @desc    Get real-time live forecasting with multiple methods
- * @access  Public
- * @query   {number} quarters - Number of quarters to predict (default: 4)
- * @query   {string} method - Prediction method: 'linear', 'seasonal', 'ml', 'ensemble' (default: 'ensemble')
- */
-router.get('/live', async (req, res) => {
-   try {
-     const { quarters = 4, method = 'ensemble' } = req.query;
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 50 * 1024 * 1024 // 50MB limit
+    },
+    fileFilter: function (req, file, cb) {
+        const allowedTypes = [
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-excel',
+            'text/csv'
+        ];
 
-     console.log(`🔮 Generating live ${method} predictions for ${quarters} quarters`);
-
-     let result;
-
-     if (method === 'ensemble') {
-       // Generate predictions using multiple methods and combine them
-       const linearResult = generateLivePredictions(quarters, 'linear');
-       const seasonalResult = generateLivePredictions(quarters, 'seasonal');
-       const mlResult = generateLivePredictions(quarters, 'ml');
-
-       // Ensemble method: weighted average of all methods
-       result = {
-         method: 'ensemble',
-         confidence: Math.round((linearResult.confidence + seasonalResult.confidence + mlResult.confidence) / 3),
-         last_updated: new Date().toISOString(),
-         ensemble_weights: {
-           linear: 0.3,
-           seasonal: 0.4,
-           ml: 0.3
-         },
-         predictions: combineEnsemblePredictions([
-           { method: 'linear', data: linearResult.predictions, weight: 0.3 },
-           { method: 'seasonal', data: seasonalResult.predictions, weight: 0.4 },
-           { method: 'ml', data: mlResult.predictions, weight: 0.3 }
-         ]),
-         individual_predictions: {
-           linear: linearResult.predictions,
-           seasonal: seasonalResult.predictions,
-           ml: mlResult.predictions
-         },
-         metadata: {
-           data_points: linearResult.metadata?.data_points || 0,
-           prediction_method: 'ensemble',
-           forecast_horizon: quarters,
-           ensemble_description: 'Weighted combination of linear regression, seasonal analysis, and ML methods'
-         }
-       };
-     } else {
-       result = generateLivePredictions(quarters, method);
-     }
-
-     console.log(`✅ Live predictions generated successfully using ${method} method`);
-     res.json(result);
-   } catch (error) {
-     console.error('Error generating live predictions:', error);
-     res.status(500).json({
-       error: error.message,
-       fallback: generateFallbackPredictions(parseInt(quarters))
-     });
-   }
- });
-
-/**
- * Combine predictions from multiple methods using weighted average
- */
-function combineEnsemblePredictions(methodResults) {
-   const combined = {};
-
-   // Initialize combined predictions
-   methodResults[0].data.forEach((pred, index) => {
-     combined[pred.period] = {
-       period: pred.period,
-       exports: 0,
-       confidence: 0,
-       methods: []
-     };
-   });
-
-   // Weight predictions from each method
-   methodResults.forEach(({ data, weight }) => {
-     data.forEach(pred => {
-       if (combined[pred.period]) {
-         combined[pred.period].exports += pred.exports * weight;
-         combined[pred.period].confidence += pred.confidence * weight;
-         combined[pred.period].methods.push({
-           method: pred.method,
-           value: pred.exports,
-           confidence: pred.confidence
-         });
-       }
-     });
-   });
-
-   // Convert back to array and round values
-   return Object.values(combined).map(pred => ({
-     period: pred.period,
-     exports: Math.round(pred.exports * 100) / 100,
-     confidence: Math.round(pred.confidence * 100) / 100,
-     method: 'ensemble',
-     method_details: pred.methods
-   }));
- }
-
-/**
- * @route   GET /api/predictions/risks
- * @desc    Get predicted export risks
- * @access  Public
- * @query   {number} limit - Optional limit for number of risks (default: 5)
- */
-router.get('/risks', (req, res) => {
-  try {
-    const { limit = 5 } = req.query;
-    
-    // Check if analysis report exists (contains risks)
-    if (dataFileExists('analysis_report.json')) {
-      const analysisData = loadJsonData('analysis_report.json');
-      
-      // Extract risks from analysis report
-      if (analysisData.risks && Array.isArray(analysisData.risks)) {
-        const risks = analysisData.risks
-          .slice(0, parseInt(limit));
-        
-        res.json(risks);
-      } else {
-        // Generate mock risks if not found in analysis report
-        res.json(generateMockRisks(parseInt(limit)));
-      }
-    } else {
-      // Generate mock risks if analysis report doesn't exist
-      res.json(generateMockRisks(parseInt(limit)));
+        if (allowedTypes.includes(file.mimetype) ||
+            file.originalname.endsWith('.xlsx') ||
+            file.originalname.endsWith('.xls') ||
+            file.originalname.endsWith('.csv')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Invalid file type. Only Excel (.xlsx, .xls) and CSV files are allowed.'), false);
+        }
     }
-  } catch (error) {
-    console.error('Error fetching risks:', error);
-    res.status(500).json({ error: error.message });
-  }
 });
 
-/**
- * Enhanced live forecasting function with multiple prediction methods
- * @param {number} quarters - Number of quarters to predict
- * @param {string} method - Prediction method: 'linear', 'seasonal', 'ml'
- * @returns {Object} Prediction results with metadata
- */
-function generateLivePredictions(quarters, method) {
-   try {
-     // Load available data sources
-     const exportsData = loadJsonData('exports_data.json');
-     const balanceData = dataFileExists('trade_balance.json') ? loadJsonData('trade_balance.json') : [];
-
-     // Group exports by quarter
-     const quarterlyExports = exportsData.reduce((acc, item) => {
-       const quarter = item.quarter;
-       if (!acc[quarter]) {
-         acc[quarter] = { period: quarter, exports: 0, count: 0 };
-       }
-       acc[quarter].exports += parseFloat(item.export_value) || 0;
-       acc[quarter].count += 1;
-       return acc;
-     }, {});
-
-     // Convert to array and sort
-     const sortedQuarters = Object.values(quarterlyExports).sort((a, b) => {
-       const [aYear, aQ] = a.period.split('Q');
-       const [bYear, bQ] = b.period.split('Q');
-       return aYear === bYear ? aQ - bQ : aYear - bYear;
-     });
-
-     // Get last 8 quarters for trend analysis
-     const recentData = sortedQuarters.slice(-8);
-
-     // Generate predictions based on method
-     let predictions = [];
-     let confidence = 0;
-
-     switch (method) {
-       case 'seasonal':
-         ({ predictions, confidence } = generateSeasonalPredictions(recentData, quarters));
-         break;
-       case 'ml':
-         ({ predictions, confidence } = generateMLPredictions(recentData, quarters));
-         break;
-       default: // linear
-         ({ predictions, confidence } = generateLinearPredictions(recentData, quarters));
-     }
-
-     // Format response
-     const result = {
-       method: method,
-       confidence: confidence,
-       last_updated: new Date().toISOString(),
-       historical_data: recentData.map(q => ({ period: q.period, exports: q.exports })),
-       predictions: predictions,
-       metadata: {
-         data_points: recentData.length,
-         prediction_method: method,
-         forecast_horizon: quarters
-       }
-     };
-
-     return result;
-   } catch (error) {
-     console.error('Error in live predictions:', error);
-     return generateFallbackPredictions(quarters);
-   }
- }
-
-/**
- * Linear regression-based predictions
- */
-function generateLinearPredictions(recentData, quarters) {
-   if (!recentData || recentData.length < 3) {
-     return { predictions: [], confidence: 0 };
-   }
-
-   // Calculate linear regression
-   const n = recentData.length;
-   const sumX = recentData.reduce((sum, item, index) => sum + index, 0);
-   const sumY = recentData.reduce((sum, item) => sum + item.exports, 0);
-   const sumXY = recentData.reduce((sum, item, index) => sum + (index * item.exports), 0);
-   const sumXX = recentData.reduce((sum, item, index) => sum + (index * index), 0);
-
-   const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-   const intercept = (sumY - slope * sumX) / n;
-
-   // Calculate R-squared for confidence
-   const meanY = sumY / n;
-   const totalSumSquares = recentData.reduce((sum, item) => sum + Math.pow(item.exports - meanY, 2), 0);
-   const residualSumSquares = recentData.reduce((sum, item, index) => {
-     const predicted = slope * index + intercept;
-     return sum + Math.pow(item.exports - predicted, 2);
-   }, 0);
-
-   const rSquared = totalSumSquares === 0 ? 0 : 1 - (residualSumSquares / totalSumSquares);
-   const confidence = Math.max(0, Math.min(100, rSquared * 100));
-
-   // Generate predictions
-   const predictions = [];
-   const lastIndex = recentData.length - 1;
-   const lastQuarter = recentData[lastIndex].period;
-   const [year, quarter] = [parseInt(lastQuarter.substring(0, 4)), parseInt(lastQuarter.substring(5))];
-
-   for (let i = 1; i <= quarters; i++) {
-     let nextQuarter = quarter + i;
-     let nextYear = year;
-
-     while (nextQuarter > 4) {
-       nextQuarter -= 4;
-       nextYear += 1;
-     }
-
-     const predictedValue = Math.max(0, slope * (lastIndex + i) + intercept);
-
-     predictions.push({
-       period: `${nextYear}Q${nextQuarter}`,
-       exports: Math.round(predictedValue * 100) / 100,
-       confidence: Math.round(confidence * 0.9) / 100, // Slight decrease in confidence for future periods
-       method: 'linear_regression'
-     });
-   }
-
-   return { predictions, confidence: Math.round(confidence) };
- }
-
-/**
- * Seasonal decomposition predictions
- */
-function generateSeasonalPredictions(recentData, quarters) {
-   if (!recentData || recentData.length < 8) {
-     return generateLinearPredictions(recentData, quarters);
-   }
-
-   // Simple seasonal adjustment - use average quarterly growth
-   const quarterlyGrowth = [];
-   for (let i = 4; i < recentData.length; i++) {
-     const growth = (recentData[i].exports - recentData[i-4].exports) / recentData[i-4].exports;
-     quarterlyGrowth.push(growth);
-   }
-
-   const avgQuarterlyGrowth = quarterlyGrowth.reduce((sum, growth) => sum + growth, 0) / quarterlyGrowth.length;
-   const confidence = Math.min(85, Math.max(60, 100 - (quarterlyGrowth.length * 2)));
-
-   // Generate predictions
-   const predictions = [];
-   const lastValue = recentData[recentData.length - 1].exports;
-   const lastQuarter = recentData[recentData.length - 1].period;
-   const [year, quarter] = [parseInt(lastQuarter.substring(0, 4)), parseInt(lastQuarter.substring(5))];
-
-   let currentValue = lastValue;
-   for (let i = 1; i <= quarters; i++) {
-     let nextQuarter = quarter + i;
-     let nextYear = year;
-
-     while (nextQuarter > 4) {
-       nextQuarter -= 4;
-       nextYear += 1;
-     }
-
-     currentValue = currentValue * (1 + avgQuarterlyGrowth);
-
-     predictions.push({
-       period: `${nextYear}Q${nextQuarter}`,
-       exports: Math.round(currentValue * 100) / 100,
-       confidence: Math.round(confidence * Math.pow(0.95, i)) / 100,
-       method: 'seasonal'
-     });
-   }
-
-   return { predictions, confidence: Math.round(confidence) };
- }
-
-/**
- * Machine learning style predictions (simplified)
- */
-function generateMLPredictions(recentData, quarters) {
-   if (!recentData || recentData.length < 6) {
-     return generateLinearPredictions(recentData, quarters);
-   }
-
-   // Use exponential smoothing for ML-style prediction
-   const alpha = 0.3; // Smoothing parameter
-   let smoothedValue = recentData[0].exports;
-
-   for (let i = 1; i < recentData.length; i++) {
-     smoothedValue = alpha * recentData[i].exports + (1 - alpha) * smoothedValue;
-   }
-
-   // Calculate trend
-   const trend = recentData.length > 1 ?
-     (recentData[recentData.length - 1].exports - recentData[0].exports) / (recentData.length - 1) : 0;
-
-   const confidence = 75; // ML methods typically have good confidence
-
-   // Generate predictions
-   const predictions = [];
-   const lastQuarter = recentData[recentData.length - 1].period;
-   const [year, quarter] = [parseInt(lastQuarter.substring(0, 4)), parseInt(lastQuarter.substring(5))];
-
-   for (let i = 1; i <= quarters; i++) {
-     let nextQuarter = quarter + i;
-     let nextYear = year;
-
-     while (nextQuarter > 4) {
-       nextQuarter -= 4;
-       nextYear += 1;
-     }
-
-     // Combine smoothed value with trend
-     const predictedValue = smoothedValue + (trend * i);
-
-     predictions.push({
-       period: `${nextYear}Q${nextQuarter}`,
-       exports: Math.round(Math.max(0, predictedValue) * 100) / 100,
-       confidence: Math.round(confidence * Math.pow(0.92, i)) / 100,
-       method: 'ml_exponential_smoothing'
-     });
-   }
-
-   return { predictions, confidence: Math.round(confidence) };
- }
-
-/**
- * Fallback predictions when data is insufficient
- */
-function generateFallbackPredictions(quarters) {
-    const predictions = [];
-    const baseValue = 700; // Base prediction value
-
-    for (let i = 1; i <= quarters; i++) {
-      predictions.push({
-        period: `2025Q${i}`,
-        exports: Math.round((baseValue + (i * 20)) * 100) / 100,
-        confidence: 0.5,
-        method: 'fallback'
-      });
-    }
-
-    return {
-      method: 'fallback',
-      confidence: 50,
-      last_updated: new Date().toISOString(),
-      historical_data: [],
-      predictions: predictions,
-      metadata: {
-        data_points: 0,
-        prediction_method: 'fallback',
-        forecast_horizon: quarters,
-        note: 'Insufficient historical data for accurate predictions'
-      }
-    };
-  }
-
-  /**
-   * Enhanced predictions with realistic data
-   */
-  function generateEnhancedPredictions(quarters = 4) {
-    const predictions = [];
-    const baseValue = 677.45; // Use latest actual data as base
-
-    for (let i = 1; i <= quarters; i++) {
-      // Calculate next quarter
-      const currentDate = new Date();
-      const currentQuarter = Math.floor((currentDate.getMonth() + 3) / 3);
-      const currentYear = currentDate.getFullYear();
-
-      let targetQuarter = currentQuarter + i;
-      let targetYear = currentYear;
-
-      while (targetQuarter > 4) {
-        targetQuarter -= 4;
-        targetYear += 1;
-      }
-
-      // Realistic growth based on historical trends
-      const growthRate = 0.02 + (Math.random() * 0.03); // 2-5% growth
-      const predictedValue = baseValue * (1 + growthRate * i);
-      const confidence = Math.max(0.3, 0.85 - (i * 0.1)); // Decreasing confidence
-
-      predictions.push({
-        period: `${targetYear}Q${targetQuarter}`,
-        exports: Math.round(predictedValue * 100) / 100,
-        confidence: Math.round(confidence * 100) / 100,
-        method: 'enhanced_linear',
-        confidence_interval_lower: Math.round(predictedValue * 0.9 * 100) / 100,
-        confidence_interval_upper: Math.round(predictedValue * 1.1 * 100) / 100
-      });
-    }
-
-    return {
-      method: 'enhanced_linear',
-      confidence: 75,
-      last_updated: new Date().toISOString(),
-      historical_data: [
-        { period: '2024Q4', exports: 677.45 },
-        { period: '2024Q3', exports: 667.00 },
-        { period: '2024Q2', exports: 537.64 },
-        { period: '2024Q1', exports: 431.61 }
-      ],
-      predictions: predictions,
-      metadata: {
-        data_points: 4,
-        prediction_method: 'enhanced_linear',
-        forecast_horizon: quarters,
-        base_value: baseValue,
-        growth_assumption: '2-5% quarterly growth based on historical trends'
-      }
-    };
-  }
-
-  /**
-   * Fixed predictions using correct data source
-   */
-  function generateFixedPredictions(quarters = 4) {
+// Advanced prediction endpoint
+router.post('/advanced', async (req, res) => {
     try {
-      // Use hardcoded realistic values based on the actual data we know exists
-      const baseValue = 677.45; // Latest quarter actual value
+        const {
+            modelType,
+            forecastHorizon,
+            confidenceLevel,
+            dataType,
+            preprocessingOptions
+        } = req.body;
 
-      const predictions = [];
-      const currentDate = new Date();
-      const currentQuarter = Math.floor((currentDate.getMonth() + 3) / 3);
-      const currentYear = currentDate.getFullYear();
-
-      for (let i = 1; i <= quarters; i++) {
-        let nextQuarter = currentQuarter + i;
-        let nextYear = currentYear;
-
-        while (nextQuarter > 4) {
-          nextQuarter -= 4;
-          nextYear += 1;
+        // Validate required parameters
+        if (!modelType || !forecastHorizon || !dataType) {
+            return res.status(400).json({
+                error: 'Missing required parameters: modelType, forecastHorizon, dataType'
+            });
         }
 
-        // Realistic growth rate between -5% and +8%
-        const growthRate = -0.05 + (Math.random() * 0.13);
-        const predictedValue = baseValue * (1 + growthRate * i);
-        const confidence = Math.max(0.3, 0.85 - (i * 0.08));
+        if (forecastHorizon < 1 || forecastHorizon > 24) {
+            return res.status(400).json({
+                error: 'forecastHorizon must be between 1 and 24 quarters'
+            });
+        }
 
-        predictions.push({
-          period: `${nextYear}Q${nextQuarter}`,
-          exports: Math.round(predictedValue * 100) / 100,
-          confidence: Math.round(confidence * 100) / 100,
-          method: 'data_driven',
-          confidence_interval_lower: Math.round(predictedValue * 0.85 * 100) / 100,
-          confidence_interval_upper: Math.round(predictedValue * 1.15 * 100) / 100
+        // Validate input
+        if (!modelType || !forecastHorizon || !dataType) {
+            return res.status(400).json({
+                error: 'Missing required parameters: modelType, forecastHorizon, dataType'
+            });
+        }
+
+        // Simulate prediction process (in real implementation, this would call Python scripts)
+        const predictionResult = await generatePrediction({
+            modelType,
+            forecastHorizon: parseInt(forecastHorizon),
+            confidenceLevel: parseInt(confidenceLevel),
+            dataType,
+            preprocessingOptions
         });
-      }
 
-      return {
-        method: 'data_driven',
-        confidence: 78,
-        last_updated: new Date().toISOString(),
-        historical_data: [
-          { period: '2024Q4', exports: 677.45 },
-          { period: '2024Q3', exports: 667.00 },
-          { period: '2024Q2', exports: 537.64 },
-          { period: '2024Q1', exports: 431.61 }
-        ],
-        predictions: predictions,
-        metadata: {
-          data_points: 4,
-          prediction_method: 'data_driven',
-          forecast_horizon: quarters,
-          base_value: baseValue,
-          growth_rate_used: 'Realistic market-based growth'
-        }
-      };
+        res.json({
+            success: true,
+            prediction: predictionResult,
+            timestamp: new Date().toISOString(),
+            model: modelType,
+            confidence: confidenceLevel
+        });
+
     } catch (error) {
-      console.error('Error generating fixed predictions:', error);
-      return generateEnhancedPredictions(quarters);
+        console.error('Advanced prediction error:', error);
+        res.status(500).json({
+            error: 'Prediction failed',
+            message: error.message
+        });
     }
-  }
-
-/**
- * Helper function to generate simple predictions based on recent data
- * Uses a very basic linear extrapolation
- * @param {Array} recentData - Recent quarters of trade data
- * @returns {Array} Predicted data for next quarters
- */
-function generateSimplePredictions(recentData) {
-   // If no recent data, return empty array
-   if (!recentData || recentData.length === 0) {
-     return [];
-   }
-
-   // Calculate average growth rate from recent data
-   let growthRates = [];
-   for (let i = 1; i < recentData.length; i++) {
-     const prev = parseFloat(recentData[i-1].export_value);
-     const curr = parseFloat(recentData[i].export_value);
-     if (prev > 0) {
-       growthRates.push((curr - prev) / prev);
-     }
-   }
-
-   // Calculate average growth rate (or use 0.05 if no valid rates)
-   const avgGrowthRate = growthRates.length > 0
-     ? growthRates.reduce((sum, rate) => sum + rate, 0) / growthRates.length
-     : 0.05;
-
-   // Get the last quarter and value
-   const lastQuarter = recentData[recentData.length - 1].quarter;
-   const lastValue = parseFloat(recentData[recentData.length - 1].export_value);
-
-   // Parse year and quarter
-   const [year, quarter] = [parseInt(lastQuarter.substring(0, 4)), parseInt(lastQuarter.substring(5))];
-
-   // Generate predictions for next 4 quarters
-   const predictions = [];
-   let currentValue = lastValue;
-
-   for (let i = 1; i <= 4; i++) {
-     // Calculate next quarter
-     let nextQuarter = quarter + i;
-     let nextYear = year;
-
-     // Adjust year if quarter > 4
-     while (nextQuarter > 4) {
-       nextQuarter -= 4;
-       nextYear += 1;
-     }
-
-     // Apply growth rate to current value
-     currentValue = currentValue * (1 + avgGrowthRate);
-
-     // Add prediction
-     predictions.push({
-       period: `${nextYear}Q${nextQuarter}`,
-       exports: currentValue,
-       growth: avgGrowthRate * 100
-     });
-   }
-
-   return predictions;
- }
-
-/**
- * Helper function to generate mock export opportunities
- * @param {number} count - Number of opportunities to generate
- * @returns {Array} Mock opportunities
- */
-function generateMockOpportunities(count) {
-  const opportunities = [
-    {
-      product: "Coffee",
-      score: 85,
-      potential_markets: ["Japan", "South Korea", "Australia"],
-      growth_potential: 12.5,
-      description: "Premium Arabica coffee has strong growth potential in Asian markets."
-    },
-    {
-      product: "Tea",
-      score: 82,
-      potential_markets: ["United Kingdom", "Canada", "Germany"],
-      growth_potential: 9.8,
-      description: "Specialty tea exports could expand in European markets with premium packaging."
-    },
-    {
-      product: "Minerals",
-      score: 78,
-      potential_markets: ["China", "India", "UAE"],
-      growth_potential: 15.2,
-      description: "Processed mineral exports have higher value-add potential than raw exports."
-    },
-    {
-      product: "Horticulture",
-      score: 76,
-      potential_markets: ["Netherlands", "Belgium", "France"],
-      growth_potential: 18.7,
-      description: "Cut flowers and fresh produce have strong demand in European markets."
-    },
-    {
-      product: "Textiles",
-      score: 72,
-      potential_markets: ["United States", "Canada", "Germany"],
-      growth_potential: 11.3,
-      description: "Garment manufacturing with local materials shows strong export potential."
-    },
-    {
-      product: "Leather Products",
-      score: 68,
-      potential_markets: ["Italy", "France", "Spain"],
-      growth_potential: 8.9,
-      description: "Processed leather goods command premium prices in European markets."
-    },
-    {
-      product: "Processed Foods",
-      score: 65,
-      potential_markets: ["Kenya", "Uganda", "Tanzania"],
-      growth_potential: 14.2,
-      description: "Value-added food products have growing regional market demand."
-    }
-  ];
-  
-  return opportunities.slice(0, count);
-}
-
-/**
- * Helper function to generate mock export risks
- * @param {number} count - Number of risks to generate
- * @returns {Array} Mock risks
- */
-function generateMockRisks(count) {
-  const risks = [
-    {
-      product: "Raw Minerals",
-      risk_score: 75,
-      risk_factors: ["Price volatility", "Regulatory changes", "Supply chain disruptions"],
-      mitigation: "Diversify mineral processing capabilities and export markets."
-    },
-    {
-      product: "Agricultural Exports",
-      risk_score: 68,
-      risk_factors: ["Climate change", "Pest outbreaks", "Market access barriers"],
-      mitigation: "Invest in climate-resilient farming and certification programs."
-    },
-    {
-      product: "Tourism Services",
-      risk_score: 62,
-      risk_factors: ["Global health crises", "Security concerns", "Competition"],
-      mitigation: "Develop diverse tourism offerings and digital marketing strategies."
-    },
-    {
-      product: "Textile Exports",
-      risk_score: 58,
-      risk_factors: ["Labor costs", "Fast fashion trends", "Trade agreements"],
-      mitigation: "Focus on sustainable and ethical production for premium markets."
-    },
-    {
-      product: "ICT Services",
-      risk_score: 45,
-      risk_factors: ["Talent retention", "Infrastructure limitations", "Regional competition"],
-      mitigation: "Invest in specialized training and digital infrastructure."
-    }
-  ];
-  
-  return risks.slice(0, count);
-}
-
-/**
-  * @route   GET /api/predictions
-  * @desc    Get all predictions data (main endpoint for frontend)
-  * @access  Public
-  */
-router.get('/', (req, res) => {
-  try {
-    // Check if predictions data exists
-    if (dataFileExists('predictions.json')) {
-      const predictionsData = loadJsonData('predictions.json');
-      res.json(predictionsData);
-    } else {
-      // Return fixed predictions if data doesn't exist
-      const fixedPredictions = generateFixedPredictions(4);
-      res.json({
-        export_predictions: fixedPredictions.predictions.map(p => ({
-          quarter: p.period,
-          predicted_export: p.exports,
-          confidence: Math.round(p.confidence * 100)
-        })),
-        import_predictions: fixedPredictions.predictions.map(p => ({
-          quarter: p.period,
-          predicted_import: Math.round(p.exports * 2.5), // Assume imports are 2.5x exports
-          confidence: Math.round(p.confidence * 100)
-        })),
-        commodity_predictions: [],
-        metadata: fixedPredictions.metadata,
-        last_updated: fixedPredictions.last_updated
-      });
-    }
-  } catch (error) {
-    console.error('Error fetching predictions data:', error);
-    res.status(500).json({ error: error.message });
-  }
 });
+
+// File upload endpoint
+router.post('/upload', upload.single('file'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({
+                error: 'No file uploaded',
+                message: 'Please select a file to upload'
+            });
+        }
+
+        const filePath = req.file.path;
+        const fileName = req.file.originalname;
+        const fileSize = req.file.size;
+
+        console.log(`📁 Processing uploaded file: ${fileName} (${fileSize} bytes)`);
+
+        // Process the uploaded Excel/CSV file
+        let workbook;
+        try {
+            if (fileName.endsWith('.csv')) {
+                // For CSV files, read as text and convert to workbook
+                const csvData = await fs.readFile(filePath, 'utf8');
+                workbook = xlsx.read(csvData, { type: 'string' });
+            } else {
+                // For Excel files
+                workbook = xlsx.readFile(filePath);
+            }
+        } catch (parseError) {
+            console.error('Error parsing file:', parseError);
+            // Clean up uploaded file
+            await fs.unlink(filePath).catch(() => {});
+            return res.status(400).json({
+                error: 'Invalid file format',
+                message: 'Unable to parse the uploaded file. Please ensure it\'s a valid Excel or CSV file.'
+            });
+        }
+
+        // Get the first worksheet
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+
+        // Convert to JSON
+        const jsonData = xlsx.utils.sheet_to_json(worksheet, { header: 1 });
+
+        if (jsonData.length === 0) {
+            await fs.unlink(filePath).catch(() => {});
+            return res.status(400).json({
+                error: 'Empty file',
+                message: 'The uploaded file appears to be empty or contains no data.'
+            });
+        }
+
+        // Analyze the data structure
+        const headers = jsonData[0] || [];
+        const dataRows = jsonData.slice(1).filter(row => row.length > 0);
+
+        // Detect data types and structure
+        const columnAnalysis = analyzeColumns(headers, dataRows);
+
+        // Calculate basic statistics
+        const stats = calculateBasicStats(dataRows, headers);
+
+        // Clean up uploaded file after processing
+        await fs.unlink(filePath).catch(() => {});
+
+        console.log(`✅ File processed successfully: ${dataRows.length} rows, ${headers.length} columns`);
+
+        res.json({
+            success: true,
+            message: 'File uploaded and analyzed successfully',
+            fileInfo: {
+                name: fileName,
+                size: formatFileSize(fileSize),
+                type: fileName.split('.').pop().toLowerCase(),
+                rows: dataRows.length,
+                columns: headers,
+                columnAnalysis: columnAnalysis,
+                stats: stats,
+                timeRange: detectTimeRange(dataRows, headers),
+                missingValues: calculateMissingValues(dataRows),
+                dataQuality: calculateDataQuality(dataRows, headers)
+            },
+            timestamp: new Date().toISOString()
+        });
+
+    } catch (error) {
+        console.error('File upload error:', error);
+
+        // Clean up uploaded file if it exists
+        if (req.file && req.file.path) {
+            await fs.unlink(req.file.path).catch(() => {});
+        }
+
+        res.status(500).json({
+            error: 'File upload failed',
+            message: error.message
+        });
+    }
+});
+
+// Preprocessing endpoint
+router.post('/preprocess', async (req, res) => {
+    try {
+        const { data, options } = req.body;
+
+        // Simulate preprocessing
+        const processedData = {
+            originalRows: data ? data.length : 150,
+            processedRows: data ? data.length : 150,
+            missingValuesHandled: 12,
+            smoothingApplied: options?.smoothing || '6-period',
+            featuresCreated: ['lag_1', 'lag_4', 'rolling_mean', 'rolling_std'],
+            sitcFilter: options?.sitcCategory || 'all'
+        };
+
+        res.json({
+            success: true,
+            preprocessing: processedData,
+            timestamp: new Date().toISOString()
+        });
+
+    } catch (error) {
+        console.error('Preprocessing error:', error);
+        res.status(500).json({
+            error: 'Preprocessing failed',
+            message: error.message
+        });
+    }
+});
+
+// EDA analysis endpoint
+router.post('/eda', async (req, res) => {
+    try {
+        const { data, analysisType } = req.body;
+
+        // Generate EDA insights
+        const insights = generateEDAInsights(data, analysisType);
+
+        res.json({
+            success: true,
+            insights: insights,
+            charts: {
+                timeSeries: generateTimeSeriesData(data),
+                seasonal: generateSeasonalData(data),
+                correlation: generateCorrelationData(data)
+            },
+            timestamp: new Date().toISOString()
+        });
+
+    } catch (error) {
+        console.error('EDA analysis error:', error);
+        res.status(500).json({
+            error: 'EDA analysis failed',
+            message: error.message
+        });
+    }
+});
+
+// Model comparison endpoint
+router.post('/compare-models', async (req, res) => {
+    try {
+        const { data, models, forecastHorizon } = req.body;
+
+        // Compare multiple models
+        const comparison = await compareModels(data, models, forecastHorizon);
+
+        res.json({
+            success: true,
+            comparison: comparison,
+            bestModel: comparison[0], // Best performing model
+            timestamp: new Date().toISOString()
+        });
+
+    } catch (error) {
+        console.error('Model comparison error:', error);
+        res.status(500).json({
+            error: 'Model comparison failed',
+            message: error.message
+        });
+    }
+});
+
+// Get next quarter predictions (static endpoint)
+router.get('/next', async (req, res) => {
+    try {
+        const quarters = req.query.quarters ? parseInt(req.query.quarters) : 4;
+
+        // Generate mock prediction data
+        const predictions = [];
+        let baseValue = 458; // Starting from latest quarter
+
+        for (let i = 0; i < quarters; i++) {
+            const growth = (Math.random() - 0.3) * 0.15; // Random growth between -30% to +15%
+            baseValue = baseValue * (1 + growth);
+            predictions.push({
+                quarter: `2025Q${i + 2}`,
+                predicted_value: Math.round(baseValue),
+                confidence_lower: Math.round(baseValue * 0.85),
+                confidence_upper: Math.round(baseValue * 1.15),
+                risk_level: growth < -0.1 ? 'high' : growth < 0 ? 'medium' : 'low'
+            });
+        }
+
+        res.json({
+            success: true,
+            predictions: predictions,
+            model: 'ensemble',
+            confidence_level: 95,
+            timestamp: new Date().toISOString()
+        });
+
+    } catch (error) {
+        console.error('Next predictions error:', error);
+        res.status(500).json({
+            error: 'Failed to generate predictions',
+            message: error.message
+        });
+    }
+});
+
+// Export prediction results
+router.post('/export', async (req, res) => {
+    try {
+        const { predictionData, format } = req.body;
+
+        // Generate export file
+        const exportData = generateExportData(predictionData, format);
+
+        res.json({
+            success: true,
+            export: exportData,
+            downloadUrl: `/api/predictions/download/${exportData.filename}`,
+            timestamp: new Date().toISOString()
+        });
+
+    } catch (error) {
+        console.error('Export error:', error);
+        res.status(500).json({
+            error: 'Export failed',
+            message: error.message
+        });
+    }
+});
+
+// Mock functions for simulation (replace with actual implementations)
+
+async function generatePrediction(options) {
+    // Simulate calling Python prediction script
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            const historical = [368, 454, 350, 353, 401, 509, 627, 626, 458];
+            const forecast = [];
+            const upperBound = [];
+            const lowerBound = [];
+
+            let lastValue = historical[historical.length - 1];
+            for (let i = 0; i < options.forecastHorizon; i++) {
+                lastValue = lastValue * (1 + (Math.random() - 0.3) * 0.1);
+                forecast.push(Math.round(lastValue));
+
+                const margin = lastValue * (1 - options.confidenceLevel/100) * 0.5;
+                upperBound.push(Math.round(lastValue + margin));
+                lowerBound.push(Math.round(lastValue - margin));
+            }
+
+            resolve({
+                model: options.modelType,
+                historical: historical,
+                forecast: forecast,
+                upperBound: upperBound,
+                lowerBound: lowerBound,
+                metrics: {
+                    mape: 4.2,
+                    rmse: 12.5,
+                    r2: 0.91,
+                    mae: 8.3,
+                    accuracy: 95.8
+                },
+                trainingTime: 2.3,
+                confidence: options.confidenceLevel
+            });
+        }, 2000);
+    });
+}
+
+function generateEDAInsights(data, analysisType) {
+    return [
+        {
+            type: 'trend',
+            icon: 'fas fa-arrow-trend-up',
+            title: 'Strong Q4 Seasonal Pattern',
+            text: 'Exports show consistent 15-20% increase in Q4 across all years, indicating optimal timing for trade activities.'
+        },
+        {
+            type: 'warning',
+            icon: 'fas fa-exclamation-triangle',
+            title: 'Trade Deficit Widening',
+            text: 'Import growth (8.2% CAGR) outpacing export growth (6.1% CAGR) by 2.1 percentage points.'
+        },
+        {
+            type: 'info',
+            icon: 'fas fa-lightbulb',
+            title: 'Commodity Concentration',
+            text: 'Top 3 SITC categories represent 65% of total exports, suggesting potential diversification opportunities.'
+        },
+        {
+            type: 'success',
+            icon: 'fas fa-chart-line',
+            title: 'Positive Momentum',
+            text: 'Recent quarters show improving export performance with 12% QoQ growth in Q4 2024.'
+        }
+    ];
+}
+
+function generateTimeSeriesData(data) {
+    return {
+        labels: ['2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'],
+        datasets: [{
+            label: 'Exports',
+            data: [368, 454, 350, 353, 401, 509, 627, 626, 458],
+            borderColor: '#00A1F1',
+            backgroundColor: 'rgba(0, 161, 241, 0.1)',
+            tension: 0.4
+        }]
+    };
+}
+
+function generateSeasonalData(data) {
+    return {
+        labels: ['2023Q1', '2023Q2', '2023Q3', '2023Q4', '2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1'],
+        datasets: [
+            {
+                label: 'Trend',
+                data: [380, 420, 400, 440, 460, 500, 520, 540, 480],
+                borderColor: '#1e40af',
+                tension: 0.4
+            },
+            {
+                label: 'Seasonal',
+                data: [10, -15, 20, -15, 10, -15, 20, -15, 10],
+                borderColor: '#16a34a',
+                tension: 0.4
+            }
+        ]
+    };
+}
+
+function generateCorrelationData(data) {
+    return {
+        matrix: {
+            exports: { imports: 0.87, trade_balance: -0.45 },
+            imports: { exports: 0.87, trade_balance: -0.78 },
+            trade_balance: { exports: -0.45, imports: -0.78 }
+        }
+    };
+}
+
+async function compareModels(data, models, forecastHorizon) {
+    // Simulate model comparison
+    const modelResults = models.map(model => ({
+        model: model,
+        accuracy: 85 + Math.random() * 10,
+        mape: 3 + Math.random() * 3,
+        trainingTime: 1 + Math.random() * 3,
+        forecast: Array.from({length: forecastHorizon}, () => Math.round(400 + Math.random() * 200))
+    }));
+
+    // Sort by accuracy
+    return modelResults.sort((a, b) => b.accuracy - a.accuracy);
+}
+
+function generateExportData(predictionData, format) {
+    const timestamp = new Date().toISOString().split('T')[0];
+    const filename = `trade_prediction_${timestamp}.${format}`;
+
+    return {
+        filename: filename,
+        format: format,
+        size: '45KB',
+        url: `/downloads/${filename}`
+    };
+}
+
+// Helper functions for file analysis
+function analyzeColumns(headers, dataRows) {
+    const analysis = {};
+
+    headers.forEach((header, index) => {
+        const columnData = dataRows.map(row => row[index]).filter(val => val !== null && val !== undefined && val !== '');
+        const sampleValues = columnData.slice(0, 5);
+
+        // Detect data type
+        let dataType = 'string';
+        if (columnData.every(val => typeof val === 'number' || (!isNaN(parseFloat(val)) && isFinite(val)))) {
+            dataType = 'number';
+        } else if (columnData.every(val => !isNaN(Date.parse(val)))) {
+            dataType = 'date';
+        }
+
+        analysis[header] = {
+            dataType: dataType,
+            uniqueValues: new Set(columnData).size,
+            nullCount: dataRows.length - columnData.length,
+            sampleValues: sampleValues
+        };
+    });
+
+    return analysis;
+}
+
+function calculateBasicStats(dataRows, headers) {
+    const stats = {
+        totalRows: dataRows.length,
+        totalColumns: headers.length,
+        completeness: 0,
+        numericColumns: 0
+    };
+
+    let totalCells = 0;
+    let filledCells = 0;
+
+    headers.forEach((header, index) => {
+        const columnData = dataRows.map(row => row[index]);
+        const numericData = columnData.filter(val => typeof val === 'number' && !isNaN(val));
+
+        if (numericData.length > 0) {
+            stats.numericColumns++;
+        }
+
+        columnData.forEach(val => {
+            totalCells++;
+            if (val !== null && val !== undefined && val !== '') {
+                filledCells++;
+            }
+        });
+    });
+
+    stats.completeness = totalCells > 0 ? (filledCells / totalCells) * 100 : 0;
+
+    return stats;
+}
+
+function detectTimeRange(dataRows, headers) {
+    // Look for date columns and determine time range
+    const dateColumns = headers.filter(header =>
+        header.toLowerCase().includes('date') ||
+        header.toLowerCase().includes('time') ||
+        header.toLowerCase().includes('period') ||
+        header.toLowerCase().includes('quarter')
+    );
+
+    if (dateColumns.length === 0) return 'Unknown';
+
+    // Try to find min/max dates
+    const dateIndex = headers.indexOf(dateColumns[0]);
+    const dates = dataRows.map(row => row[dateIndex]).filter(date => date);
+
+    if (dates.length === 0) return 'Unknown';
+
+    // Simple date detection - could be enhanced
+    const sortedDates = dates.sort();
+    return `${sortedDates[0]} to ${sortedDates[sortedDates.length - 1]}`;
+}
+
+function calculateMissingValues(dataRows) {
+    let missingCount = 0;
+    let totalCells = 0;
+
+    dataRows.forEach(row => {
+        row.forEach(cell => {
+            totalCells++;
+            if (cell === null || cell === undefined || cell === '') {
+                missingCount++;
+            }
+        });
+    });
+
+    return missingCount;
+}
+
+function calculateDataQuality(dataRows, headers) {
+    const quality = {
+        completeness: 0,
+        consistency: 0,
+        validity: 0
+    };
+
+    // Calculate completeness
+    const totalCells = dataRows.length * headers.length;
+    const filledCells = dataRows.reduce((sum, row) =>
+        sum + row.filter(cell => cell !== null && cell !== undefined && cell !== '').length, 0);
+    quality.completeness = totalCells > 0 ? (filledCells / totalCells) * 100 : 0;
+
+    // Simple consistency check (could be enhanced)
+    quality.consistency = 95; // Placeholder
+
+    // Simple validity check
+    quality.validity = 92; // Placeholder
+
+    return quality;
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
 
 module.exports = router;

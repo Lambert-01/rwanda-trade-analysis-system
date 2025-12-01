@@ -150,7 +150,7 @@ if (window.location.hash) {
 } else {
     // Detect current page and show appropriate section
     const pathName = window.location.pathname;
-    let defaultSection = 'home';
+    let defaultSection = 'dashboard'; // Default to dashboard instead of home
 
     if (pathName.includes('exports.html') || pathName.endsWith('exports/')) {
         defaultSection = 'exports';
@@ -166,6 +166,8 @@ if (window.location.hash) {
         defaultSection = 'regional';
     } else if (pathName.includes('excel-viewer.html') || pathName.endsWith('excel-viewer/')) {
         defaultSection = 'excel-viewer';
+    } else if (pathName.includes('trends.html') || pathName.endsWith('trends/')) {
+        defaultSection = 'trends';
     }
 
     console.log(`📍 Detected page: ${pathName}, showing section: ${defaultSection}`);
@@ -952,6 +954,27 @@ function updateInsights(insights) {
 function updateMetadata(metadata) {
     console.log('Analysis metadata:', metadata);
     // Could display analysis timestamp, data source, etc.
+}
+
+// Function to get analysis results from API or fallback
+async function getAnalysisResults() {
+    try {
+        console.log('🔍 Fetching analysis results from API...');
+
+        // Try to get data from the backend API
+        const response = await fetch('http://localhost:3001/api/exports/summary');
+        if (response.ok) {
+            const data = await response.json();
+            console.log('✅ Got analysis results from API');
+            return { success: true, data: data };
+        } else {
+            console.warn('⚠️ API call failed, using fallback data');
+            return { success: false, data: getFallbackData() };
+        }
+    } catch (error) {
+        console.error('❌ Error fetching analysis results:', error);
+        return { success: false, data: getFallbackData() };
+    }
 }
 
 // Fallback data function for when API calls fail
@@ -2020,7 +2043,7 @@ async function loadRealTradeData() {
         // Try to load each API endpoint
         for (const endpoint of apiEndpoints) {
             try {
-                const response = await fetch(`http://localhost:3000${endpoint.url}`);
+                const response = await fetch(`http://localhost:3001${endpoint.url}`);
                 if (response.ok) {
                     loadedData[endpoint.key] = await response.json();
                     console.log(`✅ Loaded ${endpoint.url}`);
@@ -2477,7 +2500,7 @@ async function renderChartsFromAPI() {
 
     try {
         // First test if the backend API is accessible
-        const healthResponse = await fetch('http://localhost:3000/api/health');
+        const healthResponse = await fetch('http://localhost:3001/api/health');
         if (healthResponse.ok) {
             const healthData = await healthResponse.json();
             console.log('✅ Backend API is accessible:', healthData);
@@ -2501,10 +2524,10 @@ async function testAPIConnection() {
         console.log('🔍 Testing API connectivity...');
 
         const endpoints = [
-            'http://localhost:3000/api/health',
-            'http://localhost:3000/api/exports/quarterly',
-            'http://localhost:3000/api/exports/destinations?limit=5',
-            'http://localhost:3000/api/exports/products?limit=5'
+            'http://localhost:3001/api/health',
+            'http://localhost:3001/api/exports/quarterly',
+            'http://localhost:3001/api/exports/destinations?limit=5',
+            'http://localhost:3001/api/exports/products?limit=5'
         ];
 
         const results = {};
@@ -2723,7 +2746,8 @@ function ensureChartsVisible() {
   * 12. HACKATHON ENHANCEMENTS       *
   ************************************/
 
-/* PWA Service Worker Registration */
+/* PWA Service Worker Registration - Temporarily Disabled */
+/*
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
@@ -2735,6 +2759,8 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+*/
+console.log('Service worker temporarily disabled to resolve caching issues');
 
 /* Enhanced Mobile Features */
 function initializeMobileFeatures() {

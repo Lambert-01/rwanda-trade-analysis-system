@@ -25,7 +25,7 @@ const API_CACHE = {};
    ************************************/
 async function apiFetch(endpoint, options = {}) {
     // Use direct backend URL to bypass proxy issues
-    const baseUrl = FRONTEND_API_BASE.startsWith('http') ? FRONTEND_API_BASE : `http://localhost:3000/api`;
+    const baseUrl = FRONTEND_API_BASE.startsWith('http') ? FRONTEND_API_BASE : `http://localhost:3001/api`;
     const url = baseUrl + endpoint;
     const cacheKey = url + JSON.stringify(options);
 
@@ -929,8 +929,14 @@ function getRealTimeStatus() {
     };
 }
 
+// Make apiFetch globally available for other scripts
+window.apiFetch = apiFetch;
+
 // Export functions for use in other scripts
 window.apiUtils = {
+    // Core API function
+    apiFetch,
+
     // API endpoints
     getQuarterlyExports,
     getExportDestinations,

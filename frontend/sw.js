@@ -4,13 +4,14 @@
  * ===================================================================== */
  
 // Service Worker version
-const CACHE_NAME = 'rwanda-export-explorer-v1';
-const STATIC_CACHE = 'static-v1';
+const CACHE_NAME = 'rwanda-export-explorer-v2';
+const STATIC_CACHE = 'static-v2';
 
 // Files to cache for offline functionality
 const CACHE_FILES = [
     '/',
     '/index.html',
+    '/trends.html',
     '/css/main.css',
     '/css/dashboard.css',
     '/css/index.css',
@@ -20,6 +21,7 @@ const CACHE_FILES = [
     '/css/analytics.css',
     '/css/commodities.css',
     '/css/regional.css',
+    '/css/trends.css',
     '/js/main.js',
     '/js/charts.js',
     '/js/api.js',
@@ -30,6 +32,7 @@ const CACHE_FILES = [
     '/js/analytics.js',
     '/js/commodities.js',
     '/js/regional.js',
+    '/js/trends.js',
     '/assets/images/favicon.ico',
     '/assets/images/NISR.png'
 ];
